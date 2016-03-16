@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <div class="panel panel-default">
+            <div class="panel-heading whitetext" id="loginheader" style="color: white;">
+                Login to TerranQuest
+            </div>
+            <div class="panel-body">
+                <div id="errorbase" class="alert alert-danger alert-dismissable" style="display: none;">
+                    <p id="errormsg">An error occurred.</p>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon-usericon"><i class="fa fa-user fa-fw"></i></span>
+                    <input type="text" placeholder="Username" id="usernameBox" class="form-control" aria-describedby="basic-addon-usericon" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon-passicon"><i class="fa fa-key fa-fw"></i></span>
+                    <input type="password" placeholder="Password" id="passwordBox" class="form-control" aria-describedby="basic-addon-passicon" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                </div>
+            </div>
+            <div class="panel-footer">
+                <a href="#" onclick="dologin()" id="loginBtn" class="btn btn-success btn-wide"><i class="fa fa-sign-in"></i> Login</a><br /><br />
+                <p><i>Don't have a Netsyms account?</i></p>
+                <a href="#" onclick="openscreen('signup')" id="openSignupBtn" class="btn btn-primary btn-wide"><i class="fa fa-user-plus"></i> Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if (localStorage.getItem("username") !== null) {
+        $('#usernameBox').val(localStorage.getItem("username"));
+    }
+    if (localStorage.getItem("password") !== null) {
+        $('#passwordBox').val(localStorage.getItem("password"));
+    }
+</script>
+<script src="js/auth.js"></script>

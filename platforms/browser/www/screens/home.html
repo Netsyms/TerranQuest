@@ -1,0 +1,71 @@
+<div id="loading">
+    <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-color: #324150;">
+        <img src="../assets/logonobg.svg" alt="" style="display: block; position: absolute; max-width: 90%; top: 0; left: 0; right: 0; bottom: 25%; margin: auto; max-height: 20%;" />
+        <p style="font-family: sans-serif; color: white; position: absolute; max-width: 90%; left: 0; right: 0; bottom: 30%; margin: auto; text-align: center;">
+            Loading...
+            <br /><i class="fa fa-spinner fa-pulse fa-fw"></i>
+            <br />
+            <span id="loading-error"></span></p>
+        <div style="background: url(../assets/mountains-simple.svg) repeat-x; background-size: auto 100%; height: 20%; position: absolute; bottom: 0; width: 100%;"></div>
+    </div>
+</div>
+
+<div id="no-lock">
+    <p>GPS location inaccurate.
+        <br /><i class="fa fa-spinner fa-pulse fa-fw"></i>
+        <br />
+        Waiting for better accuracy...</p>
+</div>
+
+<div id="overlay-main" style="display: none;">
+    <div id="mainCloseBtn" onclick="closeMain()"><i class="fa fa-times" ></i></div>
+    <div id="main-content" class="container"></div>
+</div>
+
+<div id="overlay-top">
+    <p id="namedisp" onclick="openProfile()"></p>
+    <div class="progress" id="energybar-container">
+        <div id="energybar" class="progress-bar" role="progressbar" >
+        </div>
+    </div>
+    <p id="energybar-label"><i class="fa fa-bolt"></i> <i>Energy</i></p>
+    <img src="assets/terrain/0.png" alt="" id="terrain-image" class="img-circle" />
+</div>
+<div id="overlay-bottom">
+
+</div>
+<div id="map"></div>
+<script>
+    $('#namedisp').text(username);
+    function popGPS() {
+        navigator.notification.alert("Latitude: " + latitude +
+                "\nLongitude: " + longitude +
+                "\nAccuracy: " + gpsaccuracy +
+                "\nTerrain: " + terraintypename + " (" + terraintypeid + ")",
+                null,
+                "GPS Information",
+                "Close");
+    }
+    $('#terrain-image').click(function () {
+        popGPS();
+    });
+
+    function openProfile() {
+        $('#main-content').load("screens/profile.html", null, function (x) {
+            $('#overlay-main').css('display', 'block');
+            loadProfile(username);
+        });
+    }
+
+    function closeMain() {
+        $('#overlay-main').slideDown(100, function () {
+            $('#overlay-main').css('display', 'none');
+            $('#main-content').html("");
+        });
+    }
+</script>
+<script src="js/terrain.js"></script>
+<script src="js/comm.js"></script>
+<script>
+    navigator.splashscreen.hide();
+</script>

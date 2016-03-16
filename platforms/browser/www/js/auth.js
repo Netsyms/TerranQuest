@@ -1,0 +1,115 @@
+/*
+ * Authentication and signup codez
+ */
+
+var authOpInProgress = false;
+
+function dosignup() {
+    if (authOpInProgress) {
+        return;
+    }
+    authOpInProgress = true;
+    $('#errorbase').hide();
+    $('#signupBtn').html('<i class="fa fa-cog fa-spin fa-fw"></i> Please wait...');
+    $('#signupBtn').attr('disabled', true);
+    if ($('#usernameBox').val() === "") {
+        $('#errormsg').text("Error:  Missing username.");
+        $('#errorbase').css('display', 'block');
+        $('#signupBtn').html('<i class="fa fa-user-plus"></i> Sign Up');
+        $('#signupBtn').attr('disabled', false);
+        return;
+    }
+    if ($('#passwordBox').val() !== $('#passwordBox2').val()) {
+        $('#errormsg').text("Error:  Passwords do not match.");
+        $('#errorbase').css('display', 'block');
+        $('#signupBtn').html('<i class="fa fa-user-plus"></i> Sign Up');
+        $('#signupBtn').attr('disabled', false);
+        return;
+    }
+    $.post("https://sso.netsyms.com/api/adduser.php",
+            {
+                user: $('#usernameBox').val(),
+                pass: $('#passwordBox').val(),
+                name: $('#nameBox').val(),
+                email: $('#emailBox').val()
+            },
+    function (data) {
+        if (data === 'OK') {
+            username = $('#usernameBox').val();
+            password = $('#passwordBox').val();
+            localStorage.setItem("username", username);
+            localStorage.setItem("password", password);
+            openscreen("home");
+        } else {
+            $('#signupBtn').html('<i class="fa fa-user-plus"></i> Sign Up');
+            $('#signupBtn').attr('disabled', false);
+            $('#errormsg').text("Error: " + data);
+            $('#errorbase').css('display', 'block');
+        }
+        authOpInProgress = false;
+    }).fail(function () {
+        $('#signupBtn').html('<i class="fa fa-user-plus"></i> Sign Up');
+        $('#signupBtn').attr('disabled', false);
+        $('#errormsg').text("Error: Network failure.");
+        $('#errorbase').css('display', 'block');
+        authOpInProgress = false;
+    });
+}
+
+function dologin() {
+    if (authOpInProgress) {
+        return;
+    }
+    authOpInProgress = true;
+    $('#errorbase').hide();
+    $('#loginBtn').html('<i class="fa fa-cog fa-spin fa-fw"></i> Logging in...');
+    $('#loginBtn').attr('disabled', true);
+    if ($('#usernameBox').val() === "") {
+        $('#errormsg').text("Error:  Missing username.");
+        $('#errorbase').css('display', 'block');
+        $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
+        $('#loginBtn').attr('disabled', false);
+        return;
+    }
+    $.post("https://sso.netsyms.com/api/simpleauth.php",
+            {user: $('#usernameBox').val(), pass: $('#passwordBox').val()},
+    function (data) {
+        if (data === 'OK') {
+            // Now that auth is OK, ping the game server
+            $.getJSON(mkApiUrl('pinglogin') + "?user=" + $('#usernameBox').val(), function (out) {
+                if (out.status === 'OK') {
+                    username = $('#usernameBox').val();
+                    password = $('#passwordBox').val();
+                    localStorage.setItem("username", username);
+                    localStorage.setItem("password", password);
+                    openscreen("home");
+                } else {
+                    $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
+                    $('#loginBtn').attr('disabled', false);
+                    $('#errormsg').text("Error: " + out.message);
+                    $('#errorbase').css('display', 'block');
+                    authOpInProgress = false;
+                }
+            }).fail(function (err) {
+                $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
+                $('#loginBtn').attr('disabled', false);
+                $('#errormsg').text("Error: Login OK, but cannot connect to game server.  Try again later.");
+                $('#errorbase').css('display', 'block');
+                authOpInProgress = false;
+            });
+        } else {
+            $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
+            $('#loginBtn').attr('disabled', false);
+            $('#errormsg').text(data);
+            $('#errorbase').css('display', 'block');
+        }
+        authOpInProgress = false;
+    }).fail(function () {
+        $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
+        $('#loginBtn').attr('disabled', false);
+        $('#errormsg').text("Error: Network failure.");
+        $('#errorbase').css('display', 'block');
+        authOpInProgress = false;
+    });
+}
+
