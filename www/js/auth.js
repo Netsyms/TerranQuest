@@ -35,7 +35,7 @@ function dosignup() {
             },
     function (data) {
         if (data === 'OK') {
-            username = $('#usernameBox').val();
+            username = $('#usernameBox').val().toLowerCase();
             password = $('#passwordBox').val();
             localStorage.setItem("username", username);
             localStorage.setItem("password", password);
@@ -78,7 +78,7 @@ function dologin() {
             // Now that auth is OK, ping the game server
             $.getJSON(mkApiUrl('pinglogin') + "?user=" + $('#usernameBox').val(), function (out) {
                 if (out.status === 'OK') {
-                    username = $('#usernameBox').val();
+                    username = $('#usernameBox').val().toLowerCase();
                     password = $('#passwordBox').val();
                     localStorage.setItem("username", username);
                     localStorage.setItem("password", password);
