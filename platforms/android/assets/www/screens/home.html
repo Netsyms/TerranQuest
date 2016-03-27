@@ -31,41 +31,20 @@
     <p id="energybar-label"><i class="fa fa-bolt"></i> <i>Energy</i></p>
     <img src="assets/terrain/0.png" alt="" id="terrain-image" class="img-circle" />
 </div>
-<div id="overlay-bottom">
-
+<div class="chatbox" style="z-index: 9501; height: 50%;">
+    <div class="well well-sm" id="chatmsgs"></div>
+    <div class="input-group" style="position: absolute; left: 0px; bottom: 0px; height: 35px; width: 100%; z-index: 9501;">
+        <div class="input-group-btn" onclick="toggleChat()">
+            <div class="btn btn-info"><i class="fa fa-comments-o"></i></div>
+        </div>
+        <form id="chatsendform">
+            <input type="text" class="form-control" id="chatbox-input" placeholder="Type to chat" />
+        </form>
+    </div>
 </div>
 <div id="map"></div>
 <script>
     $('#namedisp').text(username);
-    function popGPS() {
-        navigator.notification.alert("Latitude: " + latitude +
-                "\nLongitude: " + longitude +
-                "\nAccuracy: " + gpsaccuracy +
-                "\nTerrain: " + terraintypename + " (" + terraintypeid + ")",
-                null,
-                "GPS Information",
-                "Close");
-    }
-    $('#terrain-image').click(function () {
-        popGPS();
-    });
-
-    function openProfile() {
-        $('#main-content').load("screens/profile.html", null, function (x) {
-            $('#overlay-main').css('display', 'block');
-            loadProfile(username);
-        });
-    }
-
-    function closeMain() {
-        $('#overlay-main').slideDown(100, function () {
-            $('#overlay-main').css('display', 'none');
-            $('#main-content').html("");
-        });
-    }
-</script>
-<script src="js/terrain.js"></script>
-<script src="js/comm.js"></script>
-<script>
     navigator.splashscreen.hide();
 </script>
+<script src="js/home.js"></script>

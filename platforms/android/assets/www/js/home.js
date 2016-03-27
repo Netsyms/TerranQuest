@@ -1,16 +1,22 @@
 /* global PositionError */
 
+//////////////////////////////////////////////
+//  GPS and terrain stuff
+//////////////////////////////////////////////
+
 /**
  * Handles GPS and terrain data.
  */
 
-var lockGot = false;
-var terrainGot = false;
+// Globals
+lockGot = false;
+terrainGot = false;
+latitude = 0.0000;
+longitude = 0.0000;
+gpsaccuracy = 9999;
+// End Globals
 
-var latitude = 0.0000;
-var longitude = 0.0000;
 var lastgpstime = 0;
-var gpsaccuracy = 9999;
 var terraintypeid = 0;
 var map = L.map('map');
 var tileurl = "http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg";
@@ -130,6 +136,19 @@ function onError(error) {
     $('#loading-error').text("Check your device's network and location settings, and ensure a clear view of the sky.");
 }
 
+function popGPS() {
+    navigator.notification.alert("Latitude: " + latitude +
+            "\nLongitude: " + longitude +
+            "\nAccuracy: " + gpsaccuracy +
+            "\nTerrain: " + terraintypename + " (" + terraintypeid + ")",
+            null,
+            "GPS Information",
+            "Close");
+}
+$('#terrain-image').click(function () {
+    popGPS();
+});
+
 // Initial GPS position and stuff
 navigator.geolocation.getCurrentPosition(updateTerrain, onError, {timeout: 10000, enableHighAccuracy: true});
 // Update position
@@ -146,3 +165,124 @@ setInterval(pingServer, 5000);
 setTimeout(function () {
     onError();
 }, 15 * 1000);
+
+
+
+
+
+//////////////////////////////////////////////
+//  Profile, stats, and chat stuff
+//////////////////////////////////////////////
+
+
+/*
+ * Handles general server communication.
+ */
+
+/**
+ * Syncs the user's stats with the server and calls refreshStats().
+ */
+function syncStats() {
+    $.getJSON(mkApiUrl('getstats') + "?user=" + username, null, function (data) {
+        if (data.status === 'OK') {
+            maxenergy = data.stats.maxenergy;
+            energy = data.stats.energy;
+            level = data.stats.level;
+            refreshStats();
+        }
+    });
+}
+
+/**
+ * Display the current stats on the home screen.
+ */
+function refreshStats() {
+    energypercent = (energy * 1.0 / maxenergy * 1.0) * 100.0;
+    $('#energybar').css('width', String(energypercent) + '%');
+}
+
+function getChat() {
+    if (lockGot) {
+        $.getJSON(mkApiUrl('chat', 'cs'), {
+            lat: latitude,
+            long: longitude
+        }, function (data) {
+            data = sortResults(data, 'time', true);
+            var content = "";
+            data.forEach(function (msg) {
+                content += "<span class='chat-username' onclick='openProfile(\"" + msg.username + "\");'>" + msg.username + "</span> " + msg.message + "<br />";
+            });
+            $('#chatmsgs').html(content);
+        });
+    }
+}
+
+
+syncStats();
+setInterval(function () {
+    syncStats();
+}, 10 * 1000);
+setInterval(function () {
+    getChat();
+}, 2000);
+
+// Send chat messages
+$("#chatsendform").submit(function (event) {
+    message = $('#chatbox-input').val();
+    if (message !== '') {
+        $.post(mkApiUrl('chat', 'cs'), {
+            user: username,
+            lat: latitude,
+            long: longitude,
+            msg: message
+        }, function (data) {
+            if (data.status === 'OK') {
+                $('#chatbox-input').val("");
+                $("#chatmsgs").animate({scrollTop: $('#chatmsgs').prop("scrollHeight")}, 1000);
+            }
+        }, "json");
+    }
+    event.preventDefault();
+    return false;
+});
+
+function toggleChat() {
+    if ($('#chatmsgs').css('display') === 'none') {
+        $('#chatmsgs').css('display', 'block');
+        $("#chatmsgs").animate({scrollTop: $('#chatmsgs').prop("scrollHeight")}, 1000);
+    } else {
+        $('#chatmsgs').css('display', 'none');
+    }
+}
+
+function openProfile(user) {
+    user = typeof user !== 'undefined' ? user : username;
+    $('#main-content').load("screens/profile.html", null, function (x) {
+        $('#overlay-main').css('display', 'block');
+        loadProfile(user);
+    });
+}
+
+
+
+
+
+//////////////////////////////////////////////
+//  Other things
+//////////////////////////////////////////////
+
+function closeMain() {
+    $('#overlay-main').slideDown(100, function () {
+        $('#overlay-main').css('display', 'none');
+        $('#main-content').html("");
+    });
+}
+
+// Handle back button to close things
+document.addEventListener("backbutton", function (event) {
+    if ($('#overlay-main').css('display') !== 'none') {
+        closeMain();
+    } else if ($('#chatmsgs').css('display') !== 'none') {
+        toggleChat();
+    }
+}, false);

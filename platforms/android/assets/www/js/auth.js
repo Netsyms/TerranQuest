@@ -35,7 +35,7 @@ function dosignup() {
             },
     function (data) {
         if (data === 'OK') {
-            username = $('#usernameBox').val();
+            username = $('#usernameBox').val().toLowerCase();
             password = $('#passwordBox').val();
             localStorage.setItem("username", username);
             localStorage.setItem("password", password);
@@ -62,8 +62,6 @@ function dologin() {
     }
     authOpInProgress = true;
     $('#errorbase').hide();
-    $('#loginBtn').html('<i class="fa fa-cog fa-spin fa-fw"></i> Logging in...');
-    $('#loginBtn').attr('disabled', true);
     if ($('#usernameBox').val() === "") {
         $('#errormsg').text("Error:  Missing username.");
         $('#errorbase').css('display', 'block');
@@ -71,6 +69,8 @@ function dologin() {
         $('#loginBtn').attr('disabled', false);
         return;
     }
+    $('#loginBtn').attr('disabled', true);
+    $('#loginBtn').html('<i class="fa fa-cog fa-spin fa-fw"></i> Logging in...');
     $.post("https://sso.netsyms.com/api/simpleauth.php",
             {user: $('#usernameBox').val(), pass: $('#passwordBox').val()},
     function (data) {
@@ -78,7 +78,7 @@ function dologin() {
             // Now that auth is OK, ping the game server
             $.getJSON(mkApiUrl('pinglogin') + "?user=" + $('#usernameBox').val(), function (out) {
                 if (out.status === 'OK') {
-                    username = $('#usernameBox').val();
+                    username = $('#usernameBox').val().toLowerCase();
                     password = $('#passwordBox').val();
                     localStorage.setItem("username", username);
                     localStorage.setItem("password", password);

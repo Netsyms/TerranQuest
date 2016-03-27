@@ -152,3 +152,35 @@ body {
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }
+
+.chatbox {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 50%;
+    max-height: 50%;
+    width: 100%;
+}
+
+#chatmsgs {
+    z-index: 9500;
+    top: 0px;
+    width: 100%;
+    height: calc(100% - 35px) !important;
+    display: none;
+    position: absolute;
+    font-family: monospace;
+    color: #ffffff;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    word-break: break-all;
+    background: rgba(0,0,0,.8);
+}
+
+.chatbox #chatmsgs .chat-username {
+    color: green;
+    font-weight: bold;
+}

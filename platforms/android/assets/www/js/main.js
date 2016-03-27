@@ -1,8 +1,3 @@
-/*
- * This file loads after JQuery and sets up variables and whatnot.
- */
-
-
 // Constants
 username = "";
 password = "";
@@ -26,8 +21,9 @@ function onDeviceReady() {
     }
 }
 
-function mkApiUrl(action) {
-    return "http://gs.terranquest.net/" + action + ".php";
+function mkApiUrl(action, server) {
+    server = typeof server !== 'undefined' ? server : "gs";
+    return "http://" + server + ".terranquest.net/" + action + ".php";
     //return "config/" + action + ".json";
 }
 
@@ -72,19 +68,10 @@ function scanCode() {
     }
 }
 
-function syncEnergy() {
-    //$('.progress-bar').css('width', valeur+'%').attr('aria-valuenow', valeur);
-}
-
-/**
- * Function to enable forcing redraw of elements
- * 
- * redraw('#theElement');
- */
-function redraw(element) {
-    var n = document.createTextNode(' ');
-    $(element).append(n);
-    setTimeout(function () {
-        n.parentNode.removeChild(n)
-    }, 0);
+function sortResults(array, prop, asc) {
+    array = array.sort(function(a, b) {
+        if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+        else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+    });
+    return array;
 }
