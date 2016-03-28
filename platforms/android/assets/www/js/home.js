@@ -22,14 +22,15 @@ var map = L.map('map');
 var tileurl = "http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg";
 map.setZoom(16);
 map.dragging.disable();
-map.touchZoom.disable();
-map.doubleClickZoom.disable();
-map.scrollWheelZoom.disable();
+//map.touchZoom.disable();
+//map.doubleClickZoom.disable();
+//map.scrollWheelZoom.disable();
 map.keyboard.disable();
 $(".leaflet-control-zoom").css("visibility", "hidden");
 // Disable tap handler, if present.
-if (map.tap)
-    map.tap.disable();
+//if (map.tap) {
+//    map.tap.disable();
+//}
 var lc = L.control.locate({
     position: 'topleft', // set the location of the control
     layer: undefined, // use your own layer for the location marker, creates a new layer by default
@@ -63,8 +64,8 @@ var lc = L.control.locate({
     },
     locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
 }).addTo(map);
-map.addLayer(new L.tileLayer(tileurl, {minZoom: 16, maxZoom: 16}));
-//map.setView(new L.LatLng(46, -112), 15);
+map.addLayer(new L.tileLayer(tileurl, {minZoom: 15, maxZoom: 17}));
+
 lc.start();
 
 function mapPos(lat, lon) {
@@ -183,7 +184,9 @@ setTimeout(function () {
  * Syncs the user's stats with the server and calls refreshStats().
  */
 function syncStats() {
-    $.getJSON(mkApiUrl('getstats') + "?user=" + username, null, function (data) {
+    $.getJSON(mkApiUrl('getstats'), {
+        user: username
+    }, function (data) {
         if (data.status === 'OK') {
             maxenergy = data.stats.maxenergy;
             energy = data.stats.energy;
@@ -248,11 +251,19 @@ $("#chatsendform").submit(function (event) {
 
 function toggleChat() {
     if ($('#chatmsgs').css('display') === 'none') {
-        $('#chatmsgs').css('display', 'block');
-        $("#chatmsgs").animate({scrollTop: $('#chatmsgs').prop("scrollHeight")}, 1000);
+        openChat();
     } else {
-        $('#chatmsgs').css('display', 'none');
+        closeChat();
     }
+}
+
+function closeChat() {
+    $('#chatmsgs').css('display', 'none');
+}
+
+function openChat() {
+    $('#chatmsgs').css('display', 'block');
+    $("#chatmsgs").animate({scrollTop: $('#chatmsgs').prop("scrollHeight")}, 1000);
 }
 
 function openProfile(user) {
@@ -263,6 +274,11 @@ function openProfile(user) {
     });
 }
 
+function openRules() {
+    $('#main-content').load("screens/rules.html", null, function (x) {
+        $('#overlay-main').css('display', 'block');
+    });
+}
 
 
 
@@ -286,3 +302,9 @@ document.addEventListener("backbutton", function (event) {
         toggleChat();
     }
 }, false);
+
+// Show the rules
+if (localStorage.getItem("seenrules") !== 'yes') {
+    openRules();
+    localStorage.setItem("seenrules", 'yes');
+}

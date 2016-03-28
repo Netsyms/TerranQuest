@@ -83,6 +83,16 @@ body {
     background: rgba(0,0,0,.9);
 }
 
+#overlay-main #main-content {
+    overflow-x: auto;
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
 #mainCloseBtn {
     z-index: 999999;
     position: absolute;
