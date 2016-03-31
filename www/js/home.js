@@ -99,7 +99,7 @@ function mapPos(lat, lon) {
 
 function onPlaceTap(feature, layer) {
     layer.on('click', function (e) {
-
+        openPlace(feature);
     });
 }
 
@@ -117,8 +117,11 @@ function loadPlaces(lat, long) {
             });
 }
 
-function openplace(osmid) {
-    alert(osmid);
+function openPlace(feature) {
+    $('#main-content').load("screens/place.html", null, function () {
+        loadPlace(feature);
+        $('#overlay-main').css('display', 'block');
+    });
 }
 
 /**

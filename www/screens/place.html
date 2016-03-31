@@ -1,0 +1,9 @@
+<div class="scrollable-box">
+    <div class="h4" id="place-name"></div>
+</div>
+
+<script>
+    function loadPlace(feature) {
+        $("#place-name").text(feature.properties.name);
+    }
+</script>
