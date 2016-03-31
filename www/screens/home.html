@@ -23,7 +23,7 @@
 </div>
 
 <div id="overlay-top">
-    <p id="namedisp" onclick="openProfile()"></p>
+    <p id="namedisp" onclick="openMenu('profile')"></p>
     <div class="progress" id="energybar-container">
         <div id="energybar" class="progress-bar" role="progressbar" >
         </div>
@@ -31,6 +31,13 @@
     <p id="energybar-label"><i class="fa fa-bolt"></i> <i>Energy</i></p>
     <img src="assets/terrain/0.png" alt="" id="terrain-image" class="img-circle" />
 </div>
+
+<div id="buttons">
+    <div class="circlebutton" onclick="openMenu()">
+        <img src="assets/bars.svg" alt="Menu" />
+    </div>
+</div>
+
 <div class="chatbox" style="z-index: 9501; height: 50%;">
     <div class="well well-sm" id="chatmsgs"></div>
     <div class="input-group" style="position: absolute; left: 0px; bottom: 0px; height: 35px; width: 100%; z-index: 9501;">

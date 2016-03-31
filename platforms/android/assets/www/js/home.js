@@ -20,7 +20,7 @@ var lastgpstime = 0;
 var terraintypeid = 0;
 var map = L.map('map');
 var tileurl = "http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg";
-map.setZoom(16);
+map.setZoom(17);
 map.dragging.disable();
 //map.touchZoom.disable();
 //map.doubleClickZoom.disable();
@@ -64,13 +64,28 @@ var lc = L.control.locate({
     },
     locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
 }).addTo(map);
-map.addLayer(new L.tileLayer(tileurl, {minZoom: 15, maxZoom: 17}));
-
+map.addLayer(new L.tileLayer(tileurl, {minZoom: 17, maxZoom: 17}));
+// GeoJSON layer
+var placeLayer = L.geoJson(
+        {"name": "Places", "type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"osm_id": -1, "name": null}}]},
+{
+    onEachFeature: onPlaceTap,
+    pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, {
+            radius: 8,
+            fillColor: "#ff7800",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        });
+    }
+}).addTo(map);
 lc.start();
-
 function mapPos(lat, lon) {
     lockGot = true;
     hideLoading();
+    loadPlaces(latitude, longitude);
     //map.setView(new L.LatLng(lat, lon), 16, {animate: true});
     //map.panTo(new L.LatLng(lat, lon));
     //map.invalidateSize();
@@ -80,6 +95,30 @@ function mapPos(lat, lon) {
 //        $('#map').css('width', '100%');
 //        $('#map').css('height', '100%');
 //    }, 100);
+}
+
+function onPlaceTap(feature, layer) {
+    layer.on('click', function (e) {
+
+    });
+}
+
+function loadPlaces(lat, long) {
+    $.getJSON(
+            "http://earth.apis.netsyms.net/places.php?format=geojson&lat=" + lat + "&long=" + long + "&radius=.25&names=1",
+            function (data) {
+                if (data.type === 'FeatureCollection') {
+                    placeLayer.clearLayers();
+                    data.features.forEach(function (item) {
+                        item.properties.popupContent = "<span class='marker-popup-text' onclick='openplace(" + item.properties.osm_id + ")'>" + item.properties.name + "</span>";
+                        placeLayer.addData(item);
+                    });
+                }
+            });
+}
+
+function openplace(osmid) {
+    alert(osmid);
 }
 
 /**
@@ -105,7 +144,6 @@ var updatePosition = function (position) {
     }
     mapPos(latitude, longitude);
 };
-
 var updateTerrain = function (position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
@@ -125,14 +163,12 @@ var updateTerrain = function (position) {
         $('#terrain-image').attr('src', 'assets/terrain/0.png');
     });
 };
-
 function pingServer() {
     if (lockGot && gpsaccuracy < 30) {
         $.get(mkApiUrl('ping') + "?user=" + username + "&lat=" + latitude + "&long=" + longitude);
     }
 }
 ;
-
 function onError(error) {
     $('#loading-error').text("Check your device's network and location settings, and ensure a clear view of the sky.");
 }
@@ -149,7 +185,6 @@ function popGPS() {
 $('#terrain-image').click(function () {
     popGPS();
 });
-
 // Initial GPS position and stuff
 navigator.geolocation.getCurrentPosition(updateTerrain, onError, {timeout: 10000, enableHighAccuracy: true});
 // Update position
@@ -159,18 +194,14 @@ setInterval(function () {
 // Update position + terrain
 setInterval(function () {
     navigator.geolocation.getCurrentPosition(updateTerrain, onError, {timeout: 10000, enableHighAccuracy: true});
-}, 1000 * 10);
+    loadPlaces(latitude, longitude);
+}, 1000 * 20);
 // Ping the server with coordinates
 setInterval(pingServer, 5000);
 // Show error if it's taking too long
 setTimeout(function () {
     onError();
 }, 15 * 1000);
-
-
-
-
-
 //////////////////////////////////////////////
 //  Profile, stats, and chat stuff
 //////////////////////////////////////////////
@@ -228,7 +259,6 @@ setInterval(function () {
 setInterval(function () {
     getChat();
 }, 2000);
-
 // Send chat messages
 $("#chatsendform").submit(function (event) {
     message = $('#chatbox-input').val();
@@ -248,7 +278,6 @@ $("#chatsendform").submit(function (event) {
     event.preventDefault();
     return false;
 });
-
 function toggleChat() {
     if ($('#chatmsgs').css('display') === 'none') {
         openChat();
@@ -280,6 +309,15 @@ function openRules() {
     });
 }
 
+function openMenu(topage) {
+    topage = typeof topage !== 'undefined' ? topage : "";
+    $('#main-content').load("screens/menu.html", null, function (x) {
+        $('#overlay-main').css('display', 'block');
+        if (topage !== '') {
+            $('#' + topage + '-tab').tab('show');
+        }
+    });
+}
 
 
 
@@ -302,7 +340,6 @@ document.addEventListener("backbutton", function (event) {
         toggleChat();
     }
 }, false);
-
 // Show the rules
 if (localStorage.getItem("seenrules") !== 'yes') {
     openRules();

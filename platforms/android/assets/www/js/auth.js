@@ -4,6 +4,14 @@
 
 var authOpInProgress = false;
 
+function logout() {
+    localStorage.setItem("username", '');
+    localStorage.setItem("password", '');
+    username = null;
+    password = null;
+    $('#content-zone').load("screens/login.html");
+}
+
 function dosignup() {
     if (authOpInProgress) {
         return;

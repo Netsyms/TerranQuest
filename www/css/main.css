@@ -194,3 +194,36 @@ body {
     color: green;
     font-weight: bold;
 }
+
+#buttons {
+    position: absolute;
+    right: 0px;
+    top: 25%;
+    width: 70px;
+    padding-top: auto;
+    padding-bottom: auto;
+    padding-right: 10px;
+    display: block;
+    z-index: 9000;
+}
+
+#buttons .circlebutton {
+    border: 1px solid black;
+    background: rgba(255,255,255,.8);
+    border-radius: 50%;
+    box-shadow: 0 0 5px grey;
+    width: 60px;
+    height: 60px;
+}
+
+#buttons .circlebutton img {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 30px;
+    height: 30px;
+}
+
+.scrollable-box {
+    overflow-y: auto;
+}

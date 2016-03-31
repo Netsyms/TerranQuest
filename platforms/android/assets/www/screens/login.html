@@ -40,11 +40,11 @@
 <script>
     userset = false;
     passset = false;
-    if (localStorage.getItem("username") !== null) {
+    if (localStorage.getItem("username") !== null && localStorage.getItem("username") !== '') {
         $('#usernameBox').val(localStorage.getItem("username"));
         userset = true;
     }
-    if (localStorage.getItem("password") !== null) {
+    if (localStorage.getItem("password") !== null && localStorage.getItem("password") !== '') {
         $('#passwordBox').val(localStorage.getItem("password"));
         passset = true;
     }
