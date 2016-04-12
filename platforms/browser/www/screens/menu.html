@@ -1,0 +1,24 @@
+<div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist" id="menutablist">
+        <li role="presentation" class="active"><a href="#inventory" aria-controls="inventory" role="tab" data-toggle="tab" id="inventory-tab">Inventory</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" id="profile-tab">Profile</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" id="settings-tab">Settings</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content" id="menutabcontent">
+        <div role="tabpanel" class="tab-pane active" id="inventory">...</div>
+        <div role="tabpanel" class="tab-pane" id="profile"></div>
+        <div role="tabpanel" class="tab-pane" id="settings">...</div>
+    </div>
+
+</div>
+<script>
+    $('#menutabcontent #profile').load("screens/profile.html", null, function (x) {
+        loadProfile(username);
+    });
+    $('#menutabcontent #settings').load("screens/settings.html");
+    $('#menutabcontent #inventory').load("screens/inventory.html");
+</script>

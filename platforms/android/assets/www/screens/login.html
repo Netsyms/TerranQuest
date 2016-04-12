@@ -56,6 +56,8 @@
         function (data) {
             if (data === 'OK') {
                 dologin();
+            } else {
+                $('#loading').css('display', 'none');
             }
         }).fail(function () {
             $('#loading').css('display', 'none');
@@ -65,4 +67,3 @@
     }
     navigator.splashscreen.hide();
 </script>
-<script src="js/auth.js"></script>

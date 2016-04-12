@@ -226,13 +226,13 @@ made subject to such option by the copyright holder.
         <exec executable="killall" dir="platforms/ios/build">
             <arg value="launchd_sim"/>
         </exec>
-        <exec executable="${ios.sim.exec}" dir="platforms/ios/build" spawn="true">
-            <arg line="launch ${project.name}.app ${ios.device.args}"/>
+        <exec executable="${ios.sim.exec}" dir="platforms/ios/build">
+            <arg line="launch ${project.name}.app ${ios.device.args} --exit"/>
         </exec> 
     </target>
     
     <target name="update-plugins">
-        <!--<plugintask/>-->
+        <plugintask/>
     </target>    
     
     <target name="update-android">
@@ -282,7 +282,9 @@ made subject to such option by the copyright holder.
     </target>
     
     <target name="clean-android" depends="check-android-template" if="android.generated.exists">
-        <ant dir="platforms/android" target="clean"/>
+        <exec executable="./gradlew" dir="platforms/android">
+            <arg value="clean" />
+        </exec>
     </target>
     
     <target name="clean-ios" depends="check-ios-template" if="ios.generated.exists">

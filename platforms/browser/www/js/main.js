@@ -1,8 +1,3 @@
-/*
- * This file loads after JQuery and sets up variables and whatnot.
- */
-
-
 // Constants
 username = "";
 password = "";
@@ -19,20 +14,6 @@ $(document).ready(function () {
 
 function onDeviceReady() {
     openscreen("login");
-    if ($('#usernameBox').val() !== '' && $('#passwordBox').val() !== '') {
-        // Try to login with stored credentials
-        $.post("https://sso.netsyms.com/api/simpleauth.php",
-                {user: $('#usernameBox').val(), pass: $('#passwordBox').val()},
-        function (data) {
-            if (data === 'OK') {
-                dologin();
-            }
-        }).fail(function () {
-            navigator.splashscreen.hide();
-        });
-    } else {
-        navigator.splashscreen.hide();
-    }
     if (navigator.network.connection.type === Connection.NONE) {
         navigator.notification.alert("You need an Internet connection to continue.", function () {
             navigator.app.exitApp();
@@ -40,8 +21,9 @@ function onDeviceReady() {
     }
 }
 
-function mkApiUrl(action) {
-    return "http://gs.terranquest.net/" + action + ".php";
+function mkApiUrl(action, server) {
+    server = typeof server !== 'undefined' ? server : "gs";
+    return "http://" + server + ".terranquest.net/" + action + ".php";
     //return "config/" + action + ".json";
 }
 
@@ -86,19 +68,10 @@ function scanCode() {
     }
 }
 
-function syncEnergy() {
-    //$('.progress-bar').css('width', valeur+'%').attr('aria-valuenow', valeur);
-}
-
-/**
- * Function to enable forcing redraw of elements
- * 
- * redraw('#theElement');
- */
-function redraw(element) {
-    var n = document.createTextNode(' ');
-    $(element).append(n);
-    setTimeout(function () {
-        n.parentNode.removeChild(n)
-    }, 0);
+function sortResults(array, prop, asc) {
+    array = array.sort(function(a, b) {
+        if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+        else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+    });
+    return array;
 }

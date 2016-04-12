@@ -4,6 +4,19 @@
 
 var authOpInProgress = false;
 
+function askLogout() {
+    navigator.notification.confirm(
+            'Do you really want to logout?', // message
+            function (btn) {
+                if (btn === 1) {
+                    logout();
+                }
+            },
+            'Logout?',
+            ['Logout', 'Cancel']
+            );
+}
+
 function logout() {
     localStorage.setItem("username", '');
     localStorage.setItem("password", '');
@@ -97,6 +110,7 @@ function dologin() {
                     $('#loginBtn').attr('disabled', false);
                     $('#errormsg').text("Error: " + out.message);
                     $('#errorbase').css('display', 'block');
+                    $('#loading').css('display', 'none');
                     authOpInProgress = false;
                 }
             }).fail(function (err) {
@@ -104,6 +118,7 @@ function dologin() {
                 $('#loginBtn').attr('disabled', false);
                 $('#errormsg').text("Error: Login OK, but cannot connect to game server.  Try again later.");
                 $('#errorbase').css('display', 'block');
+                $('#loading').css('display', 'none');
                 authOpInProgress = false;
             });
         } else {
@@ -111,6 +126,7 @@ function dologin() {
             $('#loginBtn').attr('disabled', false);
             $('#errormsg').text(data);
             $('#errorbase').css('display', 'block');
+            $('#loading').css('display', 'none');
         }
         authOpInProgress = false;
     }).fail(function () {
@@ -118,6 +134,7 @@ function dologin() {
         $('#loginBtn').attr('disabled', false);
         $('#errormsg').text("Error: Network failure.");
         $('#errorbase').css('display', 'block');
+        $('#loading').css('display', 'none');
         authOpInProgress = false;
     });
 }

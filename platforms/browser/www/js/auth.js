@@ -4,6 +4,27 @@
 
 var authOpInProgress = false;
 
+function askLogout() {
+    navigator.notification.confirm(
+            'Do you really want to logout?', // message
+            function (btn) {
+                if (btn === 1) {
+                    logout();
+                }
+            },
+            'Logout?',
+            ['Logout', 'Cancel']
+            );
+}
+
+function logout() {
+    localStorage.setItem("username", '');
+    localStorage.setItem("password", '');
+    username = null;
+    password = null;
+    $('#content-zone').load("screens/login.html");
+}
+
 function dosignup() {
     if (authOpInProgress) {
         return;
@@ -35,7 +56,7 @@ function dosignup() {
             },
     function (data) {
         if (data === 'OK') {
-            username = $('#usernameBox').val();
+            username = $('#usernameBox').val().toLowerCase();
             password = $('#passwordBox').val();
             localStorage.setItem("username", username);
             localStorage.setItem("password", password);
@@ -62,8 +83,6 @@ function dologin() {
     }
     authOpInProgress = true;
     $('#errorbase').hide();
-    $('#loginBtn').html('<i class="fa fa-cog fa-spin fa-fw"></i> Logging in...');
-    $('#loginBtn').attr('disabled', true);
     if ($('#usernameBox').val() === "") {
         $('#errormsg').text("Error:  Missing username.");
         $('#errorbase').css('display', 'block');
@@ -71,6 +90,8 @@ function dologin() {
         $('#loginBtn').attr('disabled', false);
         return;
     }
+    $('#loginBtn').attr('disabled', true);
+    $('#loginBtn').html('<i class="fa fa-cog fa-spin fa-fw"></i> Logging in...');
     $.post("https://sso.netsyms.com/api/simpleauth.php",
             {user: $('#usernameBox').val(), pass: $('#passwordBox').val()},
     function (data) {
@@ -78,16 +99,18 @@ function dologin() {
             // Now that auth is OK, ping the game server
             $.getJSON(mkApiUrl('pinglogin') + "?user=" + $('#usernameBox').val(), function (out) {
                 if (out.status === 'OK') {
-                    username = $('#usernameBox').val();
+                    username = $('#usernameBox').val().toLowerCase();
                     password = $('#passwordBox').val();
                     localStorage.setItem("username", username);
                     localStorage.setItem("password", password);
+                    navigator.splashscreen.hide();
                     openscreen("home");
                 } else {
                     $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
                     $('#loginBtn').attr('disabled', false);
                     $('#errormsg').text("Error: " + out.message);
                     $('#errorbase').css('display', 'block');
+                    $('#loading').css('display', 'none');
                     authOpInProgress = false;
                 }
             }).fail(function (err) {
@@ -95,6 +118,7 @@ function dologin() {
                 $('#loginBtn').attr('disabled', false);
                 $('#errormsg').text("Error: Login OK, but cannot connect to game server.  Try again later.");
                 $('#errorbase').css('display', 'block');
+                $('#loading').css('display', 'none');
                 authOpInProgress = false;
             });
         } else {
@@ -102,6 +126,7 @@ function dologin() {
             $('#loginBtn').attr('disabled', false);
             $('#errormsg').text(data);
             $('#errorbase').css('display', 'block');
+            $('#loading').css('display', 'none');
         }
         authOpInProgress = false;
     }).fail(function () {
@@ -109,6 +134,7 @@ function dologin() {
         $('#loginBtn').attr('disabled', false);
         $('#errormsg').text("Error: Network failure.");
         $('#errorbase').css('display', 'block');
+        $('#loading').css('display', 'none');
         authOpInProgress = false;
     });
 }

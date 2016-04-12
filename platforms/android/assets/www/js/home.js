@@ -64,23 +64,23 @@ var lc = L.control.locate({
     },
     locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
 }).addTo(map);
-map.addLayer(new L.tileLayer(tileurl, {minZoom: 17, maxZoom: 17}));
+map.addLayer(new L.tileLayer(tileurl, {minZoom: 17, maxZoom: 18}));
 // GeoJSON layer
 var placeLayer = L.geoJson(
         {"name": "Places", "type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"osm_id": -1, "name": null}}]},
-{
-    onEachFeature: onPlaceTap,
-    pointToLayer: function (feature, latlng) {
-        return L.circleMarker(latlng, {
-            radius: 8,
-            fillColor: "#ff7800",
-            color: "#000",
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8
-        });
-    }
-}).addTo(map);
+        {
+            onEachFeature: onPlaceTap,
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 14,
+                    fillColor: "#ff7800",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.6
+                });
+            }
+        }).addTo(map);
 lc.start();
 function mapPos(lat, lon) {
     lockGot = true;
@@ -291,9 +291,11 @@ function toggleChat() {
 
 function closeChat() {
     $('#chatmsgs').css('display', 'none');
+    $('.chatbox').css('height', 'auto');
 }
 
 function openChat() {
+    $('.chatbox').css('height', '50%');
     $('#chatmsgs').css('display', 'block');
     $("#chatmsgs").animate({scrollTop: $('#chatmsgs').prop("scrollHeight")}, 1000);
 }

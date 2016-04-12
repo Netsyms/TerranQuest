@@ -3316,11 +3316,7 @@ exports.defineAutoTests = function () {
             it("file.spec.129 cordova.file.*Directory are set", function () {
                 var expectedPaths = ['applicationDirectory', 'applicationStorageDirectory', 'dataDirectory', 'cacheDirectory'];
                 if (cordova.platformId == 'android' || cordova.platformId == 'amazon-fireos') {
-                    if (cordova.file.externalApplicationStorageDirectory !== null) {
-                        // https://issues.apache.org/jira/browse/CB-10411
-                        // If external storage can't be mounted, the cordova.file.external* properties are null.
-                        expectedPaths.push('externalApplicationStorageDirectory', 'externalRootDirectory', 'externalCacheDirectory', 'externalDataDirectory');
-                    }
+                    expectedPaths.push('externalApplicationStorageDirectory', 'externalRootDirectory', 'externalCacheDirectory', 'externalDataDirectory');
                 } else if (cordova.platformId == 'blackberry10') {
                     expectedPaths.push('externalRootDirectory', 'sharedDirectory');
                 } else if (cordova.platformId == 'ios') {

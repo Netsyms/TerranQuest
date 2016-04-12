@@ -7,16 +7,25 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-device-orientation": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
-        "cordova-plugin-file": {
+        "cordova-plugin-console": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
-        "cordova-plugin-file-transfer": {
+        "cordova-plugin-device": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
-        "cordova-plugin-geolocation": {
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
+        },
+        "cordova-plugin-dialogs": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
         "cordova-plugin-media": {
@@ -25,18 +34,19 @@
         "cordova-plugin-media-capture": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
+        },
         "phonegap-plugin-barcodescanner": {
-            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
-        },
-        "cordova-plugin-dialogs": {
-            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
-        },
-        "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
-        },
-        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
+        }
+    }
 }
