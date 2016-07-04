@@ -91,9 +91,36 @@ function scanCode() {
 }
 
 function sortResults(array, prop, asc) {
-    array = array.sort(function(a, b) {
-        if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
-        else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+    array = array.sort(function (a, b) {
+        if (asc)
+            return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+        else
+            return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
     });
     return array;
+}
+
+//////////////////////////////////////////////
+//  Other things
+//////////////////////////////////////////////
+
+function closeMain() {
+    $('#overlay-main').slideDown(100, function () {
+        $('#overlay-main').css('display', 'none');
+        $('#main-content').html("");
+    });
+}
+
+// Handle back button to close things
+document.addEventListener("backbutton", function (event) {
+    if ($('#overlay-main').css('display') !== 'none') {
+        closeMain();
+    } else if ($('#chatmsgs').css('display') !== 'none') {
+        toggleChat();
+    }
+}, false);
+// Show the rules
+if (localStorage.getItem("seenintro") !== 'yes') {
+    openIntro();
+    localStorage.setItem("seenintro", 'yes');
 }
