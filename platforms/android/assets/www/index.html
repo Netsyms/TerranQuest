@@ -29,11 +29,17 @@
 
         <!-- jQuery Version 1.11.1 -->
         <script src="js/jquery.js"></script>
+        <!-- i18n -->
+        <script src="js/jquery.localize.js"></script>
+        <script>
+            var i18n_options = {pathPrefix: "lang", skipLanguage: "en-US"};
+        </script>
+
         <!-- Bootstrap Core JavaScript -->
         <script src="js/bootstrap.js"></script>
 
         <script src="cordova.js"></script>
-        
+
         <!-- Main code -->
         <script src="js/main.js"></script>
         <script src="js/auth.js"></script>
@@ -43,7 +49,10 @@
     </head>
 
     <body>
-        <div class="container" id="content-zone">
+        <div id="modal-load-box" class="container" style='z-index: 1000;'>
+
+        </div>
+        <div class="container" id="content-zone" style='z-index: 1;'>
             <div id="loading">
                 <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-color: #324150;">
                     <img src="assets/logonobg.svg" alt="" style="display: block; position: absolute; max-width: 90%; top: 0; left: 0; right: 0; bottom: 25%; margin: auto; max-height: 20%;" />

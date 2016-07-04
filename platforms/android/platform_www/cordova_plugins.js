@@ -325,7 +325,7 @@ module.exports.metadata =
     "cordova-plugin-media": "2.2.1-dev",
     "cordova-plugin-media-capture": "1.2.1-dev",
     "cordova-plugin-geolocation": "2.1.1-dev",
-    "phonegap-plugin-barcodescanner": "4.1.0"
+    "phonegap-plugin-barcodescanner": "5.0.1"
 };
 // BOTTOM OF METADATA
 });

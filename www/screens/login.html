@@ -2,7 +2,7 @@
     <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-color: #324150;">
         <img src="assets/logonobg.svg" alt="" style="display: block; position: absolute; max-width: 90%; top: 0; left: 0; right: 0; bottom: 25%; margin: auto; max-height: 20%;" />
         <p style="font-family: sans-serif; color: white; position: absolute; max-width: 90%; left: 0; right: 0; bottom: 30%; margin: auto; text-align: center;">
-            Logging in...
+            <span data-localize="logging-in-spin">Logging in...</span>
             <br /><i class="fa fa-spinner fa-pulse fa-fw"></i>
             <br />
             <span id="loading-error"></span></p>
@@ -12,7 +12,7 @@
 <div class="row">
     <div class="col-lg-12 text-center">
         <div class="panel panel-default">
-            <div class="panel-heading whitetext" id="loginheader" style="color: white;">
+            <div class="panel-heading whitetext" id="loginheader" style="color: white;" data-localize="login-header">
                 Login to TerranQuest
             </div>
             <div class="panel-body">
@@ -31,13 +31,16 @@
             </div>
             <div class="panel-footer">
                 <a href="#" onclick="dologin()" id="loginBtn" class="btn btn-success btn-wide"><i class="fa fa-sign-in"></i> Login</a><br /><br />
-                <p><i>Don't have a Netsyms account?</i></p>
+                <p><i data-localize="signup-question">Don't have a Netsyms account?</i></p>
                 <a href="#" onclick="openscreen('signup')" id="openSignupBtn" class="btn btn-primary btn-wide"><i class="fa fa-user-plus"></i> Sign Up</a>
             </div>
         </div>
     </div>
 </div>
 <script>
+    
+    $("[data-localize]").localize("login-screen", i18n_options);
+    
     userset = false;
     passset = false;
     if (localStorage.getItem("username") !== null && localStorage.getItem("username") !== '') {

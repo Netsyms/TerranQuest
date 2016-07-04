@@ -31,6 +31,26 @@ $(".leaflet-control-zoom").css("visibility", "hidden");
 //if (map.tap) {
 //    map.tap.disable();
 //}
+
+// Tile layer
+map.addLayer(new L.tileLayer(tileurl, {minZoom: 17, maxZoom: 18}));
+// Places layer
+var placeLayer = L.geoJson(
+        {"name": "Places", "type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"osm_id": -1, "name": null}}]},
+        {
+            onEachFeature: onPlaceTap,
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 14,
+                    fillColor: "#ff7800",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.6
+                });
+            }
+        }).addTo(map);
+
 var lc = L.control.locate({
     position: 'topleft', // set the location of the control
     layer: undefined, // use your own layer for the location marker, creates a new layer by default
@@ -64,23 +84,6 @@ var lc = L.control.locate({
     },
     locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
 }).addTo(map);
-map.addLayer(new L.tileLayer(tileurl, {minZoom: 17, maxZoom: 18}));
-// GeoJSON layer
-var placeLayer = L.geoJson(
-        {"name": "Places", "type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"osm_id": -1, "name": null}}]},
-        {
-            onEachFeature: onPlaceTap,
-            pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, {
-                    radius: 14,
-                    fillColor: "#ff7800",
-                    color: "#000",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.6
-                });
-            }
-        }).addTo(map);
 lc.start();
 function mapPos(lat, lon) {
     lockGot = true;
@@ -205,6 +208,8 @@ setInterval(pingServer, 5000);
 setTimeout(function () {
     onError();
 }, 15 * 1000);
+
+
 //////////////////////////////////////////////
 //  Profile, stats, and chat stuff
 //////////////////////////////////////////////
@@ -291,11 +296,11 @@ function toggleChat() {
 
 function closeChat() {
     $('#chatmsgs').css('display', 'none');
-    $('.chatbox').css('height', 'auto');
+    $('#chatbox').css('height', 'auto');
 }
 
 function openChat() {
-    $('.chatbox').css('height', '50%');
+    $('#chatbox').css('height', '50%');
     $('#chatmsgs').css('display', 'block');
     $("#chatmsgs").animate({scrollTop: $('#chatmsgs').prop("scrollHeight")}, 1000);
 }
@@ -309,9 +314,11 @@ function openProfile(user) {
 }
 
 function openRules() {
-    $('#main-content').load("screens/rules.html", null, function (x) {
-        $('#overlay-main').css('display', 'block');
-    });
+    openmodal('rules', '#rules-modal');
+}
+
+function openIntro() {
+    openmodal('intro', '#intro-modal');
 }
 
 function openMenu(topage) {
@@ -346,7 +353,7 @@ document.addEventListener("backbutton", function (event) {
     }
 }, false);
 // Show the rules
-if (localStorage.getItem("seenrules") !== 'yes') {
-    openRules();
-    localStorage.setItem("seenrules", 'yes');
+if (localStorage.getItem("seenintro") !== 'yes') {
+    openIntro();
+    localStorage.setItem("seenintro", 'yes');
 }

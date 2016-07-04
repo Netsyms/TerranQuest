@@ -51,6 +51,28 @@ function openscreen(screenname, effect) {
     }
 }
 
+/**
+ * Opens a modal dialog over the top of everything else.
+ * @param {String} filename screens/[filename].html
+ * @param {String} modalselector [#id-of-the-modal]
+ * @returns {undefined}
+ */
+function openmodal(filename, modalselector) {
+    $('#modal-load-box').load("screens/" + filename + ".html", null, function (x) {
+        $(modalselector).css('z-index', 9999999);
+        $(modalselector).modal('show');
+    });
+}
+
+/**
+ * Close a modal (see openmodal)
+ * @param {String} modalselector
+ * @returns {undefined}
+ */
+function closemodal(modalselector) {
+    $(modalselector).modal(hide);
+}
+
 function scanCode() {
     try {
         cordova.plugins.barcodeScanner.scan(

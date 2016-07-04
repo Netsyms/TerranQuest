@@ -163,11 +163,11 @@ body {
     border-bottom-left-radius: 3px;
 }
 
-.chatbox {
+#chatbox {
     position: absolute;
     bottom: 0px;
     left: 0px;
-    height: auto !important;
+    height: auto;
     max-height: 50%;
     width: 100%;
     z-index: 9501;
