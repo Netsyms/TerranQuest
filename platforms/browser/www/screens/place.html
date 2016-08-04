@@ -1,9 +1,13 @@
 <div class="scrollable-box">
     <div class="h4" id="place-name" style="max-width: 90%;"></div>
+    <div id="team-label"></div>
 </div>
 
 <script>
     function loadPlace(feature) {
         $("#place-name").text(feature.properties.name);
+        
+        $("#team-label").text(getTeamNameFromId(feature.properties.gameinfo.teamid));
+        $("#team-label").css("color", "#" + getTeamColorFromId(feature.properties.gameinfo.teamid));
     }
 </script>

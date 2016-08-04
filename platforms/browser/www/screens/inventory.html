@@ -1,10 +1,39 @@
 <div class="scrollable-box">
     <div class="list-group" id="inventory-list">
+        <div class="list-group-item">
+            <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading...
+        </div>
     </div>
 </div>
 
 <script>
-    function loadinventory() {
-        
+    function getitemhtmlfromjson(item) {
+        return "\
+        <div class='list-group-item inventory-item' id='item-" + item.itemuuid + "'>\
+            <h4 class='itemname'>" + item.itemname + "</h4>\
+            <p class='itemdesc'>" + item.itemdesc + "</p>\
+            <span class='itemid' style='display: none;'>" + item.itemid + "</span>\
+            <span class='itemclassid' style='display: none;'>" + item.classid + "</span>\
+            <span class='itemjson' style='display: none;'>" + item.itemjson + "</span>\
+        </div>";
     }
+
+    function loadinventory() {
+        $.getJSON(mkApiUrl('inventory'), {
+            user: username
+        }, function (data) {
+            var content = "";
+            if (data.status == 'OK') {
+                items = data.items;
+                items.forEach(function (item) {
+                    content += getitemhtmlfromjson(item);
+                });
+            } else {
+                content = "<div class='list-group-item'>An error occurred.</div>";
+            }
+            $('#inventory-list').html(content);
+        });
+    }
+    
+    loadinventory();
 </script>

@@ -6,34 +6,38 @@
                 <h4 class="modal-title" id="intro-box-header">Welcome to TerranQuest!</h4>
             </div>
             <div class="modal-body" id="intro-box-body-1">
-                <p>TerranQuest is a video game that makes you go outside.  Step outdoors and discover a fantasy world overlapping our own.</p>
-                <p>It's dangerous to adventure alone, read this:</p>
-                <ol class="list-group">
-                    <li class="list-group-item">There are different types of magic in the world.</li>
-                    <li class="list-group-item">Some types of magic are stronger in certain types of terrain.</li>
-                    <li class="list-group-item">Weather can also affect the flow of magic through the land.</li>
-                    <li class="list-group-item">There are strong points of magic near important landmarks.</li>
-                    <li class="list-group-item">These points of magic can be transmuted into different types of magic.</li>
-                </ol>
+                <p>There are seven types of magic in this world. Six elements of nature: water, fire, earth, wind, light, and dark. There is also a seventh element: life. Life is the source of all magical power.</p>
+                <p>Long ago, the wielders of the six elements were united as one. The magics were harnessed with responsibility and respect.</p>
+                <p>Then disagreement and discord arose. Some become jealous of others. A great war followed, destroying much life. As a result of this bloodshed, the magic wilted and died.</p>
+                <p>Over time, the magic sunk deep into the Earth, living on only in dreams. Science forgot magic, and ancient knowledge was lost.</p>
+                <p>Now, however, the world has come full circle. Science has become magic in a different form. The new sorcerers, scientists, harness the powers of the elements with their modern tools. They know little, but the whispers of ancient power has influenced their actions.</p>
+                <p>The old is become new. Magic is real, it only seems different. Control the elements and bring peace to the Earth. Channel the powers of magic through your smartphone or tablet. It is up to you to give your technology a true purpose. There are those who do not want unity, who thrive in chaos. They are all the more reason to go out and fight.</p>
+                <p><em>Will you join the quest?</em></p>
             </div>
             <div class="modal-body" id="intro-box-body-2" style='display: none;'>
-                <p>Many years ago, there was a disagreement between the
-                    different magical clans.  A secret war, hidden from
-                    non-magical peoples, has festered just under the surface.  
-                    Whichever clan controls all the magical points, controls the world.</p>
+                <p>You have chosen well.</p>
+                <p>There is some knowledge you must have now.  You must discover the rest of the secrets on your own.</p>
+                <ol class="list-group">
+                    <li class="list-group-item">Some types of magic are stronger in certain types of terrain.</li>
+                    <li class="list-group-item">Weather can also affect the flow of magic.</li>
+                    <li class="list-group-item">There are strong points of magic near important landmarks.</li>
+                    <li class="list-group-item">These points of magic can be controlled and enhanced by the different elements to achieve good and evil.</li>
+                </ol>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="gotointropage2();" class="btn btn-default" id="gotopage2-btn"><i class="fa fa-arrow-right"></i> Next</button>
-                <button type="button" data-dismiss="modal" class="btn btn-default" style="display: none;" id="close-intro"><i class="fa fa-check"></i> OK</button>
+                <button type="button" onclick="navigator.app.exitApp();" class="btn btn-danger" id="lolnope-btn"><i class="fa fa-arrow-right"></i> I will not</button>
+                <button type="button" onclick="gotointropage2();" class="btn btn-success" id="gotopage2-btn"><i class="fa fa-arrow-right"></i> I will</button>
+                <button type="button" data-dismiss="modal" class="btn btn-default" style="display: none;" id="close-intro"><i class="fa fa-check"></i> I am ready!</button>
             </div>
         </div>
     </div>
 </div>
 <script>
-function gotointropage2() {
-    $('#intro-box-body-1').css('display', 'none');
-    $('#intro-box-body-2').css('display', '');
-    $('#gotopage2-btn').css('display', 'none');
-    $('#close-intro').css('display', '');
-}
+    function gotointropage2() {
+        $('#intro-box-body-1').css('display', 'none');
+        $('#intro-box-body-2').css('display', '');
+        $('#gotopage2-btn').css('display', 'none');
+        $('#lolnope-btn').css('display', 'none');
+        $('#close-intro').css('display', '');
+    }
 </script>

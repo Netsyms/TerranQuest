@@ -14,10 +14,8 @@ terrainGot = false;
 latitude = 0.0000;
 longitude = 0.0000;
 gpsaccuracy = 9999;
-requiredaccuracy = 40;
 // End Globals
 
-var fetchplacecounter = 0;
 var lastgpstime = 0;
 var terraintypeid = 0;
 var map = L.map('map');
@@ -38,14 +36,13 @@ $(".leaflet-control-zoom").css("visibility", "hidden");
 map.addLayer(new L.tileLayer(tileurl, {minZoom: 17, maxZoom: 18}));
 // Places layer
 var placeLayer = L.geoJson(
-        {"name": "Places", "type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"osm_id": -1, "name": null, 'gameinfo': {'teamid': "0"}}}]},
+        {"name": "Places", "type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"osm_id": -1, "name": null}}]},
         {
             onEachFeature: onPlaceTap,
             pointToLayer: function (feature, latlng) {
-                var teamcolor = "#" + getTeamColorFromId(feature.properties.gameinfo.teamid);
                 return L.circleMarker(latlng, {
                     radius: 14,
-                    fillColor: teamcolor,
+                    fillColor: "#ff7800",
                     color: "#000",
                     weight: 1,
                     opacity: 1,
@@ -88,19 +85,10 @@ var lc = L.control.locate({
     locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
 }).addTo(map);
 lc.start();
-
-
 function mapPos(lat, lon) {
     lockGot = true;
     hideLoading();
-    // Don't update places every time
-    if (fetchplacecounter === 0) {
-        loadPlaces(latitude, longitude);
-    }
-    fetchplacecounter++;
-    if (fetchplacecounter > 10) {
-        fetchplacecounter = 0;
-    }
+    loadPlaces(latitude, longitude);
     //map.setView(new L.LatLng(lat, lon), 16, {animate: true});
     //map.panTo(new L.LatLng(lat, lon));
     //map.invalidateSize();
@@ -119,23 +107,17 @@ function onPlaceTap(feature, layer) {
 }
 
 function loadPlaces(lat, long) {
-    var url = mkApiUrl('places', 'gs') + "?lat=" + lat + "&long=" + long + "&radius=.25&names=1";
-    try {
-        $.getJSON(
-                url,
-                function (data) {
-                    if (data.type === 'FeatureCollection') {
-                        placeLayer.clearLayers();
-                        data.features.forEach(function (item) {
-                            item.properties.popupContent = "<span class='marker-popup-text' onclick='openPlace(" + item.properties.osm_id + ")'>" + item.properties.name + "</span>";
-                            placeLayer.addData(item);
-                        });
-                    }
+    $.getJSON(
+            "http://earth.apis.netsyms.net/places.php?format=geojson&lat=" + lat + "&long=" + long + "&radius=.25&names=1",
+            function (data) {
+                if (data.type === 'FeatureCollection') {
+                    placeLayer.clearLayers();
+                    data.features.forEach(function (item) {
+                        item.properties.popupContent = "<span class='marker-popup-text' onclick='openplace(" + item.properties.osm_id + ")'>" + item.properties.name + "</span>";
+                        placeLayer.addData(item);
+                    });
                 }
-        );
-    } catch (ex) {
-        serverProblemsDialog();
-    }
+            });
 }
 
 function openPlace(feature) {
@@ -149,7 +131,7 @@ function openPlace(feature) {
  * Hide the loading overlay if everything is loaded, otherwise do nothing
  */
 function hideLoading() {
-    if (lockGot && terrainGot && gpsaccuracy < requiredaccuracy && $('#loading').css('display') !== 'none') {
+    if (lockGot && terrainGot && gpsaccuracy < 30 && $('#loading').css('display') !== 'none') {
         $('#loading').fadeOut('slow', function () {
             $('#loading').css('display', 'none');
         });
@@ -161,7 +143,7 @@ var updatePosition = function (position) {
     longitude = position.coords.longitude;
     lastgpstime = position.timestamp;
     gpsaccuracy = position.coords.accuracy;
-    if (gpsaccuracy > requiredaccuracy) {
+    if (gpsaccuracy > 30) {
         $('#no-lock').css('display', 'block');
     } else {
         $('#no-lock').css('display', 'none');
@@ -188,11 +170,11 @@ var updateTerrain = function (position) {
     });
 };
 function pingServer() {
-    if (lockGot && gpsaccuracy < requiredaccuracy) {
+    if (lockGot && gpsaccuracy < 30) {
         $.get(mkApiUrl('ping') + "?user=" + username + "&lat=" + latitude + "&long=" + longitude);
     }
 }
-
+;
 function onError(error) {
     $('#loading-error').text("Check your device's network and location settings, and ensure a clear view of the sky.");
 }
@@ -226,3 +208,148 @@ setInterval(pingServer, 5000);
 setTimeout(function () {
     onError();
 }, 15 * 1000);
+
+
+//////////////////////////////////////////////
+//  Profile, stats, and chat stuff
+//////////////////////////////////////////////
+
+
+/*
+ * Handles general server communication.
+ */
+
+/**
+ * Syncs the user's stats with the server and calls refreshStats().
+ */
+function syncStats() {
+    $.getJSON(mkApiUrl('getstats'), {
+        user: username
+    }, function (data) {
+        if (data.status === 'OK') {
+            maxenergy = data.stats.maxenergy;
+            energy = data.stats.energy;
+            level = data.stats.level;
+            refreshStats();
+        }
+    });
+}
+
+/**
+ * Display the current stats on the home screen.
+ */
+function refreshStats() {
+    energypercent = (energy * 1.0 / maxenergy * 1.0) * 100.0;
+    $('#energybar').css('width', String(energypercent) + '%');
+}
+
+function getChat() {
+    if (lockGot) {
+        $.getJSON(mkApiUrl('chat', 'cs'), {
+            lat: latitude,
+            long: longitude
+        }, function (data) {
+            data = sortResults(data, 'time', true);
+            var content = "";
+            data.forEach(function (msg) {
+                content += "<span class='chat-username' onclick='openProfile(\"" + msg.username + "\");'>" + msg.username + "</span> " + msg.message + "<br />";
+            });
+            $('#chatmsgs').html(content);
+        });
+    }
+}
+
+
+syncStats();
+setInterval(function () {
+    syncStats();
+}, 10 * 1000);
+setInterval(function () {
+    getChat();
+}, 2000);
+// Send chat messages
+$("#chatsendform").submit(function (event) {
+    message = $('#chatbox-input').val();
+    if (message !== '') {
+        $.post(mkApiUrl('chat', 'cs'), {
+            user: username,
+            lat: latitude,
+            long: longitude,
+            msg: message
+        }, function (data) {
+            if (data.status === 'OK') {
+                $('#chatbox-input').val("");
+                $("#chatmsgs").animate({scrollTop: $('#chatmsgs').prop("scrollHeight")}, 1000);
+            }
+        }, "json");
+    }
+    event.preventDefault();
+    return false;
+});
+function toggleChat() {
+    if ($('#chatmsgs').css('display') === 'none') {
+        openChat();
+    } else {
+        closeChat();
+    }
+}
+
+function closeChat() {
+    $('#chatmsgs').css('display', 'none');
+    $('#chatbox').css('height', 'auto');
+}
+
+function openChat() {
+    $('#chatbox').css('height', '50%');
+    $('#chatmsgs').css('display', 'block');
+    $("#chatmsgs").animate({scrollTop: $('#chatmsgs').prop("scrollHeight")}, 1000);
+}
+
+function openProfile(user) {
+    user = typeof user !== 'undefined' ? user : username;
+    $('#main-content').load("screens/profile.html", null, function (x) {
+        $('#overlay-main').css('display', 'block');
+        loadProfile(user);
+    });
+}
+
+function openRules() {
+    openmodal('rules', '#rules-modal');
+}
+
+function openMenu(topage) {
+    topage = typeof topage !== 'undefined' ? topage : "";
+    $('#main-content').load("screens/menu.html", null, function (x) {
+        $('#overlay-main').css('display', 'block');
+        if (topage !== '') {
+            $('#' + topage + '-tab').tab('show');
+        }
+    });
+}
+
+
+
+//////////////////////////////////////////////
+//  Other things
+//////////////////////////////////////////////
+
+function closeMain() {
+    $('#overlay-main').slideDown(100, function () {
+        $('#overlay-main').css('display', 'none');
+        $('#main-content').html("");
+    });
+}
+
+// Handle back button to close things
+document.addEventListener("backbutton", function (event) {
+    if ($('#overlay-main').css('display') !== 'none') {
+        closeMain();
+    } else if ($('#chatmsgs').css('display') !== 'none') {
+        toggleChat();
+    }
+}, false);
+// Show the rules
+if (localStorage.getItem("seenrules") !== 'yes') {
+    openRules();
+    localStorage.setItem("seenrules", 'yes');
+}

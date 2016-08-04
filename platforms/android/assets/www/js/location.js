@@ -14,8 +14,10 @@ terrainGot = false;
 latitude = 0.0000;
 longitude = 0.0000;
 gpsaccuracy = 9999;
+requiredaccuracy = 40;
 // End Globals
 
+var fetchplacecounter = 0;
 var lastgpstime = 0;
 var terraintypeid = 0;
 var map = L.map('map');
@@ -36,13 +38,14 @@ $(".leaflet-control-zoom").css("visibility", "hidden");
 map.addLayer(new L.tileLayer(tileurl, {minZoom: 17, maxZoom: 18}));
 // Places layer
 var placeLayer = L.geoJson(
-        {"name": "Places", "type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"osm_id": -1, "name": null}}]},
+        {"name": "Places", "type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"osm_id": -1, "name": null, 'gameinfo': {'teamid': "0"}}}]},
         {
             onEachFeature: onPlaceTap,
             pointToLayer: function (feature, latlng) {
+                var teamcolor = "#" + getTeamColorFromId(feature.properties.gameinfo.teamid);
                 return L.circleMarker(latlng, {
                     radius: 14,
-                    fillColor: "#ff7800",
+                    fillColor: teamcolor,
                     color: "#000",
                     weight: 1,
                     opacity: 1,
@@ -85,10 +88,19 @@ var lc = L.control.locate({
     locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
 }).addTo(map);
 lc.start();
+
+
 function mapPos(lat, lon) {
     lockGot = true;
     hideLoading();
-    loadPlaces(latitude, longitude);
+    // Don't update places every time
+    if (fetchplacecounter === 0) {
+        loadPlaces(latitude, longitude);
+    }
+    fetchplacecounter++;
+    if (fetchplacecounter > 10) {
+        fetchplacecounter = 0;
+    }
     //map.setView(new L.LatLng(lat, lon), 16, {animate: true});
     //map.panTo(new L.LatLng(lat, lon));
     //map.invalidateSize();
@@ -107,17 +119,23 @@ function onPlaceTap(feature, layer) {
 }
 
 function loadPlaces(lat, long) {
-    $.getJSON(
-            "http://earth.apis.netsyms.net/places.php?format=geojson&lat=" + lat + "&long=" + long + "&radius=.25&names=1",
-            function (data) {
-                if (data.type === 'FeatureCollection') {
-                    placeLayer.clearLayers();
-                    data.features.forEach(function (item) {
-                        item.properties.popupContent = "<span class='marker-popup-text' onclick='openplace(" + item.properties.osm_id + ")'>" + item.properties.name + "</span>";
-                        placeLayer.addData(item);
-                    });
+    var url = mkApiUrl('places', 'gs') + "?lat=" + lat + "&long=" + long + "&radius=.25&names=1";
+    try {
+        $.getJSON(
+                url,
+                function (data) {
+                    if (data.type === 'FeatureCollection') {
+                        placeLayer.clearLayers();
+                        data.features.forEach(function (item) {
+                            item.properties.popupContent = "<span class='marker-popup-text' onclick='openPlace(" + item.properties.osm_id + ")'>" + item.properties.name + "</span>";
+                            placeLayer.addData(item);
+                        });
+                    }
                 }
-            });
+        );
+    } catch (ex) {
+        serverProblemsDialog();
+    }
 }
 
 function openPlace(feature) {
@@ -131,7 +149,7 @@ function openPlace(feature) {
  * Hide the loading overlay if everything is loaded, otherwise do nothing
  */
 function hideLoading() {
-    if (lockGot && terrainGot && gpsaccuracy < 30 && $('#loading').css('display') !== 'none') {
+    if (lockGot && terrainGot && gpsaccuracy < requiredaccuracy && $('#loading').css('display') !== 'none') {
         $('#loading').fadeOut('slow', function () {
             $('#loading').css('display', 'none');
         });
@@ -143,7 +161,7 @@ var updatePosition = function (position) {
     longitude = position.coords.longitude;
     lastgpstime = position.timestamp;
     gpsaccuracy = position.coords.accuracy;
-    if (gpsaccuracy > 30) {
+    if (gpsaccuracy > requiredaccuracy) {
         $('#no-lock').css('display', 'block');
     } else {
         $('#no-lock').css('display', 'none');
@@ -170,7 +188,7 @@ var updateTerrain = function (position) {
     });
 };
 function pingServer() {
-    if (lockGot && gpsaccuracy < 30) {
+    if (lockGot && gpsaccuracy < requiredaccuracy) {
         $.get(mkApiUrl('ping') + "?user=" + username + "&lat=" + latitude + "&long=" + longitude);
     }
 }

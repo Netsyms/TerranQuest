@@ -21,6 +21,10 @@ function onDeviceReady() {
     }
 }
 
+function serverProblemsDialog() {
+    openscreen("servererror");
+}
+
 function mkApiUrl(action, server) {
     server = typeof server !== 'undefined' ? server : "gs";
     return "http://" + server + ".terranquest.net/" + action + ".php";
@@ -109,6 +113,50 @@ function closeMain() {
         $('#overlay-main').css('display', 'none');
         $('#main-content').html("");
     });
+}
+
+function getTeamInfoFromId(id) {
+    var team_string = "None";
+    var team_color = "FFFFFF";
+    switch (id) {
+        case "1":
+            team_string = "Water";
+            team_color = "00BFFF";
+            break;
+        case "2":
+            team_string = "Fire";
+            team_color = "FF4000";
+            break;
+        case "3":
+            team_string = "Earth";
+            team_color = "D1A000";
+            break;
+        case "4":
+            team_string = "Wind";
+            team_color = "96FFFF";
+            break;
+        case "5":
+            team_string = "Light";
+            team_color = "FFFF96";
+            break;
+        case "6":
+            team_string = "Dark";
+            team_color = "ABABAB";
+            break;
+        default:
+            team_string = "None";
+            team_color = "FFFFFF";
+            break;
+    }
+    return {'name': team_string, 'color': team_color};
+}
+
+function getTeamNameFromId(id) {
+    return getTeamInfoFromId(id)['name'];
+}
+
+function getTeamColorFromId(id) {
+    return getTeamInfoFromId(id)['color'];
 }
 
 // Handle back button to close things
