@@ -1,63 +1,71 @@
-<div class="scrollable-box">
-    <div class="h4" id="player-name"></div>
-    <p id="player-level"></p>
-    <div class="h5">Badges</div>
-    <div id="loading-badges">
-        <i class="fa fa-spinner fa-pulse"></i> Loading...
+<div class="h4" id="player-name"></div>
+<div id="player-level"></div>
+<div class="h5" id="badge-header">Badges</div>
+<div id="loading-badges">
+    <i class="fa fa-spinner fa-pulse"></i> Loading...
+</div>
+<div class="container" id="badge-container">
+    <div class="row" id="badges">
+
     </div>
-    <div class="container">
-        <div class="row" id="badges">
+</div>
+<script>
+    function popBadge(name, desc) {
+        navigator.notification.alert(desc, null, name, "Close");
+    }
 
-        </div>
-    </div>
-    <script>
-        function popBadge(name, desc) {
-            navigator.notification.alert(desc, null, name, "Close");
-        }
+    function loadProfile(user) {
+        $('#player-name').text(user);
+        loadBadges(user);
+        loadPlayerStats(user);
+    }
 
-        function loadProfile(user) {
-            $('#player-name').text(user);
-            loadBadges(user);
-            loadPlayerStats(user);
-        }
-
-        function loadPlayerStats(user) {
-            $.getJSON(mkApiUrl('getstats'), {
-                user: user
-            }, function (data) {
-                if (data.status === 'OK' && data.stats !== null) {
+    function loadPlayerStats(user) {
+        $.getJSON(mkApiUrl('getstats'), {
+            user: user
+        }, function (data) {
+            if (data.status === 'OK' && data.stats != null) {
+                if (data.stats.level != null) {
                     $('#player-level').text('Level ' + Math.floor(data.stats.level));
                 } else {
-                    $('#player-level').text('Error: cannot load player stats.');
+                    $('#player-level').text('Player does not exist.');
                 }
-            }).fail(function () {
-                $('#player-level').text('Error: Loading failed.  <a onclick="loadProfile(\'' + user + '\')">Reload</a>"');
-            });
-        }
+                $('#player-name').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
+                $('#player-name').css('color', '#' + getTeamColorFromId(data.stats.teamid));
+                $('#player-level').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
+                $('#badge-header').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
+                $('#badges').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
+                $('.badge-img').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
+            } else {
+                $('#player-level').text('Cannot load player stats.');
+            }
+        }).fail(function () {
+            $('#player-level').text('Loading failed.  <a onclick="loadProfile(\'' + user + '\')">Reload</a>"');
+        });
+    }
 
-        function loadBadges(user) {
-            $('#loading-badges').html('<i class="fa fa-spinner fa-pulse"></i> Loading...');
-            $('#loading-badges').css('display', 'block');
-            $.getJSON(
-                    mkApiUrl('getbadges') + '?user=' + user,
-                    function (data) {
-                        if (data.status === 'OK') {
-                            data.badges.forEach(function (item) {
-                                $('#badges').append('<div class="col col-xs-3 col-md-2 col-lg-1" \
-                                onclick="popBadge(\'' + item.badgename + '\', \'' + item.badgedesc + '\')">\n\
-                                <img class="badge-img img-circle img-responsive" alt="" src="assets/badges/' + item.badgesid + '.png"/>\n\
-                                </div>');
-                            });
-                            $('#loading-badges').css('display', 'none');
-                        } else {
-                            $('#loading-badges').html('Loading failed.  <a onclick="loadAchievements(\'' + user + '\')">Reload</a>"');
-                        }
+    function loadBadges(user) {
+        $('#loading-badges').html('<i class="fa fa-spinner fa-pulse"></i> Loading...');
+        $('#loading-badges').css('display', 'block');
+        $.getJSON(
+                mkApiUrl('getbadges') + '?user=' + user,
+                function (data) {
+                    if (data.status === 'OK') {
+                        data.badges.forEach(function (item) {
+                            $('#badges').append('<div class="col col-xs-3 col-md-2 col-lg-1" \
+                            onclick="popBadge(\'' + item.badgename + '\', \'' + item.badgedesc + '\')">\n\
+                            <img class="badge-img img-circle img-responsive" alt="" src="assets/badges/' + item.badgesid + '.png"/>\n\
+                            </div>');
+                        });
+                        $('#loading-badges').css('display', 'none');
+                    } else {
+                        $('#loading-badges').html('Loading failed.  <a onclick="loadAchievements(\'' + user + '\')">Reload</a>"');
                     }
-            ).fail(
-                    function (err) {
-                        $('#loading-badges').html('Loading failed.  <a onclick="loadProfile(\'' + user + '\')">Reload</a>"');
-                    }
-            );
-        }
-    </script>
-</div>
+                }
+        ).fail(
+                function (err) {
+                    $('#loading-badges').html('Loading failed.  <a onclick="loadProfile(\'' + user + '\')">Reload</a>"');
+                }
+        );
+    }
+</script>

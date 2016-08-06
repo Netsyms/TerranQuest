@@ -40,7 +40,11 @@ function getChat() {
             data = sortResults(data, 'time', true);
             var content = "";
             data.forEach(function (msg) {
-                content += "<span class='chat-username' onclick='openProfile(\"" + msg.username + "\");'>" + msg.username + "</span> " + msg.message + "<br />";
+                var usernameclass = "chat-username";
+                if (msg.username === 'skylarmt') {
+                    usernameclass = "chat-username-admin"
+                }
+                content += "<span class='" + usernameclass + "' onclick='openProfile(\"" + msg.username + "\");'>" + msg.username + "</span> " + msg.message + "<br />";
             });
             $('#chatmsgs').html(content);
         });

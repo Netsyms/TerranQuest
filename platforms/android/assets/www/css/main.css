@@ -113,6 +113,7 @@ body {
 
 .badge-img {
     border: 2px solid green;
+    margin-bottom: 10px;
 }
 
 #terrain-image {
@@ -191,9 +192,15 @@ body {
     background: rgba(0,0,0,.8);
 }
 
-.chatbox #chatmsgs .chat-username {
+.chat-username {
     color: green;
     font-weight: bold;
+}
+
+.chat-username-admin {
+    color: red;
+    font-weight: bold;
+    font-style: italic;
 }
 
 #buttons {
@@ -227,4 +234,40 @@ body {
 
 .scrollable-box {
     overflow-y: auto;
+}
+
+#player-name {
+    padding-left: 5px;
+    border-left: 1px solid white;
+}
+
+#player-level {
+    font-size: 120%;
+    color: #d5d5d5;
+    font-style: italic;
+    padding-left: 5px;
+    padding-top: 10px;
+    margin-top: -10px;
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+    padding-right: 100px;
+    width: fit-content;
+}
+
+#badge-header {
+    padding-top: 5px;
+    border-top: 1px solid white;
+    border-right: 1px solid white;
+}
+
+#badges {
+    border-right: 1px solid white;
+    padding-top: 10px;
+    margin-top: -10px;
+}
+
+#loading-badges {
+    border-right: 1px solid white;
+    padding-top: 10px;
+    margin-top: -10px;
 }
