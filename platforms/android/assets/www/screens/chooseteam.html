@@ -1,0 +1,56 @@
+<div class="h4">Choose Your Magic</div>
+<p>Before you can harness the power of magic, you must make a difficult choice.
+    <br />
+    The key to unlocking your inner power is channeling it into one of the elements.
+    Once you have chosen, it is extremely difficult to change.
+    <br />
+    <i>Choose wisely.</i>
+</p>
+<div class="list-group" id="team-choice-list">
+    <!--<div class="list-group-item" id="team0">
+        <div class="radio">
+            <label>
+                <input type="radio" name="teamChooser" id="teamChooser0" value="0">
+                <span id="teamlabel0"></span>
+            </label>
+        </div>
+    </div>-->
+</div>
+<div id="submitteamsetbtn" class="btn btn-success" onclick="setTeam()" style="display: none;">Continue</div>
+<script>
+    $('input[name=teamChooser]').change(function () {
+        if (this.checked) {
+            $('#submitteamsetbtn').css('display', 'block');
+        }
+    });
+
+    function chooseTeam(id) {
+        $('#teamChooser' + id).prop('checked', true);
+        $('#submitteamsetbtn').css('display', 'block');
+    }
+
+    function setTeam() {
+        //alert($('input[name=teamChooser]:checked').val());
+        var team = $('input[name=teamChooser]:checked').val();
+         $.getJSON(mkApiUrl('setteam', 'gs'), {
+            teamid: team
+        }, function (data) {
+            if (data.status === 'OK') {
+                // We're all good.
+                openscreen("home");
+            } else {
+                // Error?
+                alert("Error: " + data.message);
+            }
+        }).fail(function () {
+            alert("Something bad happened, try again later.");
+        });
+    }
+
+    // Populate the list
+    for (var i = 1; i < 7; i++) {
+        $('#team-choice-list').append('<div class="list-group-item" onclick="chooseTeam(' + i + ')" id="team' + i + '"><div class="radio"><label><input type="radio" name="teamChooser" id="teamChooser' + i + '" value="' + i + '"><span id="teamlabel' + i + '"></span></label></div></div>');
+        $('#team' + i).css('background-color', '#' + getTeamColorFromId(i));
+        $('#teamlabel' + i).html(getTeamNameFromId(i));
+    }
+</script>

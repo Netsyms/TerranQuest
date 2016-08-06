@@ -9,23 +9,11 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         },
                         {
@@ -37,6 +25,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Media\"><param name=\"android-package\" value=\"org.apache.cordova.media.AudioHandler\" /></feature>",
                             "count": 1
                         },
@@ -45,7 +37,15 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
@@ -63,7 +63,11 @@
                             "count": 4
                         },
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
                             "count": 1
                         },
                         {
@@ -83,11 +87,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
                             "count": 1
                         }
                     ],
@@ -120,11 +120,6 @@
                         }
                     ]
                 }
-            },
-            "res/values/strings.xml": {
-                "parents": {
-                    "/resources": []
-                }
             }
         }
     },
@@ -132,7 +127,7 @@
         "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
-        "cordova-plugin-whitelist": {
+        "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
         "cordova-plugin-console": {
@@ -141,19 +136,13 @@
         "cordova-plugin-device": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
-        "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
-        },
-        "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
-        },
-        "cordova-plugin-network-information": {
-            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
-        },
         "cordova-plugin-dialogs": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
         "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
+        },
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
         "cordova-plugin-media": {
@@ -162,7 +151,13 @@
         "cordova-plugin-media-capture": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
-        "cordova-plugin-geolocation": {
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
+        },
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         },
         "phonegap-plugin-barcodescanner": {
@@ -171,18 +166,6 @@
     },
     "dependent_plugins": {},
     "modules": [
-        {
-            "file": "plugins/cordova-plugin-whitelist/whitelist.js",
-            "id": "cordova-plugin-whitelist.whitelist",
-            "runs": true
-        },
-        {
-            "file": "plugins/cordova-plugin-device/www/device.js",
-            "id": "cordova-plugin-device.device",
-            "clobbers": [
-                "device"
-            ]
-        },
         {
             "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
             "id": "cordova-plugin-camera.Camera",
@@ -212,25 +195,10 @@
             ]
         },
         {
-            "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-            "id": "cordova-plugin-splashscreen.SplashScreen",
+            "file": "plugins/cordova-plugin-device/www/device.js",
+            "id": "cordova-plugin-device.device",
             "clobbers": [
-                "navigator.splashscreen"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-network-information/www/network.js",
-            "id": "cordova-plugin-network-information.network",
-            "clobbers": [
-                "navigator.connection",
-                "navigator.network.connection"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-network-information/www/Connection.js",
-            "id": "cordova-plugin-network-information.Connection",
-            "clobbers": [
-                "Connection"
+                "device"
             ]
         },
         {
@@ -399,6 +367,18 @@
             "runs": true
         },
         {
+            "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+            "id": "cordova-plugin-geolocation.geolocation",
+            "clobbers": [
+                "navigator.geolocation"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+            "id": "cordova-plugin-geolocation.PositionError",
+            "runs": true
+        },
+        {
             "file": "plugins/cordova-plugin-media/www/MediaError.js",
             "id": "cordova-plugin-media.MediaError",
             "clobbers": [
@@ -462,15 +442,30 @@
             ]
         },
         {
-            "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-            "id": "cordova-plugin-geolocation.geolocation",
+            "file": "plugins/cordova-plugin-network-information/www/network.js",
+            "id": "cordova-plugin-network-information.network",
             "clobbers": [
-                "navigator.geolocation"
+                "navigator.connection",
+                "navigator.network.connection"
             ]
         },
         {
-            "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-            "id": "cordova-plugin-geolocation.PositionError",
+            "file": "plugins/cordova-plugin-network-information/www/Connection.js",
+            "id": "cordova-plugin-network-information.Connection",
+            "clobbers": [
+                "Connection"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+            "id": "cordova-plugin-splashscreen.SplashScreen",
+            "clobbers": [
+                "navigator.splashscreen"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-whitelist/whitelist.js",
+            "id": "cordova-plugin-whitelist.whitelist",
             "runs": true
         },
         {
@@ -483,17 +478,17 @@
     ],
     "plugin_metadata": {
         "cordova-plugin-compat": "1.0.0",
-        "cordova-plugin-whitelist": "1.2.1",
+        "cordova-plugin-camera": "2.1.2-dev",
         "cordova-plugin-console": "1.0.3-dev",
         "cordova-plugin-device": "1.1.2-dev",
-        "cordova-plugin-camera": "2.1.2-dev",
-        "cordova-plugin-splashscreen": "3.2.2-dev",
-        "cordova-plugin-network-information": "1.2.1-dev",
         "cordova-plugin-dialogs": "1.2.1-dev",
         "cordova-plugin-file": "4.1.1",
+        "cordova-plugin-geolocation": "2.1.1-dev",
         "cordova-plugin-media": "2.2.1-dev",
         "cordova-plugin-media-capture": "1.2.1-dev",
-        "cordova-plugin-geolocation": "2.1.1-dev",
+        "cordova-plugin-network-information": "1.2.1-dev",
+        "cordova-plugin-splashscreen": "3.2.2-dev",
+        "cordova-plugin-whitelist": "1.2.1",
         "phonegap-plugin-barcodescanner": "6.0.1"
     }
 }

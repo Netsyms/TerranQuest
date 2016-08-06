@@ -25,6 +25,22 @@ function logout() {
     $('#content-zone').load("screens/login.html");
 }
 
+function checkUserHasTeamOpenChooserIfNot(username) {
+    $.getJSON(mkApiUrl('getstats', 'gs'), {
+            user: username
+        }, function (data) {
+            if (data.status === 'OK' && data.stats.teamid !== null && data.stats.teamid > 0) {
+                // We're all good.
+                openscreen("home");
+            } else {
+                // Open the team intro thingy
+                openscreen('chooseteam');
+            }
+        }).fail(function () {
+            
+        });
+}
+
 function dosignup() {
     if (authOpInProgress) {
         return;
@@ -60,7 +76,7 @@ function dosignup() {
             password = $('#passwordBox').val();
             localStorage.setItem("username", username);
             localStorage.setItem("password", password);
-            openscreen("home");
+            checkUserHasTeamOpenChooserIfNot(username);
         } else {
             $('#signupBtn').html('<i class="fa fa-user-plus"></i> Sign Up');
             $('#signupBtn').attr('disabled', false);
@@ -104,7 +120,7 @@ function dologin() {
                     localStorage.setItem("username", username);
                     localStorage.setItem("password", password);
                     navigator.splashscreen.hide();
-                    openscreen("home");
+                    checkUserHasTeamOpenChooserIfNot(username);
                 } else {
                     $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
                     $('#loginBtn').attr('disabled', false);

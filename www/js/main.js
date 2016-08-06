@@ -116,6 +116,7 @@ function closeMain() {
 }
 
 function getTeamInfoFromId(id) {
+    id = id + "";
     var team_string = "None";
     var team_color = "FFFFFF";
     switch (id) {
