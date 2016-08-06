@@ -31,6 +31,7 @@ function checkUserHasTeamOpenChooserIfNot(username) {
         }, function (data) {
             if (data.status === 'OK' && data.stats.teamid !== null && data.stats.teamid > 0) {
                 // We're all good.
+                userteamid = data.stats.teamid;
                 openscreen("home");
             } else {
                 // Open the team intro thingy

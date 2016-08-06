@@ -4,6 +4,7 @@ password = "";
 energy = 100;
 maxenergy = 100;
 level = 1;
+userteamid = 0;
 
 /*
  * Runs when the app opens

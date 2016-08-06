@@ -4,15 +4,119 @@
         Type: <span id="team-label"></span><br />
         Life: <span id="life-label"></span>
     </div>
+    <div class="btn btn-primary btn-wide" id="capturebtn" onclick="attempttake()"></div>
 </div>
 
 <script>
+    var thisplace = null;
+    var placeteam = 0;
+
+
+    function resetcapturebtn() {
+        $('#capturebtn').removeClass('btn-warning');
+        $('#capturebtn').addClass('btn-primary');
+        $('#capturebtn').removeClass('disabled');
+        if (placeteam == 0) {
+            $('#capturebtn').text("Claim");
+        } else if (placeteam == userteamid) {
+            $('#capturebtn').css('display', 'none');
+        } else {
+            $('#capturebtn').text("Challenge");
+        }
+        $('#capturebtn').prop('disabled', false);
+    }
+
+    function resyncstats() {
+        $.getJSON(mkApiUrl('placestats', 'gs'), {
+            locationid: thisplace.properties.gameinfo.locationid
+        }, function (data) {
+            if (data.status === 'OK') {
+                placeteam = data.stats.teamid;
+                $("#life-label").text(Math.round(data.stats.currentlife) + " / " + Math.round(data.stats.maxlife));
+                loadTeamSwag();
+            } else {
+                //
+            }
+        }).fail(function () {
+        });
+    }
+
+    function resetafteraction() {
+        resyncstats();
+        setTimeout(resetcapturebtn, 3 * 1000);
+    }
+
+    function loadTeamSwag() {
+        $("#place-name").css("border-color", "#" + getTeamColorFromId(placeteam));
+        $("#place-info-div").css("border-color", "#" + getTeamColorFromId(placeteam));
+        $("#team-label").css("color", "#" + getTeamColorFromId(placeteam));
+        $("#team-label").text(getTeamNameFromId(placeteam));
+    }
+
     function loadPlace(feature) {
+        thisplace = feature;
+        placeteam = feature.properties.gameinfo.teamid;
+        loadTeamSwag();
         $("#place-name").text(feature.properties.name);
-        $("#place-name").css("border-color", "#" + getTeamColorFromId(feature.properties.gameinfo.teamid));
-        $("#place-info-div").css("border-color", "#" + getTeamColorFromId(feature.properties.gameinfo.teamid));
-        $("#team-label").css("color", "#" + getTeamColorFromId(feature.properties.gameinfo.teamid));
-        $("#team-label").text(getTeamNameFromId(feature.properties.gameinfo.teamid));
         $("#life-label").text(Math.round(feature.properties.gameinfo.currentlife) + " / " + Math.round(feature.properties.gameinfo.maxlife));
+        resetcapturebtn();
+        resyncstats();
+    }
+
+    function attemptcapture() {
+        $('#capturebtn').prop('disabled', true);
+        $('#capturebtn').addClass('disabled');
+        $.getJSON(mkApiUrl('attackplace', 'gs'), {
+            locationid: thisplace.properties.gameinfo.locationid
+        }, function (data) {
+            if (data.status === 'OK') {
+                $('#capturebtn').text(data.message);
+                resetafteraction();
+            } else {
+                $('#capturebtn').text(data.message);
+                $('#capturebtn').removeClass('btn-primary');
+                $('#capturebtn').addClass('btn-warning');
+                resetafteraction();
+            }
+            //alert(data.message);
+        }).fail(function () {
+            $('#capturebtn').text("Try that again.");
+            $('#capturebtn').removeClass('btn-primary');
+            $('#capturebtn').addClass('btn-warning');
+            resetafteraction();
+        });
+    }
+
+    function attemptclaim() {
+        $('#capturebtn').prop('disabled', true);
+        $('#capturebtn').addClass('disabled');
+        $.getJSON(mkApiUrl('claimplace', 'gs'), {
+            locationid: thisplace.properties.gameinfo.locationid
+        }, function (data) {
+            if (data.status === 'OK') {
+                $('#capturebtn').text(data.message);
+                resetafteraction();
+            } else {
+                $('#capturebtn').text(data.message);
+                $('#capturebtn').removeClass('btn-primary');
+                $('#capturebtn').addClass('btn-warning');
+                resetafteraction();
+            }
+            //alert(data.message);
+        }).fail(function () {
+            $('#capturebtn').text("Try that again.");
+            $('#capturebtn').removeClass('btn-primary');
+            $('#capturebtn').addClass('btn-warning');
+        });
+    }
+
+    function attempttake() {
+        if (placeteam == 0) {
+            attemptclaim();
+        } else if (placeteam == userteamid) {
+
+        } else {
+            attemptcapture();
+        }
     }
 </script>
