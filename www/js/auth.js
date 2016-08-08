@@ -81,11 +81,22 @@ function dosignup() {
             },
             function (data) {
                 if (data === 'OK') {
-                    username = $('#usernameBox').val().toLowerCase();
-                    password = $('#passwordBox').val();
-                    localStorage.setItem("username", username);
-                    localStorage.setItem("password", password);
-                    checkUserHasTeamOpenChooserIfNot(username);
+                    $.getJSON(mkApiUrl('pinglogin') + "?user=" + $('#usernameBox').val(), function (out) {
+                        if (out.status === 'OK') {
+                            username = $('#usernameBox').val().toLowerCase();
+                            password = $('#passwordBox').val();
+                            localStorage.setItem("username", username);
+                            localStorage.setItem("password", password);
+                            navigator.splashscreen.hide();
+                            checkUserHasTeamOpenChooserIfNot(username);
+                        } else {
+                            navigator.notification.alert("You've signed up successfully, but we can't log you in.  Restart the app and try again.", null, "Error", 'Dismiss');
+                            authOpInProgress = false;
+                        }
+                    }).fail(function (err) {
+                        navigator.notification.alert("You've signed up successfully, but we can't log you in.  Restart the app and try again.", null, "Error", 'Dismiss');
+                        authOpInProgress = false;
+                    });
                 } else {
                     $('#signupBtn').html('<i class="fa fa-user-plus"></i> Sign Up');
                     $('#signupBtn').attr('disabled', false);
