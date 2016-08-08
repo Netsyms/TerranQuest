@@ -10,9 +10,11 @@
 <script>
     var thisplace = null;
     var placeteam = 0;
+    var capturebtndisabled = false;
 
 
     function resetcapturebtn() {
+        capturebtndisabled = false;
         $('#capturebtn').removeClass('btn-warning');
         $('#capturebtn').addClass('btn-primary');
         $('#capturebtn').removeClass('disabled');
@@ -64,6 +66,7 @@
     }
 
     function attemptcapture() {
+        capturebtndisabled = true;
         $('#capturebtn').prop('disabled', true);
         $('#capturebtn').addClass('disabled');
         $.getJSON(mkApiUrl('attackplace', 'gs'), {
@@ -88,6 +91,7 @@
     }
 
     function attemptclaim() {
+        capturebtndisabled = true;
         $('#capturebtn').prop('disabled', true);
         $('#capturebtn').addClass('disabled');
         $.getJSON(mkApiUrl('claimplace', 'gs'), {
@@ -111,6 +115,9 @@
     }
 
     function attempttake() {
+        if (capturebtndisabled) {
+            return;
+        }
         if (placeteam == 0) {
             attemptclaim();
         } else if (placeteam == userteamid) {

@@ -26,10 +26,10 @@ function logout() {
             password = null;
             $('#content-zone').load("screens/login.html");
         } else {
-            alert("Error: Server did not properly acknowledge logout.  You might have problems for the next few hours if you switch accounts.");
+            navigator.notification.alert("Server did not properly acknowledge logout.  You might have problems for the next few hours if you switch accounts.", null, "Error", 'Dismiss');
         }
     }).fail(function () {
-        alert("Error: Cannot connect to authentication server.  Check your Internet connection and try again.  If that fails, clear the app data or reinstall TerranQuest.");
+        navigator.notification.alert("Cannot connect to authentication server.  Check your Internet connection and try again.  If that fails, clear the app data or reinstall TerranQuest.", null, "Error", 'Dismiss');
     });
 }
 

@@ -36,6 +36,9 @@
         },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
+        },
+        "phonegap-plugin-barcodescanner": {
+            "PACKAGE_NAME": "com.netsyms.terranquest.TerranQuest"
         }
     },
     "dependent_plugins": {

@@ -11,7 +11,7 @@
  * Syncs the user's stats with the server and calls refreshStats().
  */
 function syncStats() {
-    $.getJSON(mkApiUrl('getstats'), {
+    $.getJSON(mkApiUrl('getstats', 'gs'), {
         user: username
     }, function (data) {
         if (data.status === 'OK') {

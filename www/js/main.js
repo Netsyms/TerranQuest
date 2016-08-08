@@ -83,7 +83,18 @@ function scanCode() {
         cordova.plugins.barcodeScanner.scan(
                 function (result) {
                     if (!result.cancelled) {
-                        navigator.notification.alert("Scanned code: " + result.text, null, "OK", 'Dismiss');
+                        $.getJSON(mkApiUrl('code2item', 'gs'), {
+                            code: result.text
+                        }, function (data) {
+                            if (data.status === 'OK') {
+                                navigator.notification.alert("Found one " + data.message, null, "Found an item!", 'OK');
+                            } else {
+                                navigator.notification.alert(data.message, null, "Huh?", 'OK');
+                            }
+                        }).fail(function () {
+                            navigator.notification.alert("Nothing happened!", null, "Huh?", 'OK');
+                        });
+                        //navigator.notification.alert("Scanned code: " + result.text, null, "OK", 'Dismiss');
                     }
                 },
                 function (error) {
@@ -91,7 +102,7 @@ function scanCode() {
                 }
         );
     } catch (ex) {
-        alert(ex.message);
+        navigator.notification.alert(ex.message, null, "Error", 'Dismiss');
     }
 }
 

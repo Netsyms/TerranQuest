@@ -226,12 +226,13 @@ body {
     box-shadow: 0 0 5px grey;
     width: 60px;
     height: 60px;
+    margin-bottom: 20px;
 }
 
 #buttons .circlebutton img {
-    position: absolute;
-    top: 15px;
-    left: 15px;
+    position: static;
+    margin-top: 14px;
+    margin-left: 14px;
     width: 30px;
     height: 30px;
 }
