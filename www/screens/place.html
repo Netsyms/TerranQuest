@@ -2,9 +2,14 @@
     <div class="h4" id="place-name"></div>
     <div id="place-info-div">
         Type: <span id="team-label"></span><br />
-        Life: <span id="life-label"></span>
+        <!-- Life: <span id="life-label"></span><br /> -->
+        Place life: <div class="progress" id="place-health-place"><div id="place-health-place-bar" class="progress-bar" role="progressbar" ></div></div>
+        <div class="btn btn-success btn-wide" id="capturebtn" onclick="attempttake()"></div>
+        My life: <div class="progress" id="user-health-place"><div id="user-health-place-bar" class="progress-bar" role="progressbar" ></div></div>
     </div>
-    <div class="btn btn-primary btn-wide" id="capturebtn" onclick="attempttake()"></div>
+    <div class="well well-sm place-log" id="place-log">
+
+    </div>
 </div>
 
 <script>
@@ -21,7 +26,7 @@
         if (placeteam == 0) {
             $('#capturebtn').text("Claim");
         } else if (placeteam == userteamid) {
-            $('#capturebtn').css('display', 'none');
+            $('#capturebtn').css('visibility', 'hidden');
         } else {
             $('#capturebtn').text("Challenge");
         }
@@ -29,12 +34,30 @@
     }
 
     function resyncstats() {
+        $.getJSON(mkApiUrl('getstats', 'gs'), {
+            user: username
+        }, function (data) {
+            if (data.status === 'OK') {
+                maxenergy = data.stats.maxenergy;
+                energy = data.stats.energy;
+                level = data.stats.level;
+                energypercent = (energy * 1.0 / maxenergy * 1.0) * 100.0;
+                $('#user-health-place-bar').css('width', String(energypercent) + '%');
+                refreshStats();
+            }
+        });
         $.getJSON(mkApiUrl('placestats', 'gs'), {
             locationid: thisplace.properties.gameinfo.locationid
         }, function (data) {
             if (data.status === 'OK') {
                 placeteam = data.stats.teamid;
-                $("#life-label").text(Math.round(data.stats.currentlife) + " / " + Math.round(data.stats.maxlife));
+                var placepercent;
+                if (data.stats.currentlife > 0) {
+                    placepercent = (Math.round(data.stats.currentlife) * 1.0 / Math.round(data.stats.maxlife) * 1.0) * 100.0;
+                } else {
+                    placepercent = 0;
+                }
+                $('#place-health-place-bar').css('width', String(placepercent) + '%');
                 loadTeamSwag();
             } else {
                 //
@@ -45,12 +68,19 @@
 
     function resetafteraction() {
         resyncstats();
-        setTimeout(resetcapturebtn, 3 * 1000);
+        setTimeout(resetcapturebtn, 2 * 1000);
     }
 
     function loadTeamSwag() {
         $("#place-name").css("border-color", "#" + getTeamColorFromId(placeteam));
         $("#place-info-div").css("border-color", "#" + getTeamColorFromId(placeteam));
+        $("#place-log").css("border-color", "#" + getTeamColorFromId(placeteam));
+        if (placeteam == 0) {
+            $("#capturebtn").css("background-color", "#" + getTeamColorFromId(userteamid));
+        } else {
+            $("#capturebtn").css("background-color", "#" + getTeamColorFromId(placeteam));
+        }
+        $("#place-health-place-bar").css("background-color", "#" + getTeamColorFromId(placeteam));
         $("#team-label").css("color", "#" + getTeamColorFromId(placeteam));
         $("#team-label").text(getTeamNameFromId(placeteam));
     }
@@ -74,11 +104,22 @@
         }, function (data) {
             if (data.status === 'OK') {
                 $('#capturebtn').text(data.message);
+                switch (Math.round(Math.random() * (3 - 1) + 1)) {
+                    case 1:
+                        $('#place-log').prepend("Attacking...<br />");
+                        break;
+                    case 2:
+                        $('#place-log').prepend("Attacking..<br />");
+                        break;
+                    case 3:
+                        $('#place-log').prepend("Attacking....<br />");
+                }
                 resetafteraction();
             } else {
                 $('#capturebtn').text(data.message);
                 $('#capturebtn').removeClass('btn-primary');
                 $('#capturebtn').addClass('btn-warning');
+                $('#place-log').prepend(data.message + "<br />");
                 resetafteraction();
             }
             //alert(data.message);
@@ -99,11 +140,13 @@
         }, function (data) {
             if (data.status === 'OK') {
                 $('#capturebtn').text(data.message);
+                $('#place-log').prepend("Claimed!<br />");
                 resetafteraction();
             } else {
                 $('#capturebtn').text(data.message);
                 $('#capturebtn').removeClass('btn-primary');
                 $('#capturebtn').addClass('btn-warning');
+                $('#place-log').prepend(data.message + "<br />");
                 resetafteraction();
             }
             //alert(data.message);

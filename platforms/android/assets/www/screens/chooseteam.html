@@ -43,7 +43,7 @@
                 navigator.notification.alert(data.message, null, "Error", 'OK');
             }
         }).fail(function () {
-            alert("Something bad happened, try again later.");
+            navigator.notification.alert("Something went wrong, try again later.", null, "Error", 'OK');
         });
     }
 
