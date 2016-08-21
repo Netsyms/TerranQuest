@@ -73,7 +73,7 @@ var lc = L.control.locate({
     remainActive: true, // if true locate control remains active on click even if the user's location is in view.
     markerClass: L.circleMarker, // L.circleMarker or L.marker
     circleStyle: {}, // change the style of the circle around the user's location
-    markerStyle: {},
+    markerStyle: {color: '#008000', fillColor: '#32CD32'},
     followCircleStyle: {}, // set difference for the style of the circle around the user's location while following
     followMarkerStyle: {},
     icon: 'fa fa-map-marker', // class for icon, fa-location-arrow or fa-map-marker
