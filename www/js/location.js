@@ -52,7 +52,15 @@ var placeLayer = L.geoJson(
                     fillOpacity: 0.6
                 });
             }
-        }).addTo(map);
+        });//.addTo(map);
+        
+var placemarkers = L.markerClusterGroup({
+    spiderfyDistanceMultiplier: 2,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: false
+});
+placemarkers.addLayer(placeLayer);
+map.addLayer(placemarkers);
 
 var lc = L.control.locate({
     position: 'topleft', // set the location of the control
@@ -126,10 +134,12 @@ function loadPlaces(lat, long) {
                 function (data) {
                     if (data.type === 'FeatureCollection') {
                         placeLayer.clearLayers();
+                        placemarkers.clearLayers();
                         data.features.forEach(function (item) {
                             item.properties.popupContent = "<span class='marker-popup-text' onclick='openPlace(" + item.properties.osm_id + ")'>" + item.properties.name + "</span>";
                             placeLayer.addData(item);
                         });
+                        placemarkers.addLayer(placeLayer);
                     }
                 }
         );

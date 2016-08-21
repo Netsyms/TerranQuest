@@ -58,7 +58,7 @@ setInterval(function () {
 }, 10 * 1000);
 setInterval(function () {
     getChat();
-}, 2000);
+}, 3000);
 // Send chat messages
 $("#chatsendform").submit(function (event) {
     message = $('#chatbox-input').val();
