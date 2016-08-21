@@ -8,6 +8,7 @@
 
 <script>
     function useitem(uuid) {
+        $('#invitem-' + uuid).prop('onclick',null).off('click');
         $.getJSON(mkApiUrl('useitem', 'gs'), {
             itemuuid: uuid
         }, function (data) {
@@ -28,7 +29,7 @@
             <h4 class='itemname'>" + item.itemname + "</h4>\
             <p class='itemdesc'>" + item.itemdesc + "</p>";
         if (item.classname == "healmagic") {
-            itemhtml += "<span class='btn btn-success' onclick=\"useitem('" + item.itemuuid + "')\">\
+            itemhtml += "<span class='btn btn-success' id='invitem-" + item.itemuuid + "' onclick=\"useitem('" + item.itemuuid + "')\">\
                             Use Item\
                          </span>";
         }
