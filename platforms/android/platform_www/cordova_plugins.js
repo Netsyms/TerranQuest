@@ -303,9 +303,9 @@ module.exports = [
         "runs": true
     },
     {
-        "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
-        "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
-        "pluginId": "phonegap-plugin-barcodescanner",
+        "id": "com.phonegap.plugins.barcodescanner.BarcodeScanner",
+        "file": "plugins/com.phonegap.plugins.barcodescanner/www/barcodescanner.js",
+        "pluginId": "com.phonegap.plugins.barcodescanner",
         "clobbers": [
             "cordova.plugins.barcodeScanner"
         ]
@@ -326,7 +326,7 @@ module.exports.metadata =
     "cordova-plugin-network-information": "1.2.1-dev",
     "cordova-plugin-splashscreen": "3.2.2-dev",
     "cordova-plugin-whitelist": "1.2.1",
-    "phonegap-plugin-barcodescanner": "6.0.1"
+    "com.phonegap.plugins.barcodescanner": "5.0.1"
 };
 // BOTTOM OF METADATA
 });

@@ -104,10 +104,11 @@
         "is_top_level": true,
         "variables": {}
     },
-    "phonegap-plugin-barcodescanner": {
+    "com.phonegap.plugins.barcodescanner": {
         "source": {
-            "type": "registry",
-            "id": "phonegap-plugin-barcodescanner"
+            "type": "git",
+            "url": "https://github.com/Telerik-Verified-Plugins/BarcodeScanner",
+            "subdir": "."
         },
         "is_top_level": true,
         "variables": {}

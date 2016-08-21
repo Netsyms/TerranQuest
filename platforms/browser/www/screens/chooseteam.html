@@ -32,7 +32,7 @@
     function setTeam() {
         //alert($('input[name=teamChooser]:checked').val());
         var team = $('input[name=teamChooser]:checked').val();
-         $.getJSON(mkApiUrl('setteam', 'gs'), {
+        $.getJSON(mkApiUrl('setteam', 'gs'), {
             teamid: team
         }, function (data) {
             if (data.status === 'OK') {
@@ -40,10 +40,10 @@
                 openscreen("home");
             } else {
                 // Error?
-                alert("Error: " + data.message);
+                navigator.notification.alert(data.message, null, "Error", 'OK');
             }
         }).fail(function () {
-            alert("Something bad happened, try again later.");
+            navigator.notification.alert("Something went wrong, try again later.", null, "Error", 'OK');
         });
     }
 
