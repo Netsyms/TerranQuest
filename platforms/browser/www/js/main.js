@@ -99,10 +99,6 @@ function scanCode() {
                 },
                 function (error) {
                     navigator.notification.alert("Scanning failed: " + error, null, "Error", 'Dismiss');
-                },
-                {
-                    "showFlipCameraButton": true,
-                    "prompt": "Scan a barcode to discover an item!"
                 }
         );
     } catch (ex) {
