@@ -41,6 +41,15 @@
     </div>
 </div>
 
+<div id="found-box">
+    <div id="found-box-title">
+
+    </div>
+    <div id="found-box-text">
+
+    </div>
+</div>
+
 <div id="chatbox">
     <div class="well well-sm" id="chatmsgs"></div>
     <div class="input-group" style="position: absolute; left: 0px; bottom: 0px; height: 35px; width: 100%; z-index: 9501;">
@@ -56,6 +65,19 @@
 <script>
     $('#namedisp').text(username);
     navigator.splashscreen.hide();
+
+    function showFoundBox(title, text) {
+        $('#found-box-title').text(title);
+        $('#found-box-text').text(text);
+        $('#found-box').fadeIn('fast');
+        setTimeout(function () {
+            $('#found-box').fadeOut('slow');
+        }, 5000);
+    }
+
+    $('#found-box').click(function (e) {
+        $('#found-box').fadeOut('fast');
+    });
 </script>
 <script src="js/location.js"></script>
 <script src="js/user.js"></script>

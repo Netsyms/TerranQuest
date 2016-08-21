@@ -87,12 +87,14 @@ function scanCode() {
                             code: result.text
                         }, function (data) {
                             if (data.status === 'OK') {
-                                navigator.notification.alert("Found one " + data.message, null, "Found an item!", 'OK');
+                                //navigator.notification.alert("Found one " + data.message, null, "Found an item!", 'OK');
+                                showFoundBox("Found an item!", "Found one " + data.message);
                             } else {
-                                navigator.notification.alert(data.message, null, "Huh?", 'OK');
+                                showFoundBox("Huh?", data.message);
                             }
                         }).fail(function () {
-                            navigator.notification.alert("Nothing happened!", null, "Huh?", 'OK');
+                            showFoundBox("Huh?", "Nothing happened!");
+                            //navigator.notification.alert("Nothing happened!", null, "Huh?", 'OK');
                         });
                         //navigator.notification.alert("Scanned code: " + result.text, null, "OK", 'Dismiss');
                     }
