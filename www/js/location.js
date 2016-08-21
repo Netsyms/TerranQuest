@@ -35,7 +35,7 @@ $(".leaflet-control-zoom").css("visibility", "hidden");
 //}
 
 // Tile layer
-map.addLayer(new L.tileLayer(tileurl, {minZoom: 17, maxZoom: 18}));
+map.addLayer(new L.tileLayer(tileurl, {minZoom: 16, maxZoom: 18}));
 // Places layer
 var placeLayer = L.geoJson(
         {"name": "Places", "type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"osm_id": -1, "name": null, 'gameinfo': {'teamid': "0"}}}]},
@@ -127,7 +127,7 @@ function onPlaceTap(feature, layer) {
 }
 
 function loadPlaces(lat, long) {
-    var url = mkApiUrl('places', 'gs') + "?lat=" + lat + "&long=" + long + "&radius=.25&names=1";
+    var url = mkApiUrl('places', 'gs') + "?lat=" + lat + "&long=" + long + "&radius=.5&names=1";
     try {
         $.getJSON(
                 url,
