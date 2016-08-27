@@ -26,6 +26,8 @@ userteamid = 0;
 MUNZEE_CLIENT_ID = '616cecc70e17f4a3cb64146dce2d33f5';
 MUNZEE_REDIRECT = 'http://gs.terranquest.net/munzee.php';
 
+
+currentscreen = "";
 /*
  * Runs when the app opens
  */
@@ -78,6 +80,7 @@ function openscreen(screenname, effect) {
     } else {
         $('#content-zone').load("screens/" + screenname + ".html");
     }
+    currentscreen = screenname;
 }
 
 /**
@@ -210,6 +213,9 @@ function getTeamColorFromId(id) {
 
 // Handle back button to close things
 document.addEventListener("backbutton", function (event) {
+    if (currentscreen == "munzeelink") {
+        openscreen("home");
+    }
     if ($('#overlay-main').css('display') !== 'none') {
         closeMain();
     } else if ($('#chatmsgs').css('display') !== 'none') {
