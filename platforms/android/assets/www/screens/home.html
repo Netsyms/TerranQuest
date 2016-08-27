@@ -41,11 +41,26 @@
     </div>
 </div>
 
-<div id="found-box">
-    <div id="found-box-title">
+<div id="found-box" class="found-box">
+    <div class="found-box-title" id="found-box-title">
 
     </div>
-    <div id="found-box-text">
+    <div class="found-box-text" id="found-box-text">
+
+    </div>
+</div>
+
+<div id="found-box-2" class="found-box">
+    <div class="found-box-title" id="found-box-title-1">
+
+    </div>
+    <div class="found-box-text" id="found-box-text-1">
+
+    </div>
+    <div class="found-box-title" id="found-box-title-2">
+
+    </div>
+    <div class="found-box-text" id="found-box-text-2">
 
     </div>
 </div>
@@ -74,8 +89,23 @@
             $('#found-box').fadeOut('slow');
         }, 5000);
     }
+    
+    function showFoundBox2(title, text, title2, text2) {
+        $('#found-box-title-1').text(title);
+        $('#found-box-text-1').text(text);
+        $('#found-box-title-2').text(title2);
+        $('#found-box-text-2').text(text2);
+        $('#found-box-2').fadeIn('fast');
+        setTimeout(function () {
+            $('#found-box-2').fadeOut('slow');
+        }, 5000);
+    }
 
     $('#found-box').click(function (e) {
+        $('#found-box').fadeOut('fast');
+    });
+    
+    $('#found-box-2').click(function (e) {
         $('#found-box').fadeOut('fast');
     });
 </script>

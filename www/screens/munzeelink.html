@@ -1,0 +1,11 @@
+<iframe id="munzeeoauth" src="about:blank"></iframe>
+
+<script>
+    setTimeout(function () {
+        $('#munzeeoauth').attr('src', 'https://api.munzee.com/oauth?response_type=code&client_id='
+                + MUNZEE_CLIENT_ID
+                + '&redirect_uri='
+                + MUNZEE_REDIRECT
+                + '&scope=read');// capture_light');
+    }, 1000);
+</script>

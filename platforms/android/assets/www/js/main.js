@@ -5,6 +5,8 @@ energy = 100;
 maxenergy = 100;
 level = 1;
 userteamid = 0;
+MUNZEE_CLIENT_ID = '616cecc70e17f4a3cb64146dce2d33f5';
+MUNZEE_REDIRECT = 'http://gs.terranquest.net/munzee.php';
 
 /*
  * Runs when the app opens
@@ -22,8 +24,12 @@ function onDeviceReady() {
     }
 }
 
-function serverProblemsDialog() {
-    openscreen("servererror");
+function serverProblemsDialog(errmsg) {
+    $('#content-zone').load("screens/servererror.html", function () {
+        if (typeof errmsg !== 'undefined') {
+            $('#serverproblemmsg').text(errmsg);
+        }
+    });
 }
 
 function mkApiUrl(action, server) {
@@ -84,11 +90,17 @@ function scanCode() {
                 function (result) {
                     if (!result.cancelled) {
                         $.getJSON(mkApiUrl('code2item', 'gs'), {
-                            code: result.text
+                            code: result.text,
+                            latitude: latitude,
+                            longitude: longitude,
+                            accuracy: gpsaccuracy
                         }, function (data) {
                             if (data.status === 'OK') {
-                                //navigator.notification.alert("Found one " + data.message, null, "Found an item!", 'OK');
-                                showFoundBox("Found an item!", "Found one " + data.message);
+                                if (data.messages.length >= 2) {
+                                    showFoundBox2(data.messages[0].title, data.messages[0].text, data.messages[1].title, data.messages[1].text);
+                                } else {
+                                    showFoundBox(data.messages[0].title, data.messages[0].text);
+                                }
                             } else {
                                 showFoundBox("Huh?", data.message);
                             }

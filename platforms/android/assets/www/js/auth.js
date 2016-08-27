@@ -156,6 +156,7 @@ function dologin() {
                         $('#errorbase').css('display', 'block');
                         $('#loading').css('display', 'none');
                         authOpInProgress = false;
+                        serverProblemsDialog("Cannot connect to game server.");
                     });
                 } else {
                     $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
@@ -172,6 +173,7 @@ function dologin() {
         $('#errorbase').css('display', 'block');
         $('#loading').css('display', 'none');
         authOpInProgress = false;
+        serverProblemsDialog("Cannot connect to login server.");
     });
 }
 
