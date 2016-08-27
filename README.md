@@ -8,7 +8,9 @@ It's compiled with Apache Cordova (or Phonegap if you're into that).
 
 Check out the website at https://terranquest.net.
 
-Notes
+This repository is usually a little ahead of the current beta release.
+
+Build Notes
 --------------------
 To get this project ready for build, type `cordova prepare`.  This reads the 
 config.xml, extracting platform and plugin info.  Required repositories are 
