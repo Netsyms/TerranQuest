@@ -198,8 +198,3 @@ document.addEventListener("backbutton", function (event) {
         toggleChat();
     }
 }, false);
-// Show the rules
-if (localStorage.getItem("seenintro") !== 'yes') {
-    openIntro();
-    localStorage.setItem("seenintro", 'yes');
-}

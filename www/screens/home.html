@@ -89,7 +89,7 @@
             $('#found-box').fadeOut('slow');
         }, 5000);
     }
-    
+
     function showFoundBox2(title, text, title2, text2) {
         $('#found-box-title-1').text(title);
         $('#found-box-text-1').text(text);
@@ -104,10 +104,16 @@
     $('#found-box').click(function (e) {
         $('#found-box').fadeOut('fast');
     });
-    
+
     $('#found-box-2').click(function (e) {
         $('#found-box').fadeOut('fast');
     });
 </script>
 <script src="js/location.js"></script>
 <script src="js/user.js"></script>
+<script>
+    // Show the rules
+    if (localStorage.getItem("intro") !== 'yes') {
+        openIntro();
+    }
+</script>
