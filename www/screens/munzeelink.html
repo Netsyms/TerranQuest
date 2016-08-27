@@ -15,14 +15,19 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<iframe id="munzeeoauth" src="about:blank"></iframe>
+<iframe id="munzeeoauth" src="about:blank" style="background-color: white;"></iframe>
 
 <script>
-    setTimeout(function () {
-        $('#munzeeoauth').attr('src', 'https://api.munzee.com/oauth?response_type=code&client_id='
-                + MUNZEE_CLIENT_ID
-                + '&redirect_uri='
-                + MUNZEE_REDIRECT
-                + '&scope=read');// capture_light');
-    }, 1000);
+    $('#munzeeoauth').attr('src', 'https://api.munzee.com/oauth?response_type=code&client_id='
+            + MUNZEE_CLIENT_ID
+            + '&redirect_uri='
+            + MUNZEE_REDIRECT
+            + '&scope=read capture_light');
+
+    $("#munzeeoauth").load(function () {
+        alert(this.contentWindow.location);
+        if (this.contentWindow.location == "about:closeme") {
+            openscreen("home");
+        }
+    });
 </script>
