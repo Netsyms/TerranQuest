@@ -134,3 +134,32 @@
         openIntro();
     }
 </script>
+<script>
+    /*
+     * Try to restore any broken coin purchases
+     */
+    inAppPurchase
+            .restorePurchases()
+            .then(function (data) {
+                console.log(data);
+                data.forEach(function (prod) {
+                    if (prod.state == 2 || prod.state == 1) { // Refunded (2) or cancelled (1), let's consume it
+                        inAppPurchase.consume(prod.type, prod.receipt, prod.signature);
+                    } else { // Product is active
+                        $.getJSON(mkApiUrl('processiap', 'gs'), {
+                            os: 'android',
+                            data: prod.receipt,
+                            signature: prod.signature,
+                            id: prod.productId
+                        }, function (result) {
+                            if (result.status == 'OK') {
+                                inAppPurchase.consume(prod.type, prod.receipt, prod.signature);
+                            }
+                        });
+                    }
+                });
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+</script>

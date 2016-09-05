@@ -74,8 +74,8 @@ function buycoins(productId) {
                     });
                 })
                 .then(function () {
-                    loadstorefront();
-                    showShopMessage("Thanks for your purchase!", true);
+                    showShopMessage("Thanks for your purchase!", false);
+                    refreshcoins();
                 })
                 .catch(function (err) {
                     console.log("Error: " + err.message);
@@ -157,9 +157,6 @@ function setcoinhtmlfromiap(coinsjson) {
                             + "</div>";
                 });
                 $('#coin-list').html(coinsHtml);
-                /*
-                 [{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
-                 */
             })
             .catch(function (err) {
                 console.log(err.message);
@@ -187,4 +184,12 @@ function loadstorefront() {
     });
     loadinventory(); // Make sure purchases stay in sync
     // Put it last in case it fails, so it doesn't crash stuff badly
+}
+
+function refreshcoins() {
+    $.getJSON(mkApiUrl('shopitems'), function (data) {
+        if (data.status == 'OK') {
+            $('#coinbalance').text(data.balance);
+        }
+    });
 }
