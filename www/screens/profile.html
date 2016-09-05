@@ -71,7 +71,7 @@
                         data.badges.forEach(function (item) {
                             $('#badges').append('<div class="col col-xs-3 col-md-2 col-lg-1" \
                             onclick="popBadge(\'' + item.badgename + '\', \'' + item.badgedesc + '\')">\n\
-                            <img class="badge-img img-circle img-responsive" alt="" src="assets/badges/' + item.badgesid + '.png"/>\n\
+                            <img class="badge-img img-circle img-responsive" alt="" src="assets/badges/' + item.badgesid + '.png" onerror="this.src=\'assets/badges/badge.png\'"/>\n\
                             </div>');
                         });
                         $('#loading-badges').css('display', 'none');
