@@ -79,7 +79,7 @@ setInterval(function () {
 }, 3000);
 // Send chat messages
 $("#chatsendform").submit(function (event) {
-    message = $('#chatbox-input').val();
+    var message = $('#chatbox-input').val();
     if (message !== '') {
         $.post(mkApiUrl('chat', 'cs'), {
             user: username,

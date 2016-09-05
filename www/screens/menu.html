@@ -19,23 +19,34 @@
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist" id="menutablist">
-        <li role="presentation" class="active"><a href="#inventory" aria-controls="inventory" role="tab" data-toggle="tab" id="inventory-tab">Inventory</a></li>
-        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" id="profile-tab">Profile</a></li>
-        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" id="settings-tab">Settings</a></li>
+        <li role="presentation" class="active"><a href="#inventory" aria-controls="inventory" role="tab" data-toggle="tab" id="inventory-tab"><i class="fa fa-fw fa-cube"></i> Inventory</a></li>
+        <li role="presentation"><a href="#shop" aria-controls="shop" role="tab" data-toggle="tab" id="shop-tab"><i class="fa fa-fw fa-money"></i> Shop</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" id="profile-tab"><i class="fa fa-fw fa-user"></i> Profile</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" id="settings-tab"><i class="fa fa-fw fa-cog"></i> Settings</a></li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content" id="menutabcontent">
         <div role="tabpanel" class="tab-pane active" id="inventory">...</div>
+        <div role="tabpanel" class="tab-pane" id="shop"></div>
         <div role="tabpanel" class="tab-pane" id="profile"></div>
         <div role="tabpanel" class="tab-pane" id="settings">...</div>
     </div>
 
 </div>
 <script>
+    $(window).resize(function () {
+        $('#menutabcontent').css('padding-top', $('#menutablist').css("height"));
+    });
+    
+    setInterval(function() {
+        $('#menutabcontent').css('padding-top', $('#menutablist').css("height"));
+    }, 250);
+
     $('#menutabcontent #profile').load("screens/profile.html", null, function (x) {
         loadProfile(username);
     });
+    $('#menutabcontent #shop').load("screens/shop.html");
     $('#menutabcontent #settings').load("screens/settings.html");
     $('#menutabcontent #inventory').load("screens/inventory.html");
 </script>

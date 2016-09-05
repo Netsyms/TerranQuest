@@ -63,7 +63,7 @@
         }, function (data) {
             var content = "";
             if (data.status == 'OK') {
-                items = data.items;
+                var items = data.items;
                 items.forEach(function (item) {
                     content += getitemhtmlfromjson(item);
                 });
