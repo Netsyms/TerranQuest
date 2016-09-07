@@ -437,3 +437,11 @@ body {
 #menutabcontent {
     padding-top: 85px;
 }
+
+.splash-version {
+    position: fixed;
+    bottom: 0px;
+    right: 10px;
+    color: white;
+    z-index: 90000;
+}

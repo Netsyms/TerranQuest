@@ -53,5 +53,11 @@
         <div class='list-group-item' onclick="openmodal('licenses', '#license-modal');">
             Open Source Licenses
         </div>
+        <div class="list-group-item">
+            Version: <span id="settings-version-code"></span>
+        </div>
     </div>
 </div>
+<script>
+    $('#settings-version-code').text(window.cordova.plugins.version.getAppVersion());
+</script>

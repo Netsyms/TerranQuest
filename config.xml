@@ -49,4 +49,5 @@
     <plugin name="cordova-plugin-geolocation" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-geolocation.git" />
     <plugin name="com.phonegap.plugins.barcodescanner" spec="https://github.com/Telerik-Verified-Plugins/BarcodeScanner" />
     <plugin name="cordova-plugin-inapppurchase" spec="~1.0.0" />
+    <plugin name="cordova_app_version_plugin" spec="~0.2.6" />
 </widget>
