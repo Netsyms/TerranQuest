@@ -10,7 +10,7 @@ Check out the website at https://terranquest.net.
 
 This repository is usually a little ahead of the current beta release.
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/392f0106a23e4b18be75ee1b27ea09a8)](https://www.codacy.com/app/admin_33/TerranQuest?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Netsyms/TerranQuest&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/392f0106a23e4b18be75ee1b27ea09a8)](https://www.codacy.com/app/netsyms/TerranQuest?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Netsyms/TerranQuest&amp;utm_campaign=Badge_Grade)
 
 Build Notes
 --------------------
