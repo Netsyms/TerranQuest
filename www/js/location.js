@@ -26,12 +26,12 @@
  */
 
 // Globals
-lockGot = false;
-terrainGot = false;
-latitude = 0.0000;
-longitude = 0.0000;
-gpsaccuracy = 9999;
-requiredaccuracy = 40;
+var lockGot = false;
+var terrainGot = false;
+var latitude = 0.0000;
+var longitude = 0.0000;
+var gpsaccuracy = 9999;
+var requiredaccuracy = 40;
 // End Globals
 
 var fetchplacecounter = 0;

@@ -147,10 +147,11 @@ function scanCode() {
 
 function sortResults(array, prop, asc) {
     array = array.sort(function (a, b) {
-        if (asc)
+        if (asc) {
             return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
-        else
+        } else {
             return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+        }
     });
     return array;
 }

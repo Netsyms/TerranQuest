@@ -60,7 +60,7 @@ function getChat() {
             data.forEach(function (msg) {
                 var usernameclass = "chat-username";
                 if (msg.username === 'skylarmt') {
-                    usernameclass = "chat-username-admin"
+                    usernameclass = "chat-username-admin";
                 }
                 content += "<span class='" + usernameclass + "' onclick='openProfile(\"" + msg.username + "\");'>" + msg.username + "</span> " + msg.message + "<br />";
             });
