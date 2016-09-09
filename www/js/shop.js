@@ -115,25 +115,23 @@ function buyitem(id, cost) {
 }
 
 function getmerchhtmlfromjson(item) {
-    var itemhtml = "\
-        <div class='list-group-item shop-item' id='shopitem-" + item.merchid + "'>\
-            <h4 class='itemname'>" + item.title + "</h4>\
-            <p class='itemdesc'>" + item.desc + "</p>";
-    itemhtml += "<span class='btn btn-success' onclick=\"buyitem('" + item.merchid + "', " + item.cost + ")\">\
-                            Buy Item (" + item.cost + " coins)\
-                         </span>\
-        </div>";
+    var itemhtml = "<div class='list-group-item shop-item' id='shopitem-" + item.merchid + "'>"
+            + "<h4 class='itemname'>" + item.title + "</h4>"
+            + "<p class = 'itemdesc' > " + item.desc + " </p>"
+            + "<span class='btn btn-success' onclick=\"buyitem('" + item.merchid + "', " + item.cost + ")\">"
+            + "Buy Item (" + item.cost + " coins)"
+            + "</span>"
+            + "</div>";
     return itemhtml;
 }
 
 function getcoinhtmlfromjson(coin) {
-    var coinhtml = "\
-        <div class='list-group-item shop-item' id='coinitem-" + coin.merchid + "'>\
-            <h4 class='itemname'>" + coin.display + " (" + coin.coins + ")</h4>";
-    coinhtml += "<span class='btn btn-success' onclick=\"buycoins('" + coin.merchid + "', " + coin.cost_usd + ")\">\
-                            Buy Coins ($" + coin.cost_usd + ")\
-                         </span>\
-        </div>";
+    var coinhtml = "<div class='list-group-item shop-item' id='coinitem-" + coin.merchid + "'>"
+            + "<h4 class='itemname'>" + coin.display + " (" + coin.coins + ")</h4>"
+            + "<span class='btn btn-success' onclick=\"buycoins('" + coin.merchid + "', " + coin.cost_usd + ")\">"
+            + "Buy Coins ($" + coin.cost_usd + ")"
+            + "</span>"
+            + "</div>";
     return coinhtml;
 }
 

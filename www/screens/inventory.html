@@ -25,7 +25,7 @@
 
 <script>
     function useitem(uuid) {
-        $('#invitem-' + uuid).prop('onclick',null).off('click');
+        $('#invitem-' + uuid).prop('onclick', null).off('click');
         $.getJSON(mkApiUrl('useitem', 'gs'), {
             itemuuid: uuid
         }, function (data) {
@@ -41,19 +41,18 @@
     }
 
     function getitemhtmlfromjson(item) {
-        var itemhtml = "\
-        <div class='list-group-item inventory-item' id='item-" + item.itemuuid + "'>\
-            <h4 class='itemname'>" + item.itemname + "</h4>\
-            <p class='itemdesc'>" + item.itemdesc + "</p>";
+        var itemhtml = "<div class='list-group-item inventory-item' id='item-" + item.itemuuid + "'>"
+                + "<h4 class='itemname'>" + item.itemname + "</h4>"
+                + "<p class='itemdesc'>" + item.itemdesc + "</p>";
         if (item.classname == "healmagic") {
-            itemhtml += "<span class='btn btn-success' id='invitem-" + item.itemuuid + "' onclick=\"useitem('" + item.itemuuid + "')\">\
-                            Use Item\
-                         </span>";
+            itemhtml += "<span class='btn btn-success' id='invitem-" + item.itemuuid + "' onclick=\"useitem('" + item.itemuuid + "')\">"
+                    + "Use Item"
+                    + "</span>";
         }
-        itemhtml += "<span class='itemid' style='display: none;'>" + item.itemid + "</span>\
-            <span class='itemclassid' style='display: none;'>" + item.classid + "</span>\
-            <span class='itemjson' style='display: none;'>" + item.itemjson + "</span>\
-        </div>";
+        itemhtml += "<span class='itemid' style='display: none;'>" + item.itemid + "</span>"
+                + "<span class='itemclassid' style='display: none;'>" + item.classid + "</span>"
+                + "<span class='itemjson' style='display: none;'>" + item.itemjson + "</span>"
+                + "</div>";
         return itemhtml;
     }
 
