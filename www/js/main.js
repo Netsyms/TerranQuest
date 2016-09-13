@@ -56,7 +56,6 @@ function onDeviceReady() {
     });
 }
 
-
 /**
  * Compare two version strings.
  * http://stackoverflow.com/a/16187766/2534036
