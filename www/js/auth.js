@@ -36,7 +36,7 @@ function askLogout() {
 }
 
 function logout() {
-    $.getJSON(mkApiUrl('deletesession', 'gs'), {}, function (data) {
+    $.getJSON(mkApiUrl('deletesession'), {}, function (data) {
         if (data.status === 'OK') {
             localStorage.setItem("username", '');
             localStorage.setItem("password", '');
@@ -52,7 +52,7 @@ function logout() {
 }
 
 function checkUserHasTeamOpenChooserIfNot(username) {
-    $.getJSON(mkApiUrl('getstats', 'gs'), {
+    $.getJSON(mkApiUrl('getstats'), {
         user: username
     }, function (data) {
         if (data.status === 'OK' && data.stats.teamid !== null && data.stats.teamid > 0) {
@@ -66,6 +66,15 @@ function checkUserHasTeamOpenChooserIfNot(username) {
     }).fail(function () {
 
     });
+}
+
+function loginOK() {
+    username = $('#usernameBox').val().toLowerCase();
+    password = $('#passwordBox').val();
+    localStorage.setItem("username", username);
+    localStorage.setItem("password", password);
+    navigator.splashscreen.hide();
+    checkUserHasTeamOpenChooserIfNot(username);
 }
 
 function dosignup() {
@@ -99,14 +108,12 @@ function dosignup() {
             },
             function (data) {
                 if (data === 'OK') {
-                    $.getJSON(mkApiUrl('pinglogin') + "?user=" + $('#usernameBox').val(), function (out) {
+                    $.post(mkApiUrl('login'), {
+                        user: $('#usernameBox').val(),
+                        pass: $('#passwordBox').val(),
+                    }, function (out) {
                         if (out.status === 'OK') {
-                            username = $('#usernameBox').val().toLowerCase();
-                            password = $('#passwordBox').val();
-                            localStorage.setItem("username", username);
-                            localStorage.setItem("password", password);
-                            navigator.splashscreen.hide();
-                            checkUserHasTeamOpenChooserIfNot(username);
+                            loginOK();
                         } else {
                             navigator.notification.alert("You've signed up successfully, but we can't log you in.  Restart the app and try again.", null, "Error", 'Dismiss');
                             authOpInProgress = false;
@@ -146,52 +153,31 @@ function dologin() {
     }
     $('#loginBtn').attr('disabled', true);
     $('#loginBtn').html('<i class="fa fa-cog fa-spin fa-fw"></i> Logging in...');
-    $.post("https://sso.netsyms.com/api/simpleauth.php",
-            {user: $('#usernameBox').val(), pass: $('#passwordBox').val()},
+    
+    $.post(mkApiUrl("login"),
+            {
+                user: $('#usernameBox').val(),
+                pass: $('#passwordBox').val()
+            },
             function (data) {
-                if (data === 'OK') {
-                    // Now that auth is OK, ping the game server
-                    $.getJSON(mkApiUrl('pinglogin') + "?user=" + $('#usernameBox').val(), function (out) {
-                        if (out.status === 'OK') {
-                            username = $('#usernameBox').val().toLowerCase();
-                            password = $('#passwordBox').val();
-                            localStorage.setItem("username", username);
-                            localStorage.setItem("password", password);
-                            navigator.splashscreen.hide();
-                            checkUserHasTeamOpenChooserIfNot(username);
-                        } else {
-                            $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
-                            $('#loginBtn').attr('disabled', false);
-                            $('#errormsg').text("Error: " + out.message);
-                            $('#errorbase').css('display', 'block');
-                            $('#loading').css('display', 'none');
-                            authOpInProgress = false;
-                        }
-                    }).fail(function (err) {
-                        $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
-                        $('#loginBtn').attr('disabled', false);
-                        $('#errormsg').text("Error: Login OK, but cannot connect to game server.  Try again later.");
-                        $('#errorbase').css('display', 'block');
-                        $('#loading').css('display', 'none');
-                        authOpInProgress = false;
-                        serverProblemsDialog("Cannot connect to game server.");
-                    });
+                if (data.status === 'OK') {
+                    loginOK();
                 } else {
                     $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
                     $('#loginBtn').attr('disabled', false);
-                    $('#errormsg').text(data);
+                    $('#errormsg').text("Error: " + data.message);
                     $('#errorbase').css('display', 'block');
                     $('#loading').css('display', 'none');
                 }
                 authOpInProgress = false;
-            }).fail(function () {
+            }, "json").fail(function () {
         $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
         $('#loginBtn').attr('disabled', false);
-        $('#errormsg').text("Error: Network failure.");
+        $('#errormsg').text("Error: Cannot connect to server.");
         $('#errorbase').css('display', 'block');
         $('#loading').css('display', 'none');
         authOpInProgress = false;
-        serverProblemsDialog("Cannot connect to login server.");
+        serverProblemsDialog("Cannot connect to server.");
     });
 }
 
