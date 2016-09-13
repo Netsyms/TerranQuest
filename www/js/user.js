@@ -51,7 +51,7 @@ function refreshStats() {
 
 function getChat() {
     if (lockGot) {
-        $.getJSON(mkApiUrl('chat', 'cs'), {
+        $.getJSON(mkApiUrl('chat'), {
             lat: latitude,
             long: longitude
         }, function (data) {
@@ -59,10 +59,10 @@ function getChat() {
             var content = "";
             data.forEach(function (msg) {
                 var usernameclass = "chat-username";
-                if (msg.username === 'skylarmt') {
+                if (msg.nickname === 'skylarmt') {
                     usernameclass = "chat-username-admin";
                 }
-                content += "<span class='" + usernameclass + "' onclick='openProfile(\"" + msg.username + "\");'>" + msg.username + "</span> " + msg.message + "<br />";
+                content += "<span class='" + usernameclass + "' onclick='openProfile(\"" + msg.nickname + "\");'>" + msg.nickname + "</span> " + msg.message + "<br />";
             });
             $('#chatmsgs').html(content);
         });
@@ -81,8 +81,7 @@ setInterval(function () {
 $("#chatsendform").submit(function (event) {
     var message = $('#chatbox-input').val();
     if (message !== '') {
-        $.post(mkApiUrl('chat', 'cs'), {
-            user: username,
+        $.post(mkApiUrl('chat'), {
             lat: latitude,
             long: longitude,
             msg: message

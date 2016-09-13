@@ -53,9 +53,8 @@ function serverProblemsDialog(errmsg) {
 }
 
 function mkApiUrl(action, server) {
-    server = typeof server !== 'undefined' ? server : "gs";
+    server = "gs";
     return "http://" + server + ".terranquest.net/" + action + ".php";
-    //return "config/" + action + ".json";
 }
 
 /**
