@@ -40,16 +40,51 @@ function onDeviceReady() {
     if (navigator.network.connection.type === Connection.NONE) {
         navigator.notification.alert("You need an Internet connection to continue.", function () {
             navigator.app.exitApp();
-        }, "No network", 'Dismiss');
+        }, "No network", 'OK');
+        clientProblemsDialog("You need an Internet connection to continue.");
+        return;
     }
+    $.getJSON(mkApiUrl("minclientversion"), function (data) {
+        if (data.status == "OK") {
+            if (compareVersions(window.cordova.plugins.version.getAppVersion(), data.version) < 0) {
+                navigator.notification.alert("Your game client is too old.  You must update the app before playing.", function () {
+                    navigator.app.exitApp();
+                }, "Outdated app", 'OK');
+                clientProblemsDialog("Your game client is too old.  You must update the app before playing.");
+            }
+        }
+    });
+}
+
+/**
+ * Compare two version strings.
+ * http://stackoverflow.com/a/16187766/2534036
+ * @param {string} a
+ * @param {string} b
+ * @returns a number < 0 if a < b, a number > 0 if a > b, 0 if a = b 
+ */
+function compareVersions(a, b) {
+    var i, diff;
+    var regExStrip0 = /(\.0+)+$/;
+    var segmentsA = a.replace(regExStrip0, '').split('.');
+    var segmentsB = b.replace(regExStrip0, '').split('.');
+    var l = Math.min(segmentsA.length, segmentsB.length);
+
+    for (i = 0; i < l; i++) {
+        diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+        if (diff) {
+            return diff;
+        }
+    }
+    return segmentsA.length - segmentsB.length;
 }
 
 function serverProblemsDialog(errmsg) {
-    $('#content-zone').load("screens/servererror.html", function () {
-        if (typeof errmsg !== 'undefined') {
-            $('#serverproblemmsg').text(errmsg);
-        }
-    });
+    window.location = "servererror.html?errmsg=" + errmsg;
+}
+
+function clientProblemsDialog(errmsg) {
+    window.location = "clienterror.html?errmsg=" + errmsg;
 }
 
 function mkApiUrl(action, server) {
