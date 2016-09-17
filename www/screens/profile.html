@@ -57,7 +57,7 @@
                 $('#player-level').text('Cannot load player stats.');
             }
         }).fail(function () {
-            $('#player-level').text('Loading failed.  <a onclick="loadProfile(\'' + user + '\')">Reload</a>"');
+            $('#player-level').html('Loading failed.  <a onclick="loadProfile(\'' + user + '\')">Reload</a>');
         });
     }
 
@@ -77,7 +77,7 @@
                         });
                         $('#loading-badges').css('display', 'none');
                     } else {
-                        $('#loading-badges').html('Loading failed.  <a onclick="loadAchievements(\'' + user + '\')">Reload</a>"');
+                        $('#loading-badges').html('Loading failed.  <a onclick="loadAchievements(\'' + user + '\')">Reload</a>');
                     }
                 }
         ).fail(
