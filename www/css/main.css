@@ -363,7 +363,6 @@ body {
     left: 10%;
     right: 10%;
     height: fit-content;
-    max-height: 100px;
     padding: 10px;
     display: none;
 }
