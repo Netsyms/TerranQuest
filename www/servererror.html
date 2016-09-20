@@ -63,11 +63,13 @@
             <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-color: #324150; z-index: 9999;">
                 <img src="assets/logonobg.svg" alt="" style="display: block; position: absolute; max-width: 90%; top: 0; left: 0; right: 0; bottom: 25%; margin: auto; max-height: 20%;" />
                 <p id="servererrorp" style="font-family: sans-serif; color: white; position: absolute; max-width: 90%; left: 0; right: 0; bottom: 30%; margin: auto; text-align: center;">
-                    We are experiencing server problems.  Try again later.
+                    There is a server problem.  Try again later.
                     <br />
                     <i class="fa fa-exclamation-triangle fa-3x"></i>
                     <br />
                     <span id="serverproblemmsg">(sorry)</span>
+                    <br />
+                    <button class="btn btn-primary" onclick="navigator.app.exitApp()">Quit game</button>
                 <div style="background: url(assets/mountains-simple.svg) repeat-x; background-size: auto 100%; height: 20%; position: absolute; bottom: 0; width: 100%;"></div>
             </div>
         </div>

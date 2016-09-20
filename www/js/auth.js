@@ -55,16 +55,20 @@ function checkUserHasTeamOpenChooserIfNot(username) {
     $.getJSON(mkApiUrl('getstats'), {
         user: username
     }, function (data) {
-        if (data.status === 'OK' && data.stats.teamid !== null && data.stats.teamid > 0) {
-            // We're all good.
-            userteamid = data.stats.teamid;
-            openscreen("home");
+        if (data.status === 'OK') {
+            if (data.stats.teamid !== null && data.stats.teamid > 0) {
+                // We're all good.
+                userteamid = data.stats.teamid;
+                openscreen("home");
+            } else {
+                // Open the team intro thingy
+                openscreen('chooseteam');
+            }
         } else {
-            // Open the team intro thingy
-            openscreen('chooseteam');
+            serverProblemsDialog("Got a bad answer from the server.  Restart the app and try again.");
         }
     }).fail(function () {
-
+        serverProblemsDialog("Cannot get player data from server.");
     });
 }
 
@@ -90,6 +94,7 @@ function dosignup() {
         $('#errorbase').css('display', 'block');
         $('#signupBtn').html('<i class="fa fa-user-plus"></i> Sign Up');
         $('#signupBtn').attr('disabled', false);
+        authOpInProgress = false;
         return;
     }
     if ($('#passwordBox').val() !== $('#passwordBox2').val()) {
@@ -97,6 +102,7 @@ function dosignup() {
         $('#errorbase').css('display', 'block');
         $('#signupBtn').html('<i class="fa fa-user-plus"></i> Sign Up');
         $('#signupBtn').attr('disabled', false);
+        authOpInProgress = false;
         return;
     }
     $.post("https://sso.netsyms.com/api/adduser.php",
@@ -149,11 +155,12 @@ function dologin() {
         $('#errorbase').css('display', 'block');
         $('#loginBtn').html('<i class="fa fa-sign-in"></i> Login');
         $('#loginBtn').attr('disabled', false);
+        authOpInProgress = false;
         return;
     }
     $('#loginBtn').attr('disabled', true);
     $('#loginBtn').html('<i class="fa fa-cog fa-spin fa-fw"></i> Logging in...');
-    
+
     $.post(mkApiUrl("login"),
             {
                 user: $('#usernameBox').val(),
