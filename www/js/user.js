@@ -29,7 +29,7 @@
  * Syncs the user's stats with the server and calls refreshStats().
  */
 function syncStats() {
-    $.getJSON(mkApiUrl('getstats', 'gs'), {
+    $.getJSON(mkApiUrl('getstats'), {
         user: username
     }, function (data) {
         if (data.status === 'OK') {
@@ -51,9 +51,10 @@ function refreshStats() {
 
 function getChat() {
     if (lockGot) {
-        $.getJSON(mkApiUrl('chat'), {
+        $.getJSON(mkApiUrl('chat', 'cs'), {
             lat: latitude,
-            long: longitude
+            long: longitude,
+            name: username
         }, function (data) {
             data = sortResults(data, 'time', true);
             var content = "";
@@ -81,10 +82,11 @@ setInterval(function () {
 $("#chatsendform").submit(function (event) {
     var message = $('#chatbox-input').val();
     if (message !== '') {
-        $.post(mkApiUrl('chat'), {
+        $.post(mkApiUrl('chat', 'cs'), {
             lat: latitude,
             long: longitude,
-            msg: message
+            msg: message,
+            name: username
         }, function (data) {
             if (data.status === 'OK') {
                 $('#chatbox-input').val("");

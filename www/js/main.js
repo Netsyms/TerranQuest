@@ -89,8 +89,19 @@ function clientProblemsDialog(errmsg) {
 }
 
 function mkApiUrl(action, server) {
-    server = "gs";
-    return "http://" + server + ".terranquest.net/" + action + ".php";
+    if (server === 'cs') {
+        var chatserverurl = "http://gs.terranquest.net/";
+        if (localStorage.getItem("chatserv") !== null && localStorage.getItem("chatserv") !== '') {
+            chatserverurl = localStorage.getItem("chatserv");
+        }
+        return chatserverurl + action + ".php";
+    } else {
+        var gameserverurl = "http://gs.terranquest.net/";
+        if (localStorage.getItem("gameserv") !== null && localStorage.getItem("gameserv") !== '') {
+            gameserverurl = localStorage.getItem("gameserv");
+        }
+        return gameserverurl + action + ".php";
+    }
 }
 
 /**
