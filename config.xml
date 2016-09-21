@@ -16,6 +16,10 @@
     <preference name="SplashShowOnlyFirstTime" value="true" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="ShowSplashScreen" value="true" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="KeyboardShrinksView" value="true" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarStyle" value="blackopaque" />
     <platform name="browser">
         <preference name="ShowSplashScreen" value="false" />
     </platform>
@@ -35,8 +39,6 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <engine name="browser" spec="~4.0.0" />
-    <engine name="android" spec="latest" />
     <plugin name="cordova-plugin-dialogs" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git" />
     <plugin name="cordova-plugin-whitelist" spec="https://github.com/apache/cordova-plugin-whitelist.git" />
     <plugin name="cordova-plugin-console" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-console.git" />
@@ -51,4 +53,9 @@
     <plugin name="cordova-plugin-inapppurchase" spec="~1.0.0" />
     <plugin name="cordova_app_version_plugin" spec="~0.2.6" />
     <plugin name="cordova-plugin-ios-longpress-fix" spec="~1.1.0" />
+    <plugin name="cordova-plugin-keyboard" spec="~1.1.4" />
+    <plugin name="cordova-plugin-statusbar" spec="~2.2.0" />
+    <engine name="browser" spec="~4.0.0" />
+    <engine name="android" spec="latest" />
+    <engine name="ios" spec="~4.2.1" />
 </widget>

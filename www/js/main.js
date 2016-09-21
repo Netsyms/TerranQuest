@@ -36,6 +36,7 @@ $(document).ready(function () {
 });
 
 function onDeviceReady() {
+    StatusBar.hide();
     openscreen("login");
     if (navigator.network.connection.type === Connection.NONE) {
         navigator.notification.alert("You need an Internet connection to continue.", function () {
