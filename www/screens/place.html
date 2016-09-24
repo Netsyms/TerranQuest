@@ -19,6 +19,7 @@
     <div class="h4" id="place-name"></div>
     <div id="place-info-div">
         Type: <span id="team-label"></span><br />
+        Owner: <span id="owner-label"></span><br />
         <!-- Life: <span id="life-label"></span><br /> -->
         Place life: <div class="progress" id="place-health-place"><div id="place-health-place-bar" class="progress-bar" role="progressbar" ></div></div>
         <div class="btn btn-success btn-wide" id="capturebtn" onclick="attempttake()"></div>
@@ -73,6 +74,14 @@
                     placepercent = (Math.round(data.stats.currentlife) * 1.0 / Math.round(data.stats.maxlife) * 1.0) * 100.0;
                 } else {
                     placepercent = 0;
+                }
+                if (data.stats.nickname == null) {
+                    $('#owner-label').text("Nobody");
+                } else {
+                    $('#owner-label').on('click', function() {
+                        openProfile(data.stats.nickname);
+                    });
+                    $('#owner-label').text(data.stats.nickname);
                 }
                 $('#place-health-place-bar').css('width', String(placepercent) + '%');
                 loadTeamSwag();
