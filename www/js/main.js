@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-// Constants
+// Important Globals
 username = "";
 password = "";
 energy = 100;
@@ -25,7 +25,7 @@ level = 1;
 userteamid = 0;
 MUNZEE_CLIENT_ID = '616cecc70e17f4a3cb64146dce2d33f5';
 MUNZEE_REDIRECT = 'http://gs.terranquest.net/munzee.php';
-
+CODE_SCAN_COOLDOWN_SECONDS = 15; // Also change in CSS (.cooldown-fade-anim)
 
 currentscreen = "";
 /*
@@ -152,11 +152,18 @@ function closemodal(modalselector) {
     $(modalselector).modal(hide);
 }
 
+var scanCodeEnabled = true;
+
 function scanCode() {
+    // If code scanning disabled (cooldown, etc)
+    if (!scanCodeEnabled) {
+        return;
+    }
     try {
         cordova.plugins.barcodeScanner.scan(
                 function (result) {
                     if (!result.cancelled) {
+                        scanCodeEnabled = false;
                         $.getJSON(mkApiUrl('code2item', 'gs'), {
                             code: result.text,
                             latitude: latitude,
@@ -164,15 +171,24 @@ function scanCode() {
                             accuracy: gpsaccuracy
                         }, function (data) {
                             if (data.status === 'OK') {
+                                $('#codescanbtn').addClass('cooldown-fade-anim');
+                                setTimeout(function () {
+                                    scanCodeEnabled = true;
+                                    $('#codescanbtn').removeClass('cooldown-fade-anim');
+                                }, CODE_SCAN_COOLDOWN_SECONDS * 1000);
                                 if (data.messages.length >= 2) {
                                     showFoundBox2(data.messages[0].title, data.messages[0].text, data.messages[1].title, data.messages[1].text);
                                 } else {
                                     showFoundBox(data.messages[0].title, data.messages[0].text);
                                 }
                             } else {
+                                scanCodeEnabled = true;
+                                $('#codescanbtn').removeClass('cooldown-fade-anim');
                                 showFoundBox("Huh?", data.message);
                             }
                         }).fail(function () {
+                            scanCodeEnabled = true;
+                            $('#codescanbtn').removeClass('cooldown-fade-anim');
                             showFoundBox("Huh?", "Nothing happened!");
                             //navigator.notification.alert("Nothing happened!", null, "Huh?", 'OK');
                         });
@@ -180,6 +196,8 @@ function scanCode() {
                     }
                 },
                 function (error) {
+                    scanCodeEnabled = true;
+                    $('#codescanbtn').removeClass('cooldown-fade-anim');
                     navigator.notification.alert("Scanning failed: " + error, null, "Error", 'Dismiss');
                 },
                 {
@@ -188,6 +206,8 @@ function scanCode() {
                 }
         );
     } catch (ex) {
+        scanCodeEnabled = true;
+        $('#codescanbtn').removeClass('cooldown-fade-anim');
         navigator.notification.alert(ex.message, null, "Error", 'Dismiss');
     }
 }
