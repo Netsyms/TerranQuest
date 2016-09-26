@@ -562,7 +562,112 @@ body {
     100%  { background: linear-gradient(to top, rgba(255,255,255,.8) 100%, rgba(0,0,0,.8) 0%);  }
 }
 
+@-webkit-keyframes cooldown-fade {
+    0%    { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 0%, rgba(0,0,0,.8) 0%);  }
+    1%    { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 1%, rgba(0,0,0,.8) 0%);  }
+    2%    { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 2%, rgba(0,0,0,.8) 0%);  }
+    3%    { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 3%, rgba(0,0,0,.8) 0%);  }
+    4%    { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 4%, rgba(0,0,0,.8) 0%);  }
+    5%    { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 5%, rgba(0,0,0,.8) 0%);  }
+    6%    { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 6%, rgba(0,0,0,.8) 0%);  }
+    7%    { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 7%, rgba(0,0,0,.8) 0%);  }
+    8%    { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 8%, rgba(0,0,0,.8) 0%);  }
+    9%    { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 9%, rgba(0,0,0,.8) 0%);  }
+    10%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 10%, rgba(0,0,0,.8) 0%);  }
+    11%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 11%, rgba(0,0,0,.8) 0%);  }
+    12%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 12%, rgba(0,0,0,.8) 0%);  }
+    13%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 13%, rgba(0,0,0,.8) 0%);  }
+    14%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 14%, rgba(0,0,0,.8) 0%);  }
+    15%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 15%, rgba(0,0,0,.8) 0%);  }
+    16%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 16%, rgba(0,0,0,.8) 0%);  }
+    17%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 17%, rgba(0,0,0,.8) 0%);  }
+    18%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 18%, rgba(0,0,0,.8) 0%);  }
+    19%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 19%, rgba(0,0,0,.8) 0%);  }
+    20%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 20%, rgba(0,0,0,.8) 0%);  }
+    21%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 21%, rgba(0,0,0,.8) 0%);  }
+    22%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 22%, rgba(0,0,0,.8) 0%);  }
+    23%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 23%, rgba(0,0,0,.8) 0%);  }
+    24%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 24%, rgba(0,0,0,.8) 0%);  }
+    25%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 25%, rgba(0,0,0,.8) 0%);  }
+    26%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 26%, rgba(0,0,0,.8) 0%);  }
+    27%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 27%, rgba(0,0,0,.8) 0%);  }
+    28%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 28%, rgba(0,0,0,.8) 0%);  }
+    29%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 29%, rgba(0,0,0,.8) 0%);  }
+    30%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 30%, rgba(0,0,0,.8) 0%);  }
+    31%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 31%, rgba(0,0,0,.8) 0%);  }
+    32%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 32%, rgba(0,0,0,.8) 0%);  }
+    33%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 33%, rgba(0,0,0,.8) 0%);  }
+    34%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 34%, rgba(0,0,0,.8) 0%);  }
+    35%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 35%, rgba(0,0,0,.8) 0%);  }
+    36%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 36%, rgba(0,0,0,.8) 0%);  }
+    37%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 37%, rgba(0,0,0,.8) 0%);  }
+    38%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 38%, rgba(0,0,0,.8) 0%);  }
+    39%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 39%, rgba(0,0,0,.8) 0%);  }
+    40%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 40%, rgba(0,0,0,.8) 0%);  }
+    41%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 41%, rgba(0,0,0,.8) 0%);  }
+    42%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 42%, rgba(0,0,0,.8) 0%);  }
+    43%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 43%, rgba(0,0,0,.8) 0%);  }
+    44%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 44%, rgba(0,0,0,.8) 0%);  }
+    45%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 45%, rgba(0,0,0,.8) 0%);  }
+    46%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 46%, rgba(0,0,0,.8) 0%);  }
+    47%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 47%, rgba(0,0,0,.8) 0%);  }
+    48%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 48%, rgba(0,0,0,.8) 0%);  }
+    49%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 49%, rgba(0,0,0,.8) 0%);  }
+    50%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 50%, rgba(0,0,0,.8) 0%);  }
+    51%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 51%, rgba(0,0,0,.8) 0%);  }
+    52%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 52%, rgba(0,0,0,.8) 0%);  }
+    53%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 53%, rgba(0,0,0,.8) 0%);  }
+    54%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 54%, rgba(0,0,0,.8) 0%);  }
+    55%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 55%, rgba(0,0,0,.8) 0%);  }
+    56%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 56%, rgba(0,0,0,.8) 0%);  }
+    57%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 57%, rgba(0,0,0,.8) 0%);  }
+    58%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 58%, rgba(0,0,0,.8) 0%);  }
+    59%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 59%, rgba(0,0,0,.8) 0%);  }
+    60%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 60%, rgba(0,0,0,.8) 0%);  }
+    61%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 61%, rgba(0,0,0,.8) 0%);  }
+    62%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 62%, rgba(0,0,0,.8) 0%);  }
+    63%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 63%, rgba(0,0,0,.8) 0%);  }
+    64%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 64%, rgba(0,0,0,.8) 0%);  }
+    65%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 65%, rgba(0,0,0,.8) 0%);  }
+    66%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 66%, rgba(0,0,0,.8) 0%);  }
+    67%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 67%, rgba(0,0,0,.8) 0%);  }
+    68%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 68%, rgba(0,0,0,.8) 0%);  }
+    69%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 69%, rgba(0,0,0,.8) 0%);  }
+    70%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 70%, rgba(0,0,0,.8) 0%);  }
+    71%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 71%, rgba(0,0,0,.8) 0%);  }
+    72%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 72%, rgba(0,0,0,.8) 0%);  }
+    73%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 73%, rgba(0,0,0,.8) 0%);  }
+    74%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 74%, rgba(0,0,0,.8) 0%);  }
+    75%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 75%, rgba(0,0,0,.8) 0%);  }
+    76%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 76%, rgba(0,0,0,.8) 0%);  }
+    77%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 77%, rgba(0,0,0,.8) 0%);  }
+    78%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 78%, rgba(0,0,0,.8) 0%);  }
+    79%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 79%, rgba(0,0,0,.8) 0%);  }
+    80%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 80%, rgba(0,0,0,.8) 0%);  }
+    81%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 81%, rgba(0,0,0,.8) 0%);  }
+    82%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 82%, rgba(0,0,0,.8) 0%);  }
+    83%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 83%, rgba(0,0,0,.8) 0%);  }
+    84%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 84%, rgba(0,0,0,.8) 0%);  }
+    85%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 85%, rgba(0,0,0,.8) 0%);  }
+    86%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 86%, rgba(0,0,0,.8) 0%);  }
+    87%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 87%, rgba(0,0,0,.8) 0%);  }
+    88%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 88%, rgba(0,0,0,.8) 0%);  }
+    89%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 89%, rgba(0,0,0,.8) 0%);  }
+    90%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 90%, rgba(0,0,0,.8) 0%);  }
+    91%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 91%, rgba(0,0,0,.8) 0%);  }
+    92%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 92%, rgba(0,0,0,.8) 0%);  }
+    93%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 93%, rgba(0,0,0,.8) 0%);  }
+    94%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 94%, rgba(0,0,0,.8) 0%);  }
+    95%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 95%, rgba(0,0,0,.8) 0%);  }
+    96%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 96%, rgba(0,0,0,.8) 0%);  }
+    97%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 97%, rgba(0,0,0,.8) 0%);  }
+    98%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 98%, rgba(0,0,0,.8) 0%);  }
+    99%   { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 99%, rgba(0,0,0,.8) 0%);  }
+    100%  { background: -webkit-linear-gradient(to top, rgba(255,255,255,.8) 100%, rgba(0,0,0,.8) 0%);  }
+}
+
 .cooldown-fade-anim {
     /* To change cooldown time, also change CODE_SCAN_COOLDOWN_SECONDS in main.js */
     animation: cooldown-fade 15s ease-in-out;
+    -webkit-animation: cooldown-fade 15s ease-in-out;
 }
