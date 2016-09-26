@@ -87,21 +87,18 @@
     </div>
 </div>
 <script>
-    
     $('#gameserver-url-box').val(localStorage.getItem("gameserv"));
     $('#chatserver-url-box').val(localStorage.getItem("chatserv"));
-    
+
     function setCustomServers() {
         localStorage.setItem("gameserv", $('#gameserver-url-box').val());
         localStorage.setItem("chatserv", $('#chatserver-url-box').val());
     }
-    
-    $("[data-localize]").localize("login-screen", i18n_options);
-    
+
     $('.splash-version').text("v" + window.cordova.plugins.version.getAppVersion());
-    
-    userset = false;
-    passset = false;
+
+    var userset = false;
+    var passset = false;
     if (localStorage.getItem("username") !== null && localStorage.getItem("username") !== '') {
         $('#usernameBox').val(localStorage.getItem("username"));
         userset = true;
@@ -115,13 +112,13 @@
         // Try to login with stored credentials
         $.post("https://sso.netsyms.com/api/simpleauth.php",
                 {user: localStorage.getItem("username"), pass: localStorage.getItem("password")},
-        function (data) {
-            if (data === 'OK') {
-                dologin();
-            } else {
-                $('#loading').css('display', 'none');
-            }
-        }).fail(function () {
+                function (data) {
+                    if (data === 'OK') {
+                        dologin();
+                    } else {
+                        $('#loading').css('display', 'none');
+                    }
+                }).fail(function () {
             $('#loading').css('display', 'none');
         });
     } else {

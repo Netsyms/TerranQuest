@@ -36,7 +36,7 @@ $(document).ready(function () {
 });
 
 function onDeviceReady() {
-    StatusBar.hide();
+    StatusBar.backgroundColorByHexString("#324150");
     openscreen("login");
     if (navigator.network.connection.type === Connection.NONE) {
         navigator.notification.alert("You need an Internet connection to continue.", function () {
@@ -103,6 +103,25 @@ function mkApiUrl(action, server) {
         }
         return gameserverurl + action + ".php";
     }
+}
+
+function changeStatusBarColorForScreen(screenname) {
+    StatusBar.backgroundColorByHexString("#324150"); // Splash background color
+    /*switch (screenname) {
+     case 'login':
+     case 'signup':
+     case 'chooseteam':
+     StatusBar.backgroundColorByHexString("#060606");
+     break;
+     case 'menu':
+     StatusBar.backgroundColorByHexString("#060606");
+     break;
+     case 'home':
+     StatusBar.backgroundColorByHexString("#008000");
+     break;
+     default:
+     StatusBar.backgroundColorByHexString("#324150"); // Splash background color
+     }*/
 }
 
 /**
