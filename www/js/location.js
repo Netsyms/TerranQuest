@@ -70,7 +70,7 @@ var placeLayer = L.geoJson(
                 });
             }
         });//.addTo(map);
-        
+
 var placemarkers = L.markerClusterGroup({
     spiderfyDistanceMultiplier: 2,
     showCoverageOnHover: false,
@@ -226,18 +226,16 @@ function onError(error) {
     $('#loading-error').text("Check your device's network and location settings, and ensure a clear view of the sky.");
 }
 
-function popGPS() {
+function popDiagData() {
     navigator.notification.alert("Latitude: " + latitude +
             "\nLongitude: " + longitude +
             "\nAccuracy: " + gpsaccuracy +
+            "\nWeather: " + rawWeatherData.temperature + " F, " + rawWeatherData.summary + ", " + rawWeatherData.windSpeed + " mph" +
             "\nTerrain: " + terraintypename + " (" + terraintypeid + ")",
             null,
-            "GPS Information",
+            "Information",
             "Close");
 }
-$('#terrain-image').click(function () {
-    popGPS();
-});
 // Initial GPS position and stuff
 navigator.geolocation.getCurrentPosition(updateTerrain, onError, {timeout: 10000, enableHighAccuracy: true});
 // Update position

@@ -20,6 +20,7 @@
 //  Profile, stats, and chat stuff
 //////////////////////////////////////////////
 
+var rawWeatherData = [];
 
 /*
  * Handles general server communication.
@@ -79,6 +80,7 @@ function getWeather() {
         long: longitude
     }, function (data) {
         var currently = data.currently;
+        rawWeatherData = currently;
         skycons.set("weathericon", currently.icon);
     });
 }
