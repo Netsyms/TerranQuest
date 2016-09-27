@@ -318,6 +318,17 @@ function getTeamColorFromId(id) {
     return getTeamInfoFromId(id)['color'];
 }
 
+/**
+ * Get the actual path to the www folder.  Includes trailing slash.
+ * http://stackoverflow.com/a/35782322/2534036
+ */
+function getWwwFolderPath() {
+    var path = window.location.pathname;
+    var sizefilename = path.length - (path.lastIndexOf("/")+1);
+    path = path.substr( path, path.length - sizefilename );
+    return path;
+};
+
 // Handle back button to close things
 document.addEventListener("backbutton", function (event) {
     if (currentscreen == "munzeelink") {

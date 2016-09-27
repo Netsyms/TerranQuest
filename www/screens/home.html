@@ -127,8 +127,43 @@
     $('#found-box-2').click(function (e) {
         $('#found-box').fadeOut('fast');
     });
-    
+
     updateStatusBarColor();
+
+
+
+    var AUDIO_WAIT_SECONDS = 10;
+    var audio_stay_stopped = false;
+
+    var audio_1 = new Media(getWwwFolderPath() + "assets/audio/Heroes March.mp3", null, null, function (status) {
+        if ((status == Media.MEDIA_NONE || status == Media.MEDIA_STOPPED) && !audio_stay_stopped) {
+            setTimeout(playBackgroundAudio(audio_2), AUDIO_WAIT_SECONDS * 1000);
+        }
+    });
+
+    var audio_2 = new Media(getWwwFolderPath() + "assets/audio/Enter the Woods.mp3", null, null, function (status) {
+        if ((status == Media.MEDIA_NONE || status == Media.MEDIA_STOPPED) && !audio_stay_stopped) {
+            setTimeout(playBackgroundAudio(audio_1), AUDIO_WAIT_SECONDS * 1000);
+        }
+    });
+
+    document.addEventListener("pause", function () {
+        audio_1.stop();
+        audio_2.stop();
+        audio_stay_stopped = true;
+    });
+    document.addEventListener("resume", function () {
+        audio_stay_stopped = false;
+        playBackgroundAudio(audio_2);
+    });
+
+    function playBackgroundAudio(audiovar) {
+        setTimeout(function () {
+            audiovar.play();
+        }, AUDIO_WAIT_SECONDS * 1000);
+    }
+
+    playBackgroundAudio(audio_2);
 </script>
 <script src="js/location.js"></script>
 <script src="js/user.js"></script>
