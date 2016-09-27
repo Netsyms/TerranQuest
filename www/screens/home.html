@@ -41,13 +41,16 @@
 </div>
 
 <div id="overlay-top">
-    <p id="namedisp" onclick="openMenu('profile')"></p>
+    <p id="topbar">
+        <span id="namedisp" onclick="openMenu('profile')"></span>
+        <span id="worldinfo"><canvas id="weathericon" width="22" height="22"></canvas></span>
+    </p>
     <div class="progress" id="energybar-container">
         <div id="energybar" class="progress-bar" role="progressbar" >
         </div>
     </div>
     <p id="energybar-label"><i class="fa fa-bolt"></i> <i>Life</i></p>
-    <img src="assets/terrain/0.png" alt="" id="terrain-image" class="img-circle" />
+    <!--<img src="assets/terrain/0.png" alt="" id="terrain-image" class="img-circle" />-->
 </div>
 
 <div id="buttons">

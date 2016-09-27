@@ -157,13 +157,22 @@ body {
     display: none;
 }
 
-#namedisp {
+#topbar {
     color: black;
     position: absolute;
     left: 8px;
     top: 5px;
+    right: 8px;
     font-size: 120%;
     font-weight: bold;
+}
+
+#namedisp {
+    float: left;
+}
+
+#worldinfo {
+    float: right;
 }
 
 #energybar-container {
@@ -171,7 +180,8 @@ body {
     top: 30px;
     left: 5px;
     height: 10px;
-    width: calc(100% - 95px);
+    right: 5px;
+    /* width: calc(100% - 5px); */
     background: rgba(0,0,0,.25);
 }
 

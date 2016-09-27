@@ -177,6 +177,7 @@ function openPlace(feature) {
  */
 function hideLoading() {
     if (lockGot && terrainGot && gpsaccuracy < requiredaccuracy && $('#loading').css('display') !== 'none') {
+        getWeather();
         $('#loading').fadeOut('slow', function () {
             $('#loading').css('display', 'none');
             updateStatusBarColor();

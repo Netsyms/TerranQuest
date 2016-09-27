@@ -70,6 +70,28 @@ function getChat() {
     }
 }
 
+var skycons = new Skycons({"color": "black", "resizeClear": true});
+skycons.add("weathericon", "clear-day");
+
+function getWeather() {
+    $.getJSON(mkApiUrl('getweather'), {
+        lat: latitude,
+        long: longitude
+    }, function (data) {
+        var currently = data.currently;
+        skycons.set("weathericon", currently.icon);
+    });
+}
+
+function weatherLoadWait() {
+    setTimeout(function () {
+        if (lockGot) {
+            getWeather();
+        } else {
+            weatherLoadWait();
+        }
+    }, 2 * 1000);
+}
 
 syncStats();
 setInterval(function () {
@@ -78,6 +100,9 @@ setInterval(function () {
 setInterval(function () {
     getChat();
 }, 3000);
+setInterval(function () {
+    getWeather();
+}, 30 * 1000);
 // Send chat messages
 $("#chatsendform").submit(function (event) {
     var message = $('#chatbox-input').val();
