@@ -42,7 +42,7 @@ function logout() {
             localStorage.setItem("password", '');
             username = null;
             password = null;
-            $('#content-zone').load("screens/login.html");
+            openscreen('login');
         } else {
             navigator.notification.alert("Server did not properly acknowledge logout.  You might have problems for the next few hours if you switch accounts.", null, "Error", 'Dismiss');
         }
@@ -78,6 +78,7 @@ function loginOK() {
     localStorage.setItem("username", username);
     localStorage.setItem("password", password);
     navigator.splashscreen.hide();
+    updateStatusBarColor();
     checkUserHasTeamOpenChooserIfNot(username);
 }
 
@@ -145,6 +146,7 @@ function dosignup() {
 }
 
 function dologin() {
+    updateStatusBarColor();
     if (authOpInProgress) {
         return;
     }

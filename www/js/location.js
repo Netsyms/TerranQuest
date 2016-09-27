@@ -179,6 +179,7 @@ function hideLoading() {
     if (lockGot && terrainGot && gpsaccuracy < requiredaccuracy && $('#loading').css('display') !== 'none') {
         $('#loading').fadeOut('slow', function () {
             $('#loading').css('display', 'none');
+            updateStatusBarColor();
         });
     }
 }

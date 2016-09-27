@@ -117,12 +117,15 @@
                         dologin();
                     } else {
                         $('#loading').css('display', 'none');
+                        updateStatusBarColor();
                     }
                 }).fail(function () {
             $('#loading').css('display', 'none');
+            updateStatusBarColor();
         });
     } else {
         $('#loading').css('display', 'none');
+        updateStatusBarColor();
     }
     navigator.splashscreen.hide();
 </script>

@@ -121,6 +121,7 @@ function openProfile(user) {
     $('#main-content').load("screens/profile.html", null, function (x) {
         $('#overlay-main').css('display', 'block');
         loadProfile(user);
+        updateStatusBarColor();
     });
 }
 
@@ -139,5 +140,6 @@ function openMenu(topage) {
         if (topage !== '') {
             $('#' + topage + '-tab').tab('show');
         }
+        updateStatusBarColor();
     });
 }

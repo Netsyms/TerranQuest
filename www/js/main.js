@@ -36,7 +36,6 @@ $(document).ready(function () {
 });
 
 function onDeviceReady() {
-    StatusBar.backgroundColorByHexString("#324150");
     openscreen("login");
     if (navigator.network.connection.type === Connection.NONE) {
         navigator.notification.alert("You need an Internet connection to continue.", function () {
@@ -82,10 +81,12 @@ function compareVersions(a, b) {
 
 
 function serverProblemsDialog(errmsg) {
+    StatusBar.backgroundColorByHexString("#324150");
     window.location = "servererror.html?errmsg=" + errmsg;
 }
 
 function clientProblemsDialog(errmsg) {
+    StatusBar.backgroundColorByHexString("#324150");
     window.location = "clienterror.html?errmsg=" + errmsg;
 }
 
@@ -105,23 +106,40 @@ function mkApiUrl(action, server) {
     }
 }
 
-function changeStatusBarColorForScreen(screenname) {
-    StatusBar.backgroundColorByHexString("#324150"); // Splash background color
-    /*switch (screenname) {
-     case 'login':
-     case 'signup':
-     case 'chooseteam':
-     StatusBar.backgroundColorByHexString("#060606");
-     break;
-     case 'menu':
-     StatusBar.backgroundColorByHexString("#060606");
-     break;
-     case 'home':
-     StatusBar.backgroundColorByHexString("#008000");
-     break;
-     default:
-     StatusBar.backgroundColorByHexString("#324150"); // Splash background color
-     }*/
+/**
+ * Update the status bar color depending on context.
+ * @returns {undefined}
+ */
+function updateStatusBarColor() {
+    if (currentscreen == 'munzeelink') {
+        StatusBar.backgroundColorByHexString("#009444");
+        return;
+    }
+    if (currentscreen == 'login') {
+        if ($('#loading').css('display') == 'none') {
+            StatusBar.backgroundColorByHexString("#060606");
+        } else {
+            StatusBar.backgroundColorByHexString("#324150");
+        }
+        return;
+    }
+    if (currentscreen == 'chooseteam' || currentscreen == 'signup') {
+        StatusBar.backgroundColorByHexString("#060606");
+        return;
+    }
+    if (currentscreen == 'home') {
+        if ($('#loading').css('display') != 'none') {
+            StatusBar.backgroundColorByHexString("#324150");
+        } else {
+            if ($('#overlay-main').css('display') == 'block') {
+                StatusBar.backgroundColorByHexString("#060606");
+            } else {
+                StatusBar.backgroundColorByHexString("#008000");
+            }
+        }
+        return;
+    }
+    StatusBar.backgroundColorByHexString("#324150");
 }
 
 /**
@@ -147,6 +165,7 @@ function openscreen(screenname, effect) {
         $('#content-zone').load("screens/" + screenname + ".html");
     }
     currentscreen = screenname;
+    updateStatusBarColor();
 }
 
 /**
@@ -250,6 +269,7 @@ function closeMain() {
     $('#overlay-main').slideDown(100, function () {
         $('#overlay-main').css('display', 'none');
         $('#main-content').html("");
+        updateStatusBarColor();
     });
 }
 
