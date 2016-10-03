@@ -19,7 +19,8 @@
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist" id="menutablist">
-        <li role="presentation" class="active"><a href="#inventory" aria-controls="inventory" role="tab" data-toggle="tab" id="inventory-tab"><i class="fa fa-fw fa-cube"></i> Inventory</a></li>
+        <li role="presentation" class="active"><a href="#nearby" aria-controls="nearby" role="tab" data-toggle="tab" id="nearby-tab"><i class="fa fa-fw fa-users"></i> Nearby</a></li>
+        <li role="presentation"><a href="#inventory" aria-controls="inventory" role="tab" data-toggle="tab" id="inventory-tab"><i class="fa fa-fw fa-cube"></i> Inventory</a></li>
         <li role="presentation"><a href="#shop" aria-controls="shop" role="tab" data-toggle="tab" id="shop-tab"><i class="fa fa-fw fa-money"></i> Shop</a></li>
         <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" id="profile-tab"><i class="fa fa-fw fa-user"></i> Profile</a></li>
         <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" id="settings-tab"><i class="fa fa-fw fa-cog"></i> Settings</a></li>
@@ -27,10 +28,11 @@
 
     <!-- Tab panes -->
     <div class="tab-content" id="menutabcontent">
-        <div role="tabpanel" class="tab-pane active" id="inventory">...</div>
-        <div role="tabpanel" class="tab-pane" id="shop"></div>
-        <div role="tabpanel" class="tab-pane" id="profile"></div>
-        <div role="tabpanel" class="tab-pane" id="settings">...</div>
+        <div role="tabpanel" class="tab-pane active" id="nearby">Loading...</div>
+        <div role="tabpanel" class="tab-pane" id="inventory">Loading...</div>
+        <div role="tabpanel" class="tab-pane" id="shop">Loading...</div>
+        <div role="tabpanel" class="tab-pane" id="profile">Loading...</div>
+        <div role="tabpanel" class="tab-pane" id="settings">Loading...</div>
     </div>
 
 </div>
@@ -49,4 +51,5 @@
     $('#menutabcontent #shop').load("screens/shop.html");
     $('#menutabcontent #settings').load("screens/settings.html");
     $('#menutabcontent #inventory').load("screens/inventory.html");
+    $('#menutabcontent #nearby').load("screens/nearby.html");
 </script>
