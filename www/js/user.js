@@ -21,6 +21,8 @@
 //////////////////////////////////////////////
 
 var rawWeatherData = [];
+var terrainType = -1;
+var terrainName = "Other";
 
 /*
  * Handles general server communication.
@@ -82,6 +84,24 @@ function getWeather() {
         var currently = data.currently;
         rawWeatherData = currently;
         skycons.set("weathericon", currently.icon);
+        skycons.play();
+    });
+}
+
+function getTerrain() {
+    $.getJSON(mkApiUrl('getterrain'), {
+        lat: latitude,
+        long: longitude
+    }, function (data) {
+        var terrainid = -1;
+        var terrainstr = "Other";
+        if (data.status === "OK") {
+            terrainid = data.type;
+            terrainstr = data.name;
+        }
+        $('#terrainicon').attr('src', 'assets/terrain/' + terrainid + '.png');
+        terrainType = terrainid;
+        terrainName = terrainstr;
     });
 }
 
@@ -104,6 +124,7 @@ setInterval(function () {
 }, 3000);
 setInterval(function () {
     getWeather();
+    getTerrain();
 }, 30 * 1000);
 // Send chat messages
 $("#chatsendform").submit(function (event) {

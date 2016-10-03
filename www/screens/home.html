@@ -43,7 +43,10 @@
 <div id="overlay-top">
     <p id="topbar">
         <span id="namedisp" onclick="openMenu('profile')"></span>
-        <span id="worldinfo" onclick="popDiagData()"><canvas id="weathericon" width="22" height="22"></canvas></span>
+        <span id="worldinfo" onclick="popDiagData()">
+            <canvas id="weathericon" width="22" height="22"></canvas> 
+            <img id="terrainicon" src="assets/terrain/-1.png" />
+        </span>
     </p>
     <div class="progress" id="energybar-container">
         <div id="energybar" class="progress-bar" role="progressbar" >

@@ -175,6 +175,11 @@ body {
     float: right;
 }
 
+#terrainicon {
+    margin-top: -15px;
+    height: 20px;
+}
+
 #energybar-container {
     position: absolute;
     top: 30px;

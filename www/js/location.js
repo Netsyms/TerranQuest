@@ -18,16 +18,15 @@
 
 
 //////////////////////////////////////////////
-//  GPS and terrain stuff
+//  GPS and map stuff
 //////////////////////////////////////////////
 
 /**
- * Handles GPS and terrain data.
+ * Handles GPS and map data.
  */
 
 // Globals
 var lockGot = false;
-var terrainGot = false;
 var latitude = 0.0000;
 var longitude = 0.0000;
 var gpsaccuracy = 9999;
@@ -36,7 +35,6 @@ var requiredaccuracy = 40;
 
 var fetchplacecounter = 0;
 var lastgpstime = 0;
-var terraintypeid = 0;
 var map = L.map('map');
 var tileurl = "http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg";
 map.setZoom(17);
@@ -176,8 +174,9 @@ function openPlace(feature) {
  * Hide the loading overlay if everything is loaded, otherwise do nothing
  */
 function hideLoading() {
-    if (lockGot && terrainGot && gpsaccuracy < requiredaccuracy && $('#loading').css('display') !== 'none') {
+    if (lockGot && gpsaccuracy < requiredaccuracy && $('#loading').css('display') !== 'none') {
         getWeather();
+        getTerrain();
         $('#loading').fadeOut('slow', function () {
             $('#loading').css('display', 'none');
             updateStatusBarColor();
@@ -197,25 +196,6 @@ var updatePosition = function (position) {
     }
     mapPos(latitude, longitude);
 };
-var updateTerrain = function (position) {
-    latitude = position.coords.latitude;
-    longitude = position.coords.longitude;
-    lastgpstime = position.timestamp;
-    gpsaccuracy = position.coords.accuracy;
-    var rasterurl = "http://earth.apis.netsyms.net/terrain.php?format=json&lat="
-            + latitude + "&long=" + longitude;
-    $.get(rasterurl, function (data) {
-        if (data.status === 'OK') {
-            terraintypeid = data.typeid;
-            terraintypename = data.typename;
-            $('#terrain-image').attr('src', 'assets/terrain/' + terraintypeid + '.png');
-            terrainGot = true;
-            hideLoading();
-        }
-    }, "json").fail(function (err) {
-        $('#terrain-image').attr('src', 'assets/terrain/0.png');
-    });
-};
 function pingServer() {
     if (lockGot && gpsaccuracy < requiredaccuracy) {
         $.get(mkApiUrl('ping') + "?user=" + username + "&lat=" + latitude + "&long=" + longitude);
@@ -231,22 +211,21 @@ function popDiagData() {
             "\nLongitude: " + longitude +
             "\nAccuracy: " + gpsaccuracy +
             "\nWeather: " + rawWeatherData.temperature + " F, " + rawWeatherData.summary + ", " + rawWeatherData.windSpeed + " mph" +
-            "\nTerrain: " + terraintypename + " (" + terraintypeid + ")",
+            "\nTerrain: " + terrainName + " (" + terrainType + ")",
             null,
-            "Information",
+            "World Info",
             "Close");
 }
 // Initial GPS position and stuff
-navigator.geolocation.getCurrentPosition(updateTerrain, onError, {timeout: 10000, enableHighAccuracy: true});
+navigator.geolocation.getCurrentPosition(updatePosition, onError, {timeout: 10000, enableHighAccuracy: true});
 // Update position
 setInterval(function () {
     navigator.geolocation.getCurrentPosition(updatePosition, onError, {timeout: 10000, enableHighAccuracy: true});
 }, 1000);
-// Update position + terrain
+// Update places
 setInterval(function () {
-    navigator.geolocation.getCurrentPosition(updateTerrain, onError, {timeout: 10000, enableHighAccuracy: true});
     loadPlaces(latitude, longitude);
-}, 1000 * 20);
+}, 1000 * 15);
 // Ping the server with coordinates
 setInterval(pingServer, 5000);
 // Show error if it's taking too long
