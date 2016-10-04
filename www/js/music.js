@@ -45,6 +45,7 @@ function playAudio() {
     // If something is going on, come back in 10 seconds.
     if (audio_doneplaying && audio_isplaying) {
         setTimeout(playAudio, 10 * 1000);
+        return;
     }
     if (audio_doneplaying) {
         if (rawWeatherData.icon == "snow" || rawWeatherData.icon == "fog") {
