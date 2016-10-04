@@ -18,7 +18,12 @@ To get this project ready for build, type `cordova prepare`.  This reads the
 config.xml, extracting platform and plugin info.  Required repositories are 
 downloaded and installed automatically.
 
-To compile, simply run `cordova build`.
+To compile, simply run `cordova build <platform>`.  Currently, Android works 
+great, but iOS has some asset issues.
+
+Server Code
+--------------------
+Get the server code at https://github.com/Netsyms/TerranQuest-GameServer.
 
 License
 --------------------
