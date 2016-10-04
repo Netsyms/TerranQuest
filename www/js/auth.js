@@ -73,7 +73,7 @@ function checkUserHasTeamOpenChooserIfNot(username) {
 }
 
 function loginOK() {
-    username = $('#usernameBox').val().toLowerCase();
+    username = $('#usernameBox').val().replace(" ", "").toLowerCase();
     password = $('#passwordBox').val();
     localStorage.setItem("username", username);
     localStorage.setItem("password", password);
@@ -115,6 +115,7 @@ function dosignup() {
             },
             function (data) {
                 if (data === 'OK') {
+                    $('#usernameBox').val($('#usernameBox').val().replace(" ", "").toLowerCase());
                     $.post(mkApiUrl('login'), {
                         user: $('#usernameBox').val(),
                         pass: $('#passwordBox').val(),
@@ -163,6 +164,7 @@ function dologin() {
     $('#loginBtn').attr('disabled', true);
     $('#loginBtn').html('<i class="fa fa-cog fa-spin fa-fw"></i> Logging in...');
 
+    $('#usernameBox').val($('#usernameBox').val().replace(" ", "").toLowerCase());
     $.post(mkApiUrl("login"),
             {
                 user: $('#usernameBox').val(),
