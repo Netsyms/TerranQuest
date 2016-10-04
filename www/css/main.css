@@ -278,6 +278,7 @@ body {
 
 .scrollable-box {
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #player-name {
@@ -350,9 +351,8 @@ body {
 }
 
 #place-refresh {
-    position: fixed;
+    position: absolute;
     right: 20px;
-    margin-top: 2px;
 }
 
 #user-health-place-bar {
