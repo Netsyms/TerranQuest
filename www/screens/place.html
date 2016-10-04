@@ -73,13 +73,13 @@
         $('#refillbtn').prop('disabled', false);
         if (placeteam == 0) {
             $('#refillbtn').addClass('disabled');
-            $('#refillbtn').text("Refill");
+            $('#refillbtn').text("Recharge");
             $('#refillbtn').prop('disabled', true);
         } else if (placeteam == userteamid) {
-            $('#refillbtn').text("Refill");
+            $('#refillbtn').text("Recharge");
         } else {
             $('#refillbtn').addClass('disabled');
-            $('#refillbtn').text("Refill");
+            $('#refillbtn').text("Recharge");
             $('#refillbtn').prop('disabled', true);
         }
     }
@@ -211,13 +211,13 @@
                 $('#refillbtn').text(data.message);
                 switch (Math.round(Math.random() * (3 - 1) + 1)) {
                     case 1:
-                        $('#place-log').prepend("Refilling...<br />");
+                        $('#place-log').prepend("Recharging...<br />");
                         break;
                     case 2:
-                        $('#place-log').prepend("Refilling..<br />");
+                        $('#place-log').prepend("Recharging..<br />");
                         break;
                     case 3:
-                        $('#place-log').prepend("Refilling....<br />");
+                        $('#place-log').prepend("Recharging....<br />");
                 }
             } else {
                 $('#refillbtn').text(data.message);
