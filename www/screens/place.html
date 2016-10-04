@@ -18,11 +18,20 @@
 <div class="scrollable-box">
     <div class="h4" id="place-name"></div>
     <div id="place-info-div">
+        <span id="place-refresh" class="fa fa-refresh fa-fw" onclick="resync()"></span>
         Type: <span id="team-label"></span><br />
         Owner: <span id="owner-label"></span><br />
         <!-- Life: <span id="life-label"></span><br /> -->
         Place life: <div class="progress" id="place-health-place"><div id="place-health-place-bar" class="progress-bar" role="progressbar" ></div></div>
-        <div class="btn btn-success btn-wide" id="capturebtn" onclick="attempttake()"></div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="btn btn-success btn-wide" id="capturebtn" onclick="attempttake()"></div>
+            </div>
+            <div class="col-xs-6">
+                <div class="btn btn-success btn-wide" id="refillbtn" onclick="attemptrefill()"></div>
+            </div>
+        </div>
+        <br />
         My life: <div class="progress" id="user-health-place"><div id="user-health-place-bar" class="progress-bar" role="progressbar" ></div></div>
     </div>
     <div class="well well-sm place-log" id="place-log">
@@ -34,24 +43,49 @@
     var thisplace = null;
     var placeteam = 0;
     var capturebtndisabled = false;
+    var refillbtndisabled = false;
 
+    // Enforced time between actions, in ms
+    var actioninterval = 1000;
 
     function resetcapturebtn() {
         capturebtndisabled = false;
         $('#capturebtn').removeClass('btn-warning');
         $('#capturebtn').addClass('btn-primary');
         $('#capturebtn').removeClass('disabled');
+        $('#capturebtn').prop('disabled', false);
         if (placeteam == 0) {
             $('#capturebtn').text("Claim");
         } else if (placeteam == userteamid) {
-            $('#capturebtn').css('visibility', 'hidden');
+            $('#capturebtn').addClass('disabled');
+            $('#capturebtn').text("Challenge");
+            $('#capturebtn').prop('disabled', true);
         } else {
             $('#capturebtn').text("Challenge");
         }
-        $('#capturebtn').prop('disabled', false);
     }
 
-    function resyncstats() {
+    function resetrefillbtn() {
+        refillbtndisabled = false;
+        $('#refillbtn').removeClass('btn-warning');
+        $('#refillbtn').addClass('btn-primary');
+        $('#refillbtn').removeClass('disabled');
+        $('#refillbtn').prop('disabled', false);
+        if (placeteam == 0) {
+            $('#refillbtn').addClass('disabled');
+            $('#refillbtn').text("Refill");
+            $('#refillbtn').prop('disabled', true);
+        } else if (placeteam == userteamid) {
+            $('#refillbtn').text("Refill");
+        } else {
+            $('#refillbtn').addClass('disabled');
+            $('#refillbtn').text("Refill");
+            $('#refillbtn').prop('disabled', true);
+        }
+    }
+
+    function resync(firstload) {
+        $('#place-refresh').addClass('fa-spin');
         $.getJSON(mkApiUrl('getstats', 'gs'), {
             user: username
         }, function (data) {
@@ -78,23 +112,28 @@
                 if (data.stats.nickname == null) {
                     $('#owner-label').text("Nobody");
                 } else {
-                    $('#owner-label').on('click', function() {
+                    $('#owner-label').on('click', function () {
                         openProfile(data.stats.nickname);
                     });
                     $('#owner-label').text(data.stats.nickname);
                 }
                 $('#place-health-place-bar').css('width', String(placepercent) + '%');
                 loadTeamSwag();
+                if (firstload === true) {
+                    resetcapturebtn();
+                    resetrefillbtn();
+                } else {
+                    setTimeout(resetcapturebtn, actioninterval);
+                    setTimeout(resetrefillbtn, actioninterval);
+                }
             } else {
-                //
+                $('#place-log').prepend("An error occurred.<br />");
             }
+            $('#place-refresh').removeClass('fa-spin');
         }).fail(function () {
+            $('#place-log').prepend("An error occurred.<br />");
+            $('#place-refresh').removeClass('fa-spin');
         });
-    }
-
-    function resetafteraction() {
-        resyncstats();
-        setTimeout(resetcapturebtn, 2 * 1000);
     }
 
     function loadTeamSwag() {
@@ -103,8 +142,10 @@
         $("#place-log").css("border-color", "#" + getTeamColorFromId(placeteam));
         if (placeteam == 0) {
             $("#capturebtn").css("background-color", "#" + getTeamColorFromId(userteamid));
+            $("#refillbtn").css("background-color", "#" + getTeamColorFromId(userteamid));
         } else {
             $("#capturebtn").css("background-color", "#" + getTeamColorFromId(placeteam));
+            $("#refillbtn").css("background-color", "#" + getTeamColorFromId(placeteam));
         }
         $("#place-health-place-bar").css("background-color", "#" + getTeamColorFromId(placeteam));
         $("#team-label").css("color", "#" + getTeamColorFromId(placeteam));
@@ -114,11 +155,9 @@
     function loadPlace(feature) {
         thisplace = feature;
         placeteam = feature.properties.gameinfo.teamid;
-        loadTeamSwag();
         $("#place-name").text(feature.properties.name);
         $("#life-label").text(Math.round(feature.properties.gameinfo.currentlife) + " / " + Math.round(feature.properties.gameinfo.maxlife));
-        resetcapturebtn();
-        resyncstats();
+        resync(true);
     }
 
     function attemptcapture() {
@@ -142,20 +181,56 @@
                     case 3:
                         $('#place-log').prepend("Attacking....<br />");
                 }
-                resetafteraction();
+                resync();
             } else {
                 $('#capturebtn').text(data.message);
                 $('#capturebtn').removeClass('btn-primary');
                 $('#capturebtn').addClass('btn-warning');
                 $('#place-log').prepend(data.message + "<br />");
-                resetafteraction();
+                resync();
             }
             //alert(data.message);
         }).fail(function () {
             $('#capturebtn').text("Try that again.");
             $('#capturebtn').removeClass('btn-primary');
             $('#capturebtn').addClass('btn-warning');
-            resetafteraction();
+            resync();
+        });
+    }
+
+    function attemptrefill() {
+        refillbtndisabled = true;
+        $('#refillbtn').prop('disabled', true);
+        $('#refillbtn').addClass('disabled');
+        $.getJSON(mkApiUrl('refillplace', 'gs'), {
+            locationid: thisplace.properties.gameinfo.locationid,
+            lat: latitude,
+            long: longitude
+        }, function (data) {
+            if (data.status === 'OK') {
+                $('#refillbtn').text(data.message);
+                switch (Math.round(Math.random() * (3 - 1) + 1)) {
+                    case 1:
+                        $('#place-log').prepend("Refilling...<br />");
+                        break;
+                    case 2:
+                        $('#place-log').prepend("Refilling..<br />");
+                        break;
+                    case 3:
+                        $('#place-log').prepend("Refilling....<br />");
+                }
+            } else {
+                $('#refillbtn').text(data.message);
+                $('#refillbtn').removeClass('btn-primary');
+                $('#refillbtn').addClass('btn-warning');
+                $('#place-log').prepend(data.message + "<br />");
+            }
+            resync();
+        }).fail(function () {
+            $('#refillbtn').text("Try that again.");
+            $('#refillbtn').removeClass('btn-primary');
+            $('#refillbtn').addClass('btn-warning');
+            resync();
         });
     }
 
@@ -171,19 +246,20 @@
             if (data.status === 'OK') {
                 $('#capturebtn').text(data.message);
                 $('#place-log').prepend("Claimed!<br />");
-                resetafteraction();
+                resync();
             } else {
                 $('#capturebtn').text(data.message);
                 $('#capturebtn').removeClass('btn-primary');
                 $('#capturebtn').addClass('btn-warning');
                 $('#place-log').prepend(data.message + "<br />");
-                resetafteraction();
+                resync();
             }
             //alert(data.message);
         }).fail(function () {
             $('#capturebtn').text("Try that again.");
             $('#capturebtn').removeClass('btn-primary');
             $('#capturebtn').addClass('btn-warning');
+            resync();
         });
     }
 
