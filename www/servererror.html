@@ -26,10 +26,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <meta http-equiv="Content-Security-Policy" 
-              content="default-src *; 
-              style-src * 'self' 'unsafe-inline' 'unsafe-eval'; 
-              script-src * 'self' 'unsafe-inline' 'unsafe-eval';">
+        <meta http-equiv="Content-Security-Policy" content="default-src * gap://ready file: data:; style-src 'self' 'unsafe-inline' *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *">
 
         <title>TerranQuest</title>
 
@@ -41,7 +38,7 @@
         <!-- FontAwesome -->
         <link href="css/font-awesome.css" rel="stylesheet">
 
-        <!-- jQuery Version 1.11.1 -->
+        <!-- jQuery -->
         <script src="js/jquery.js"></script>
         <!-- i18n -->
         <script src="js/jquery.localize.js"></script>
@@ -92,8 +89,8 @@
                     }
                 }
             };
-            
-            
+
+
             $(document).ready(function () {
                 $('#serverproblemmsg').text(getUrlParameter('errmsg'));
             });

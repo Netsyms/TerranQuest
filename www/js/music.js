@@ -18,20 +18,31 @@
 var AUDIO_WAIT_SECONDS = 10;
 var audio_stay_stopped = false;
 var audio_doneplaying = true;
+var audio_isplaying = false;
 var audio;
 
 var MUSIC_DIR = getWwwFolderPath() + "assets/audio/";
 
 function queuesong(song) {
+    if (audio_isplaying) {
+        return;
+    }
     audio = new Media(MUSIC_DIR + song, null, null, function (status) {
         if ((status == Media.MEDIA_NONE || status == Media.MEDIA_STOPPED) && !audio_stay_stopped) {
             audio_doneplaying = true;
+            audio_isplaying = false;
+            audio.release();
             setTimeout(playAudio, AUDIO_WAIT_SECONDS * 1000);
         }
     });
+    audio_isplaying = true;
 }
 
 function playAudio() {
+    // If something is going on, come back in 10 seconds.
+    if (audio_doneplaying && audio_isplaying) {
+        setTimeout(playAudio, 10 * 1000);
+    }
     if (audio_doneplaying) {
         if (rawWeatherData.icon == "snow" || rawWeatherData.icon == "fog") {
             queuesong("Sisters of Snow Assent.mp3");
