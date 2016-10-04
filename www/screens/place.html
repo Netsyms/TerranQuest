@@ -126,7 +126,9 @@
         $('#capturebtn').prop('disabled', true);
         $('#capturebtn').addClass('disabled');
         $.getJSON(mkApiUrl('attackplace', 'gs'), {
-            locationid: thisplace.properties.gameinfo.locationid
+            locationid: thisplace.properties.gameinfo.locationid,
+            lat: latitude,
+            long: longitude
         }, function (data) {
             if (data.status === 'OK') {
                 $('#capturebtn').text(data.message);
@@ -162,7 +164,9 @@
         $('#capturebtn').prop('disabled', true);
         $('#capturebtn').addClass('disabled');
         $.getJSON(mkApiUrl('claimplace', 'gs'), {
-            locationid: thisplace.properties.gameinfo.locationid
+            locationid: thisplace.properties.gameinfo.locationid,
+            lat: latitude,
+            long: longitude
         }, function (data) {
             if (data.status === 'OK') {
                 $('#capturebtn').text(data.message);
