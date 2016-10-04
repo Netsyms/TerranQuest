@@ -23,6 +23,9 @@
         <div class='list-group-item' onclick='openRules()'>
             Show Rules
         </div>
+        <div class="list-group-item" onclick="toggleMusic()">
+            Turn music <span id="toggle-music-onoff-label">off</span>
+        </div>
         <div class='list-group-item' onclick='openscreen("munzeelink")'>
             Link with Munzee account
             <br />
@@ -41,4 +44,25 @@
 </div>
 <script>
     $('#settings-version-code').text(window.cordova.plugins.version.getAppVersion());
+
+    function loadToggles() {
+        if (localStorage.getItem("music") == "mute") {
+            $('#toggle-music-onoff-label').text("on");
+        } else {
+            $('#toggle-music-onoff-label').text("off");
+        }
+    }
+
+    function toggleMusic() {
+        if (localStorage.getItem("music") == "mute") {
+            localStorage.setItem("music", "");
+            setTimeout(playAudio, 2 * 1000);
+        } else {
+            localStorage.setItem("music", "mute");
+            audio.stop();
+        }
+        loadToggles();
+    }
+    
+    loadToggles();
 </script>

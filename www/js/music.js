@@ -39,6 +39,9 @@ function queuesong(song) {
 }
 
 function playAudio() {
+    if (localStorage.getItem("music") === "mute") {
+        return;
+    }
     // If something is going on, come back in 10 seconds.
     if (audio_doneplaying && audio_isplaying) {
         setTimeout(playAudio, 10 * 1000);
