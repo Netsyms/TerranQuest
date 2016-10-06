@@ -48,12 +48,17 @@
             <div class="modal-footer">
                 <!--<button type="button" onclick="navigator.app.exitApp();" class="btn btn-danger" id="lolnope-btn"><i class="fa fa-arrow-right"></i> I will not</button>-->
                 <button type="button" onclick="gotointropage2();" class="btn btn-success" id="gotopage2-btn"><i class="fa fa-arrow-right"></i> I will</button>
-                <button type="button" onclick="localStorage.setItem('intro', 'yes');" data-dismiss="modal" class="btn btn-default" style="display: none;" id="close-intro"><i class="fa fa-check"></i> I am ready!</button>
+                <button type="button" onclick="gotorules();" data-dismiss="modal" class="btn btn-default" style="display: none;" id="close-intro"><i class="fa fa-check"></i> I am ready!</button>
             </div>
         </div>
     </div>
 </div>
 <script>
+    function gotorules() {
+        localStorage.setItem('intro', 'yes');
+        openmodal('rules', '#rules-modal');
+    }
+    
     function gotointropage2() {
         $('#intro-box-body-1').css('display', 'none');
         $('#intro-box-body-2').css('display', '');
