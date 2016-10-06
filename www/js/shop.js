@@ -81,7 +81,34 @@ function buycoins(productId) {
                     console.log("Error: " + err.message);
                     showShopMessage("Error: " + err.message, true);
                 });
-
+    } else if (getPlatform() == DEVICE_IOS) {
+        inAppPurchase
+                .buy(productId)
+                .then(function (data) {
+                    console.log(JSON.stringify(data));
+                    $.getJSON(mkApiUrl('processiap', 'gs'), {
+                        os: 'ios',
+                        data: data.receipt,
+                        signature: data.signature,
+                        id: productId
+                    }, function (result) {
+                        if (result.status == 'OK') {
+                            return inAppPurchase.consume(data.type, data.receipt, data.signature);
+                        } else {
+                            showShopMessage("Error: " + result.message, true);
+                        }
+                    }).fail(function () {
+                        showShopMessage("Error: Lost connection to TerranQuest servers.  If your purchase does not appear within a few hours, contact support@netsyms.com.", true);
+                    });
+                })
+                .then(function () {
+                    showShopMessage("Thanks for your purchase!", false);
+                    refreshcoins();
+                })
+                .catch(function (err) {
+                    console.log("Error: " + err.message);
+                    showShopMessage("Error: " + err.message, true);
+                });
     } else {
         showShopMessage("Store not available on your device.  Please go to terranquest.net to purchase coins.", true);
     }
