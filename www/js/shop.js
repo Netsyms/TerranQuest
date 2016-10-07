@@ -15,43 +15,6 @@
  limitations under the License.
  */
 
-
-// Depending on the device, a few examples are:
-//   - "Android"
-//   - "BlackBerry"
-//   - "iOS"
-//   - "webOS"
-//   - "WinCE"
-//   - "Tizen"
-
-var DEVICE_ANDROID = 0;
-var DEVICE_GOOGLEPLAY = 1;
-var DEVICE_IOS = 2;
-var DEVICE_WEB = 3;
-var DEVICE_WINDOWS_PHONE = 5;
-var DEVICE_WINDOWS = 6;
-var DEVICE_OTHER = 10;
-
-function getPlatform() {
-    var devicePlatform = device.platform;
-    switch (devicePlatform) {
-        case 'Android':
-            return DEVICE_ANDROID;
-        case 'iOS':
-            return DEVICE_IOS;
-        case 'WinCE':
-            return DEVICE_WINDOWS_PHONE;
-        case 'Win32NT':
-            return DEVICE_WINDOWS_PHONE;
-        case 'Windows':
-            return DEVICE_WINDOWS;
-        case 'browser':
-            return DEVICE_WEB;
-        default:
-            return DEVICE_OTHER;
-    }
-}
-
 function buycoins(productId) {
     if (getPlatform() == DEVICE_ANDROID) {
         inAppPurchase

@@ -17,6 +17,9 @@
 -->
 <div class="scrollable-box">
     <div class='list-group'>
+        <div class="list-group-item" style="display: none;" id="old-device-warning" onclick="snark()">
+            Warning: Your device's operating system is outdated.  Some features may not work properly.
+        </div>
         <div class='list-group-item' onclick='openIntro()'>
             Show Introduction
         </div>
@@ -63,6 +66,29 @@
         }
         loadToggles();
     }
-    
+
     loadToggles();
+
+    /* Old OS warning */
+    if (getPlatform() === DEVICE_ANDROID && compareVersions(getDeviceVersion(), "4.4") < 0) {
+        $('#old-device-warning').css('display', 'block');
+    }
+
+    function snark() {
+        var text = "Warning: Your device's operating system is outdated.  Some features may not work properly.<br />";
+        switch (Math.round(Math.random() * (4 - 1) + 1)) {
+            case 1:
+                text += "You might want to buy a new phone.  They almost never explode!";
+                break;
+            case 2:
+                text += "Don't complain, it was new when you bought it.  <i>I</i> didn't make it old!";
+                break;
+            case 3:
+                text += "Cheer up, most of the game will still work.  Just not the best part ;)";
+                break;
+            case 4:
+                text += "If it makes you feel better, you can think about filing a bug report.";
+        }
+        $('#old-device-warning').html(text);
+    }
 </script>
