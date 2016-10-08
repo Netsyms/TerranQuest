@@ -233,6 +233,7 @@ function closemodal(modalselector) {
 var scanCodeEnabled = true;
 
 function startCooldown() {
+    scanCodeEnabled = false;
     // don't do animation on old stuff
     if (getPlatform() === DEVICE_ANDROID && compareVersions(getDeviceVersion(), "4.4") < 0) {
         fallback_anim('#codescanbtn', 0, CODE_SCAN_COOLDOWN_SECONDS, 1000);
