@@ -428,7 +428,7 @@ body {
     background: linear-gradient(to bottom, #009444 0%, rgba(255,255,255,0) 100%);
 }
 
-#shopmessage {
+.menumessage {
     position: fixed;
     z-index: 9999;
     background: rgba(0, 0, 0, .85);
@@ -451,7 +451,7 @@ body {
     display: none;
 }
 
-#shopmessagecontent {
+.menumessagecontent {
     font-size: 120%;
     text-align: center;
     margin-bottom: 10px;

@@ -23,7 +23,99 @@
     </div>
 </div>
 
+<div class="menumessage" id="invmessage">
+    <div id="hugecheckmark" class="hugesymbol">
+        <i class="fa fa-5x fa-fw fa-check-circle" style="color: green;"></i>
+    </div>
+    <div id="hugetimessign" class="hugesymbol">
+        <i class="fa fa-5x fa-fw fa-times-circle" style="color: red;"></i>
+    </div>
+    <div class="menumessagecontent" id="invmessagecontent">
+
+    </div>
+    <div class="btn btn-wide btn-default" onclick="$('#invmessage').css('display', 'none')">
+        OK
+    </div>
+</div>
+
+<div class="menumessage" id="giveitemmessage">
+    <div class="menumessagecontent" id="giveitemmessagecontent">
+        Give one <span id="giveitemname">item</span> to: <br />
+        <select class="form-control" id="nearby-players-dropdown"></select>
+    </div>
+    <div style="margin-bottom: 5px;" class="btn btn-wide btn-success" onclick="giveitem($('#giveitem-uuid').text(), $('#nearby-players-dropdown').val())">
+        Give
+    </div>
+    <div class="btn btn-wide btn-danger" onclick="$('#giveitemmessage').css('display', 'none')">
+        Cancel
+    </div>
+    <span style="display: none;" id="giveitem-uuid"></span>
+</div>
+
 <script>
+    function showInvMessage(msg, iserror) {
+        if (iserror) {
+            $('#invmessage #hugetimessign').css('display', 'block');
+            $('#invmessage #hugecheckmark').css('display', 'none');
+        } else {
+            $('#invmessage #hugetimessign').css('display', 'none');
+            $('#invmessage #hugecheckmark').css('display', 'block');
+        }
+        $('#invmessagecontent').text(msg);
+        $('#invmessage').css('display', 'block');
+    }
+
+    function askgiveitem(uuid) {
+        $('#invitem-' + uuid).prop('onclick', null).off('click');
+        $('#giveitem-uuid').text(uuid);
+        $("#giveitemname").html($('#item-' + uuid).find(".itemname").text());
+
+        // Load the list of nearby players
+        $.getJSON(mkApiUrl('nearby'), {
+            lat: latitude,
+            long: longitude
+        }, function (data) {
+            var content = "";
+            if (data.status === 'OK') {
+                var people = data.people;
+                people.forEach(function (person) {
+                    if (person.name !== username) {
+                        content += "<option name='" + person.name + "'>" + person.name + "</option>\n";
+                    }
+                });
+            } else {
+                content = "";
+            }
+            if (content == '') {
+                showInvMessage("There is nobody nearby to give an item to.", true);
+            } else {
+                $('#nearby-players-dropdown').html(content);
+                $('#giveitemmessage').css('display', 'block');
+            }
+        });
+    }
+
+    function giveitem(uuid, playername) {
+        $('#giveitemmessage').css('display', 'none');
+        if (playername === '') {
+            return;
+        }
+        $.getJSON(mkApiUrl('giveitem', 'gs'), {
+            giveto: playername,
+            itemuuid: uuid
+        }, function (data) {
+            if (data.status === 'OK') {
+                loadinventory();
+                syncStats();
+                showInvMessage("Transferred!", false);
+            } else {
+                showInvMessage(data.message, true);
+            }
+        }).fail(function () {
+            showInvMessage("Cannot give item.  Try again.", true);
+        });
+    }
+
     function useitem(uuid) {
         $('#invitem-' + uuid).prop('onclick', null).off('click');
         $.getJSON(mkApiUrl('useitem', 'gs'), {
@@ -33,10 +125,10 @@
                 loadinventory();
                 syncStats();
             } else {
-                navigator.notification.alert(data.message, null, "Error", 'OK');
+                showInvMessage(data.message, true);
             }
         }).fail(function () {
-            navigator.notification.alert("Cannot use item.  Try again.", null, "Error", 'OK');
+            showInvMessage(data.message, true);
         });
     }
 
@@ -49,6 +141,15 @@
                     + "Use Item"
                     + "</span>";
         }
+
+        if (item.itemid < 9000) {
+            // only allow item gifting for non-promo/paid items, 
+            // so Apple doesn't get upset
+            itemhtml += "<span class='btn btn-info' style='margin-left: 5px;' onclick=\"askgiveitem('" + item.itemuuid + "')\">"
+                    + "Give Item"
+                    + "</span>";
+        }
+
         itemhtml += "<span class='itemid' style='display: none;'>" + item.itemid + "</span>"
                 + "<span class='itemclassid' style='display: none;'>" + item.classid + "</span>"
                 + "<span class='itemjson' style='display: none;'>" + item.itemjson + "</span>"
