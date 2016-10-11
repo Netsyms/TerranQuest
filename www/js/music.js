@@ -43,7 +43,7 @@ function playAudio() {
         return;
     }
     // If something is going on, come back in 10 seconds.
-    if (audio_doneplaying && audio_isplaying) {
+    if ((audio_doneplaying && audio_isplaying) || !lockGot) {
         setTimeout(playAudio, 10 * 1000);
         return;
     }
@@ -52,7 +52,7 @@ function playAudio() {
             queuesong("Sisters of Snow Assent.mp3");
         } else if (rawWeatherData.icon == "rain" || terrainType == 0) {
             queuesong("We Dream of Booty.mp3");
-        } else if (terrainType >= 1 && terrainType <= 5) {
+        } else if (terrainType >= 1 && terrainType <= 6) {
             queuesong("Enter the Woods.mp3");
         } else {
             queuesong("Heroes March.mp3");
