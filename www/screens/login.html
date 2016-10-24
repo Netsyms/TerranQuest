@@ -108,7 +108,7 @@
         passset = true;
     }
 
-    if (userset && passset) {
+    if (userset && passset && localStorage.getItem("no_autologin") !== true) {
         // Try to login with stored credentials
         $.post("https://sso.netsyms.com/api/simpleauth.php",
                 {user: localStorage.getItem("username"), pass: localStorage.getItem("password")},
@@ -125,6 +125,8 @@
         });
     } else {
         $('#loading').css('display', 'none');
+        // Remove autologin block
+        localStorage.setItem("no_autologin", false);
         updateStatusBarColor();
     }
     navigator.splashscreen.hide();

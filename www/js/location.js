@@ -196,9 +196,18 @@ var updatePosition = function (position) {
     }
     mapPos(latitude, longitude);
 };
+
 function pingServer() {
     if (lockGot && gpsaccuracy < requiredaccuracy) {
-        $.get(mkApiUrl('ping') + "?user=" + username + "&lat=" + latitude + "&long=" + longitude);
+        $.getJSON(mkApiUrl('ping') + "?user=" + username + "&lat=" + latitude + "&long=" + longitude, function (data) {
+            if (data.status == "ERROR") {
+                navigator.notification.alert("Your account status has changed, and you have been logged out.  Reason: " + data.message, "Account Status Changed", "OK");
+                localStorage.setItem("no_autologin", true);
+                username = null;
+                password = null;
+                openscreen('login');
+            }
+        });
     }
 }
 
