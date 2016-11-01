@@ -201,11 +201,11 @@ function pingServer() {
     if (lockGot && gpsaccuracy < requiredaccuracy) {
         $.getJSON(mkApiUrl('ping') + "?user=" + username + "&lat=" + latitude + "&long=" + longitude, function (data) {
             if (data.status == "ERROR") {
-                navigator.notification.alert("Your account status has changed, and you have been logged out.  Reason: " + data.message, "Account Status Changed", "OK");
-                localStorage.setItem("no_autologin", true);
+                localStorage.setItem("no_autologin", "true");
                 username = null;
                 password = null;
-                openscreen('login');
+                document.location.href = "index.html";
+                navigator.notification.alert("Your session status has changed, and you have been logged out.  \n\nReason: " + data.message, null, "Sign-in Status Changed", "OK");
             }
         });
     }
@@ -241,3 +241,12 @@ setInterval(pingServer, 5000);
 setTimeout(function () {
     onError();
 }, 15 * 1000);
+
+setTimeout(function () {
+    // GPS lock is taking too long, let's GTFO of the loading screen
+    $('#loading').fadeOut('slow', function () {
+        $('#no-lock').css('display', 'block');
+        $('#loading').css('display', 'none');
+        updateStatusBarColor();
+    });
+}, 30 * 1000);
