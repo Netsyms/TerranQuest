@@ -228,10 +228,7 @@ body {
     color: #ffffff;
     overflow-x: hidden;
     overflow-y: auto;
-    overflow-wrap: break-word;
     word-wrap: break-word;
-    hyphens: auto;
-    word-break: break-all;
     background: rgba(0,0,0,.8);
 }
 
