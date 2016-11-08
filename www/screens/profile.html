@@ -26,6 +26,17 @@
 
     </div>
 </div>
+<div style="display: none;" id="privmsg-box">
+    <div class="h5" id="privmsg-header">Messages</div>
+    <div id="loading-privmsgs">
+        <i class="fa fa-spinner fa-pulse"></i> Loading...
+    </div>
+    <div class="container" id="privmsg-container">
+        <div class="list-group" id="privmsgs">
+
+        </div>
+    </div>
+</div>
 <script>
     function popBadge(name, desc) {
         navigator.notification.alert(desc, null, name, "Close");
@@ -35,6 +46,9 @@
         $('#player-name').text(user);
         loadBadges(user);
         loadPlayerStats(user);
+        if (user == username) {
+            loadPrivmsgs();
+        }
     }
 
     function loadPlayerStats(user) {
@@ -53,6 +67,9 @@
                 $('#badge-header').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
                 $('#badges').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
                 $('.badge-img').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
+                $('#privmsg-header').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
+                $('#privmsg-container').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
+                $('#loading-privmsgs').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
             } else {
                 $('#player-level').text('Cannot load player stats.');
             }
@@ -82,7 +99,58 @@
                 }
         ).fail(
                 function (err) {
-                    $('#loading-badges').html('Loading failed.  <a onclick="loadProfile(\'' + user + '\')">Reload</a>"');
+                    $('#loading-badges').html('Loading failed, <a onclick="loadProfile(\'' + user + '\')">reload</a>"');
+                }
+        );
+    }
+
+    function loadPrivmsgs() {
+        $('#loading-privmsgs').html('<i class="fa fa-spinner fa-pulse"></i> Loading...');
+        $('#loading-privmsgs').css('display', 'block');
+        $('#privmsg-box').css('display', 'block');
+        $('#privmsgs').css('display', 'block');
+        $.getJSON(
+                mkApiUrl('privmsgs'),
+                function (data) {
+                    if (data.status === 'OK') {
+                        $('#privmsgs').html("");
+                        data.msgs.forEach(function (item) {
+                            var privmsghtml = '<div class="list-group-item" '
+                                    + (item.msg_read == 0 ? 'onclick="markMsgRead(\'' + item.id + '\')"' : '') + '>'
+                                    + '<button class="btn btn-danger pull-right" onclick="deleteMsg(\'' + item.id + '\')"><i class="fa fa-trash"></i></button>'
+                                    + (item.msg_read == 0 ? '<b>' : '') + item.message + (item.msg_read == 0 ? '</b>' : '')
+                                    + '<br />' + (item.msg_read == 0 ? '<b>' : '') + "From: " + item.nickname + (item.msg_read == 0 ? '</b>' : '')
+                                    + '</div>';
+                            $('#privmsgs').append(privmsghtml);
+                        });
+                        $('#loading-privmsgs').css('display', 'none');
+                    } else {
+                        $('#loading-privmsgs').html('Loading failed.  <a onclick="loadPrivmsgs()">Reload</a>');
+                    }
+                }
+        ).fail(
+                function (err) {
+                    $('#loading-privmsgs').html('Loading failed, <a onclick="loadPrivmsgs()">reload</a>"');
+                }
+        );
+    }
+
+    function markMsgRead(id) {
+        $.getJSON(
+                mkApiUrl('privmsgs') + "?markread=" + id,
+                function () {
+                    loadPrivmsgs();
+                    privMsgSync();
+                }
+        );
+    }
+
+    function deleteMsg(id) {
+        $.getJSON(
+                mkApiUrl('privmsgs') + "?delete=" + id,
+                function () {
+                    loadPrivmsgs();
+                    privMsgSync();
                 }
         );
     }

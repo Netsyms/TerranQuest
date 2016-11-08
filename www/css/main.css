@@ -167,7 +167,7 @@ body {
     font-weight: bold;
 }
 
-#namedisp {
+#namecontainer {
     float: left;
 }
 
@@ -233,14 +233,8 @@ body {
 }
 
 .chat-username {
-    color: green;
+    color: white;
     font-weight: bold;
-}
-
-.chat-username-admin {
-    color: red;
-    font-weight: bold;
-    font-style: italic;
 }
 
 #buttons {
@@ -294,6 +288,29 @@ body {
     border-bottom: 1px solid white;
     padding-right: 100px;
     width: fit-content;
+}
+
+#privmsg-header {
+    padding-top: 5px;
+    border-top: 1px solid white;
+    border-right: 1px solid white;
+}
+
+#privmsgs {
+    padding-top: 10px;
+    margin-top: -10px;
+}
+
+#loading-privmsgs {
+    border-right: 1px solid white;
+    padding-top: 10px;
+    margin-top: -10px;
+}
+
+#privmsg-container {
+    border-right: 1px solid white;
+    padding-top: 10px;
+    margin-top: -10px;
 }
 
 #badge-header {

@@ -62,15 +62,34 @@ function getChat() {
             data = sortResults(data, 'time', true);
             var content = "";
             data.forEach(function (msg) {
-                var usernameclass = "chat-username";
-                if (msg.nickname === 'skylarmt') {
-                    usernameclass = "chat-username-admin";
+                var usernamecolor = "green";
+                var usernamecss = "";
+                if (msg.color) {
+                    usernamecolor = msg.color;
                 }
-                content += "<span class='" + usernameclass + "' onclick='openProfile(\"" + msg.nickname + "\");'>" + msg.nickname + "</span> " + msg.message + "<br />";
+                if (msg.css) {
+                    usernamecss = msg.css;
+                }
+                content += "<span class='chat-username' style='color: " + usernamecolor + "; " + usernamecss + "' onclick='openProfile(\"" + msg.nickname + "\");'>" + msg.nickname + "</span> " + msg.message + "<br />";
             });
             $('#chatmsgs').html(content);
         });
     }
+}
+
+function privMsgSync() {
+    $.getJSON(
+            mkApiUrl('privmsgs') + "?filter=unread",
+            function (data) {
+                if (data.status === 'OK') {
+                    if (data.msgs.length > 0) {
+                        $('#gotprivmsg').css('display', '');
+                    } else {
+                        $('#gotprivmsg').css('display', 'none');
+                    }
+                }
+            }
+    );
 }
 
 var skycons = new Skycons({"color": "black", "resizeClear": true});
@@ -116,12 +135,16 @@ function weatherLoadWait() {
 }
 
 syncStats();
+privMsgSync();
 setInterval(function () {
     syncStats();
 }, 10 * 1000);
 setInterval(function () {
     getChat();
-}, 3000);
+}, 3 * 1000);
+setInterval(function () {
+    privMsgSync();
+}, 15 * 1000);
 setInterval(function () {
     getWeather();
     getTerrain();
