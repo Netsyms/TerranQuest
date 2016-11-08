@@ -110,19 +110,7 @@
 
     if (userset && passset && localStorage.getItem("no_autologin") !== "true") {
         // Try to login with stored credentials
-        $.post("https://sso.netsyms.com/api/simpleauth.php",
-                {user: localStorage.getItem("username"), pass: localStorage.getItem("password")},
-                function (data) {
-                    if (data === 'OK') {
-                        dologin();
-                    } else {
-                        $('#loading').css('display', 'none');
-                        updateStatusBarColor();
-                    }
-                }).fail(function () {
-            $('#loading').css('display', 'none');
-            updateStatusBarColor();
-        });
+        dologin();
     } else {
         $('#loading').css('display', 'none');
         // Remove autologin block
