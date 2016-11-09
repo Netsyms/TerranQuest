@@ -149,6 +149,8 @@ setInterval(function () {
     getWeather();
     getTerrain();
 }, 30 * 1000);
+
+
 // Send chat messages
 $("#chatsendform").submit(function (event) {
     var message = $('#chatbox-input').val();

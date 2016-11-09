@@ -71,8 +71,13 @@ var placeLayer = L.geoJson(
 
 var placemarkers = L.markerClusterGroup({
     spiderfyDistanceMultiplier: 2,
+    spiderfyOnMaxZoom: false,
     showCoverageOnHover: false,
-    zoomToBoundsOnClick: false
+    zoomToBoundsOnClick: false,
+    maxClusterRadius: 30
+});
+placemarkers.on('clusterclick', function (a) {
+    a.layer.spiderfy();
 });
 placemarkers.addLayer(placeLayer);
 map.addLayer(placemarkers);
