@@ -37,6 +37,19 @@
         </div>
     </div>
 </div>
+<div style="display: none;" id="sendmsg-box">
+    <div class="h5" id="sendmsg-header">Private Message</div>
+    <div class="container" id="sendmsg-container">
+        <form id="sendprivmsgform">
+            <div class="input-group">
+                <input type="text" class="form-control" id="privmsgbox" placeholder="Send message" />
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-success" id="sendprivmsg"><i class="fa fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <script>
     function popBadge(name, desc) {
         navigator.notification.alert(desc, null, name, "Close");
@@ -48,8 +61,31 @@
         loadPlayerStats(user);
         if (user == username) {
             loadPrivmsgs();
+        } else {
+            $('#sendmsg-box').css('display', 'block');
         }
     }
+
+    $("#sendprivmsgform").submit(function (event) {
+        var message = $('#privmsgbox').val();
+        var toplayer = $('#player-name').text();
+        if (message !== '') {
+            $.post(mkApiUrl('privmsgs'), {
+                msg: message,
+                to: toplayer
+            }, function (data) {
+                if (data.status === 'OK') {
+                    $('#privmsgbox').val("");
+                    $("#privmsgbox").attr("placeholder", "Message sent!");
+                    setTimeout(function () {
+                        $("#privmsgbox").attr("placeholder", "Send message");
+                    }, 2000);
+                }
+            }, "json");
+        }
+        event.preventDefault();
+        return false;
+    });
 
     function loadPlayerStats(user) {
         $.getJSON(mkApiUrl('getstats'), {
@@ -61,15 +97,18 @@
                 } else {
                     $('#player-level').text('Player does not exist.');
                 }
-                $('#player-name').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
-                $('#player-name').css('color', '#' + getTeamColorFromId(data.stats.teamid));
-                $('#player-level').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
-                $('#badge-header').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
-                $('#badges').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
-                $('.badge-img').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
-                $('#privmsg-header').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
-                $('#privmsg-container').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
-                $('#loading-privmsgs').css('border-color', '#' + getTeamColorFromId(data.stats.teamid));
+                teamcolor = getTeamColorFromId(data.stats.teamid);
+                $('#player-name').css('border-color', '#' + teamcolor);
+                $('#player-name').css('color', '#' + teamcolor);
+                $('#player-level').css('border-color', '#' + teamcolor);
+                $('#badge-header').css('border-color', '#' + teamcolor);
+                $('#badges').css('border-color', '#' + teamcolor);
+                $('.badge-img').css('border-color', '#' + teamcolor);
+                $('#privmsg-header').css('border-color', '#' + teamcolor);
+                $('#privmsg-container').css('border-color', '#' + teamcolor);
+                $('#loading-privmsgs').css('border-color', '#' + teamcolor);
+                $('#sendmsg-header').css('border-color', '#' + teamcolor);
+                $('#sendmsg-container').css('border-color', '#' + teamcolor);
             } else {
                 $('#player-level').text('Cannot load player stats.');
             }
