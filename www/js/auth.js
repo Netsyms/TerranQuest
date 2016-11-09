@@ -51,12 +51,13 @@ function logout() {
     });
 }
 
+var teamchoosercheckretried = false;
 function checkUserHasTeamOpenChooserIfNot(username) {
     $.getJSON(mkApiUrl('getstats'), {
         user: username
     }, function (data) {
         if (data.status === 'OK') {
-            if (data.stats.teamid !== null && data.stats.teamid > 0) {
+            if (data.stats.teamid && data.stats.teamid > 0) {
                 // We're all good.
                 userteamid = data.stats.teamid;
                 openscreen("home");
@@ -65,7 +66,13 @@ function checkUserHasTeamOpenChooserIfNot(username) {
                 openscreen('chooseteam');
             }
         } else {
-            serverProblemsDialog("Got a bad answer from the server.  Restart the app and try again.");
+            // Might fix a strange bug that might not exist.
+            if (!teamchoosercheckretried) {
+                teamchoosercheckretried = true;
+                checkUserHasTeamOpenChooserIfNot(username);
+            } else {
+                serverProblemsDialog("Got a bad answer from the server.  Restart the app and try again.");
+            }
         }
     }).fail(function () {
         serverProblemsDialog("Cannot get player data from server.");
