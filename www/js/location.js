@@ -86,11 +86,9 @@ var lc = L.control.locate({
     position: 'topleft', // set the location of the control
     layer: undefined, // use your own layer for the location marker, creates a new layer by default
     drawCircle: false, // controls whether a circle is drawn that shows the uncertainty about the location
-    follow: true, // follow the user's location
-    setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true
+    setView: 'always',
     keepCurrentZoomLevel: true, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
-    stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below)
-    remainActive: true, // if true locate control remains active on click even if the user's location is in view.
+    remainActive: {inView: 'setView', outOfView: 'setView'},
     markerClass: L.circleMarker, // L.circleMarker or L.marker
     circleStyle: {}, // change the style of the circle around the user's location
     markerStyle: {color: '#008000', fillColor: '#32CD32'},
