@@ -127,15 +127,6 @@ function mapPos(lat, lon) {
     if (fetchplacecounter > 10) {
         fetchplacecounter = 0;
     }
-    //map.setView(new L.LatLng(lat, lon), 16, {animate: true});
-    //map.panTo(new L.LatLng(lat, lon));
-    //map.invalidateSize();
-    //redraw('.leaflet-map-pane');
-//    $('.leaflet-map-plane').css('height', '90%');
-//    setTimeout(function () {
-//        $('#map').css('width', '100%');
-//        $('#map').css('height', '100%');
-//    }, 100);
 }
 
 function onPlaceTap(feature, layer) {
@@ -145,6 +136,9 @@ function onPlaceTap(feature, layer) {
 }
 
 function loadPlaces(lat, long) {
+    if (!lockGot) {
+        return;
+    }
     var url = mkApiUrl('places', 'gs') + "?lat=" + lat + "&long=" + long + "&radius=.5&names=1";
     try {
         $.getJSON(
@@ -214,8 +208,16 @@ function pingServer() {
     }
 }
 
+var errorMsgShown = false;
 function onError(error) {
-    $('#loading-error').text("Check your device's network and location settings, and ensure a clear view of the sky.");
+    if (!errorMsgShown) {
+        var msg = error.message;
+        if (msg.toLowerCase().includes("timeout")) {
+            msg = "no lock within 15 seconds";
+        }
+        $('#loading-error').text("Check your device's network and location settings, and ensure a clear view of the sky (" + msg + ").");
+        errorMsgShown = true;
+    }
 }
 
 function popDiagData() {
@@ -229,10 +231,10 @@ function popDiagData() {
             "Close");
 }
 // Initial GPS position and stuff
-navigator.geolocation.getCurrentPosition(updatePosition, onError, {timeout: 10000, enableHighAccuracy: true});
+navigator.geolocation.getCurrentPosition(updatePosition, onError, {timeout: 15000, enableHighAccuracy: true});
 // Update position
 setInterval(function () {
-    navigator.geolocation.getCurrentPosition(updatePosition, onError, {timeout: 10000, enableHighAccuracy: true});
+    navigator.geolocation.getCurrentPosition(updatePosition, onError, {timeout: 1000, enableHighAccuracy: true});
 }, 1000);
 // Update places
 setInterval(function () {
@@ -246,10 +248,5 @@ setTimeout(function () {
 }, 15 * 1000);
 
 setTimeout(function () {
-    // GPS lock is taking too long, let's GTFO of the loading screen
-    $('#loading').fadeOut('slow', function () {
-        $('#no-lock').css('display', 'block');
-        $('#loading').css('display', 'none');
-        updateStatusBarColor();
-    });
-}, 30 * 1000);
+    $('#loading-error').text("If you're outside and the settings are OK, something has gone wrong.  Try restarting or reinstalling the app.");
+}, 45 * 1000);
