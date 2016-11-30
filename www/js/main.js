@@ -119,17 +119,6 @@ function compareVersions(a, b) {
     return segmentsA.length - segmentsB.length;
 }
 
-
-function serverProblemsDialog(errmsg) {
-    StatusBar.backgroundColorByHexString("#324150");
-    window.location = "servererror.html?errmsg=" + errmsg;
-}
-
-function clientProblemsDialog(errmsg) {
-    StatusBar.backgroundColorByHexString("#324150");
-    window.location = "clienterror.html?errmsg=" + errmsg;
-}
-
 function mkApiUrl(action, server) {
     if (server === 'cs') {
         var chatserverurl = "http://gs.terranquest.net/";
@@ -512,6 +501,22 @@ var Konami = function (callback) {
     return konami;
 };
 
+var konamicounter = 0;
 var dev_console = new Konami(function () {
-    alert(eval(prompt("Enter console command: ", "$(\"#\")")));
+    konamicounter++;
+    if (konamicounter > 2) {
+        alert(eval(prompt("Enter console command: ", "$(\"#\")")));
+    }
 });
+
+/**
+ * Cancel all timeouts and intervals that may or may not exist.
+ * 
+ * http://stackoverflow.com/a/8345814/2534036
+ */
+function forceCancelAllTimers() {
+    var highestTimeoutId = setTimeout(";");
+    for (var i = 0; i < highestTimeoutId; i++) {
+        clearTimeout(i);
+    }
+}

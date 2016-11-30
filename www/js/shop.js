@@ -30,19 +30,19 @@ function buycoins(productId) {
                         if (result.status == 'OK') {
                             return inAppPurchase.consume(data.type, data.receipt, data.signature);
                         } else {
-                            showShopMessage("Error: " + result.message, true);
+                            showErrorMessage("Error: " + result.message);
                         }
                     }).fail(function () {
-                        showShopMessage("Error: Lost connection to TerranQuest servers.  If your purchase does not appear within a few hours, contact support@netsyms.com.", true);
+                        showErrorMessage("Error: Lost connection to TerranQuest servers.  If your purchase does not appear within a few hours, contact support@netsyms.com.");
                     });
                 })
                 .then(function () {
-                    showShopMessage("Thanks for your purchase!", false);
+                    showSuccessMessage("Thanks for your purchase!");
                     refreshcoins();
                 })
                 .catch(function (err) {
                     console.log("Error: " + err.message);
-                    showShopMessage("Error: " + err.message, true);
+                    showErrorMessage("Error: " + err.message);
                 });
     } else if (getPlatform() == DEVICE_IOS) {
         inAppPurchase
@@ -58,35 +58,23 @@ function buycoins(productId) {
                         if (result.status == 'OK') {
                             return inAppPurchase.consume(data.type, data.receipt, data.signature);
                         } else {
-                            showShopMessage("Error: " + result.message, true);
+                            showErrorMessage("Error: " + result.message);
                         }
                     }).fail(function () {
-                        showShopMessage("Error: Lost connection to TerranQuest servers.  If your purchase does not appear within a few hours, contact support@netsyms.com.", true);
+                        showErrorMessage("Error: Lost connection to TerranQuest servers.  If your purchase does not appear within a few hours, contact support@netsyms.com.");
                     });
                 })
                 .then(function () {
-                    showShopMessage("Thanks for your purchase!", false);
+                    showSuccessMessage("Thanks for your purchase!");
                     refreshcoins();
                 })
                 .catch(function (err) {
                     console.log("Error: " + err.message);
-                    showShopMessage("Error: " + err.message, true);
+                    showErrorMessage("Error: " + err.message);
                 });
     } else {
-        showShopMessage("Store not available on your device.  Please go to terranquest.net to purchase coins.", true);
+        showErrorMessage("Store not available on your device.  Please go to terranquest.net to purchase coins.");
     }
-}
-
-function showShopMessage(msg, iserror) {
-    if (iserror) {
-        $('#hugetimessign').css('display', 'block');
-        $('#hugecheckmark').css('display', 'none');
-    } else {
-        $('#hugetimessign').css('display', 'none');
-        $('#hugecheckmark').css('display', 'block');
-    }
-    $('#shopmessagecontent').text(msg);
-    $('#shopmessage').css('display', 'block');
 }
 
 function buyitem(id, cost) {
@@ -96,9 +84,9 @@ function buyitem(id, cost) {
         cost: cost
     }, function (data) {
         if (data.status == 'OK') {
-            showShopMessage(data.message, false);
+            showSuccessMessage(data.message);
         } else {
-            showShopMessage(data.message, true);
+            showErrorMessage(data.message);
         }
         loadstorefront();
     });

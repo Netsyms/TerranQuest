@@ -62,11 +62,26 @@
         <script src="js/L.Control.Locate.min.js"></script>
         <script src="js/leaflet.markercluster.js"></script>
         <script src="js/music.js"></script>
+        <script src="js/dialogs.js"></script>
     </head>
 
     <body>
         <div id="modal-load-box" class="container" style='z-index: 1000;'>
 
+        </div>
+        <div class="menumessage" id="alertmessagebox">
+            <div id="hugecheckmark" class="hugesymbol">
+                <i class="fa fa-5x fa-fw fa-check-circle" style="color: green;"></i>
+            </div>
+            <div id="hugetimessign" class="hugesymbol">
+                <i class="fa fa-5x fa-fw fa-times-circle" style="color: red;"></i>
+            </div>
+            <div class="menumessagecontent" id="alertmessagecontent">
+
+            </div>
+            <div class="btn btn-wide btn-default" onclick="dismissMessageBox();">
+                OK
+            </div>
         </div>
         <div class="container" id="content-zone" style='z-index: 1;'>
             <div id="loading">

@@ -23,21 +23,6 @@
     </div>
 </div>
 
-<div class="menumessage" id="invmessage">
-    <div id="hugecheckmark" class="hugesymbol">
-        <i class="fa fa-5x fa-fw fa-check-circle" style="color: green;"></i>
-    </div>
-    <div id="hugetimessign" class="hugesymbol">
-        <i class="fa fa-5x fa-fw fa-times-circle" style="color: red;"></i>
-    </div>
-    <div class="menumessagecontent" id="invmessagecontent">
-
-    </div>
-    <div class="btn btn-wide btn-default" onclick="$('#invmessage').css('display', 'none')">
-        OK
-    </div>
-</div>
-
 <div class="menumessage" id="giveitemmessage">
     <div class="menumessagecontent" id="giveitemmessagecontent">
         Give one <span id="giveitemname">item</span> to: <br />
@@ -53,18 +38,6 @@
 </div>
 
 <script>
-    function showInvMessage(msg, iserror) {
-        if (iserror) {
-            $('#invmessage #hugetimessign').css('display', 'block');
-            $('#invmessage #hugecheckmark').css('display', 'none');
-        } else {
-            $('#invmessage #hugetimessign').css('display', 'none');
-            $('#invmessage #hugecheckmark').css('display', 'block');
-        }
-        $('#invmessagecontent').text(msg);
-        $('#invmessage').css('display', 'block');
-    }
-
     function askgiveitem(uuid) {
         $('#invitem-' + uuid).prop('onclick', null).off('click');
         $('#giveitem-uuid').text(uuid);
@@ -87,7 +60,7 @@
                 content = "";
             }
             if (content == '') {
-                showInvMessage("There is nobody nearby to give an item to.", true);
+                showErrorMessage("There is nobody nearby to give an item to.");
             } else {
                 $('#nearby-players-dropdown').html(content);
                 $('#giveitemmessage').css('display', 'block');
@@ -107,12 +80,12 @@
             if (data.status === 'OK') {
                 loadinventory();
                 syncStats();
-                showInvMessage("Transferred!", false);
+                showSuccessMessage("Transferred!");
             } else {
-                showInvMessage(data.message, true);
+                showErrorMessage(data.message);
             }
         }).fail(function () {
-            showInvMessage("Cannot give item.  Try again.", true);
+            showErrorMessage("Cannot give item.  Try again.");
         });
     }
 
@@ -125,10 +98,10 @@
                 loadinventory();
                 syncStats();
             } else {
-                showInvMessage(data.message, true);
+                showErrorMessage(data.message);
             }
         }).fail(function () {
-            showInvMessage(data.message, true);
+            showErrorMessage("Something went wrong.  Try again.");
         });
     }
 
