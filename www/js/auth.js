@@ -21,7 +21,6 @@
  */
 
 var authOpInProgress = false;
-var logoutInProgress = false;
 
 function askLogout() {
     navigator.notification.confirm(
@@ -37,21 +36,17 @@ function askLogout() {
 }
 
 function logout() {
-    logoutInProgress = true;
     $.getJSON(mkApiUrl('deletesession'), {}, function (data) {
         if (data.status === 'OK') {
             localStorage.setItem("username", '');
             localStorage.setItem("password", '');
             username = null;
             password = null;
-            openscreen('login');
-            logoutInProgress = false;
+            document.location.href = "index.html";
         } else {
-            logoutInProgress = false;
             navigator.notification.alert("Server did not properly acknowledge logout.  You might have problems for the next few hours if you switch accounts.", null, "Error", 'Dismiss');
         }
     }).fail(function () {
-        logoutInProgress = false;
         navigator.notification.alert("Cannot connect to server.  Check your Internet connection and try again.  If that fails, clear the app data or reinstall TerranQuest.", null, "Error", 'Dismiss');
     });
 }

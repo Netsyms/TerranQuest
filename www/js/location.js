@@ -209,13 +209,18 @@ function pingServer() {
 }
 
 var errorMsgShown = false;
+var fifteen_seconds = false;
 function onError(error) {
     if (!errorMsgShown) {
         var msg = error.message;
-        if (msg.toLowerCase().includes("timeout")) {
+        if (msg.toLowerCase().includes("timeout") && fifteen_seconds == false) {
+            return;
+        } else if (msg.toLowerCase().includes("timeout")) {
             msg = "no lock within 15 seconds";
+            $('#loading-error').text("Check your device's network and location settings, and ensure a clear view of the sky (" + msg + ").");
+        } else {
+            $('#loading-error').text("Check your device's network and location settings, and ensure a clear view of the sky (" + msg + ").");
         }
-        $('#loading-error').text("Check your device's network and location settings, and ensure a clear view of the sky (" + msg + ").");
         errorMsgShown = true;
     }
 }
@@ -236,6 +241,9 @@ navigator.geolocation.getCurrentPosition(updatePosition, onError, {timeout: 1500
 setInterval(function () {
     navigator.geolocation.getCurrentPosition(updatePosition, onError, {timeout: 1000, enableHighAccuracy: true});
 }, 1000);
+setTimeout(function () {
+    fifteen_seconds = true;
+}, 15 * 1000);
 // Update places
 setInterval(function () {
     loadPlaces(latitude, longitude);
