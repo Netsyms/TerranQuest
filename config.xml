@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="106020" id="com.netsyms.terranquest.TerranQuest" version="1.6.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0" android-versionCode="106020" id="com.netsyms.terranquest.TerranQuest" version="1.6.2">
     <name>TerranQuest</name>
     <description>
         Augmented Reality fantasy game
@@ -7,83 +7,84 @@
     <author email="admin@netsyms.com" href="https://netsyms.com">
         Netsyms Technologies
     </author>
-    <icon src="res/icon.png" />
-    <preference name="SplashScreen" value="res/splash.9.png" />
-    <preference name="FadeSplashScreen" value="true" />
-    <preference name="FadeSplashScreenDuration" value="1000" />
-    <preference name="SplashScreenDelay" value="0" />
-    <preference name="SplashMaintainAspectRatio" value="false" />
-    <preference name="SplashShowOnlyFirstTime" value="true" />
-    <preference name="AutoHideSplashScreen" value="false" />
+    <icon src="res/icon.png"/>
+    <preference name="SplashScreen" value="res/splash.9.png"/>
+    <preference name="FadeSplashScreen" value="true"/>
+    <preference name="FadeSplashScreenDuration" value="1000"/>
+    <preference name="SplashScreenDelay" value="0"/>
+    <preference name="SplashMaintainAspectRatio" value="false"/>
+    <preference name="SplashShowOnlyFirstTime" value="true"/>
+    <preference name="AutoHideSplashScreen" value="false"/>
     <platform name="ios">
-        <icon height="180" src="res/ios/icon-60@3x.png" width="180" />
-        <icon height="60" src="res/ios/icon-60.png" width="60" />
-        <icon height="120" src="res/ios/icon-60@2x.png" width="120" />
-        <icon height="76" src="res/ios/icon-76.png" width="76" />
-        <icon height="152" src="res/ios/icon-76@2x.png" width="152" />
-        <icon height="40" src="res/ios/icon-40.png" width="40" />
-        <icon height="80" src="res/ios/icon-40@2x.png" width="80" />
-        <icon height="57" src="res/ios/icon.png" width="57" />
-        <icon height="114" src="res/ios/icon@2x.png" width="114" />
-        <icon height="72" src="res/ios/icon-72.png" width="72" />
-        <icon height="144" src="res/ios/icon-72@2x.png" width="144" />
-        <icon height="29" src="res/ios/icon-small.png" width="29" />
-        <icon height="58" src="res/ios/icon-small@2x.png" width="58" />
-        <icon height="50" src="res/ios/icon-50.png" width="50" />
-        <icon height="100" src="res/ios/icon-50@2x.png" width="100" />
-        <icon height="167" src="res/ios/icon-83.5@2x.png" width="167" />
-        <splash height="480" src="res/ios/Default~iphone.png" width="320" />
-        <splash height="960" src="res/ios/Default@2x~iphone.png" width="640" />
-        <splash height="1024" src="res/ios/Default-Portrait~ipad.png" width="768" />
-        <splash height="2048" src="res/ios/Default-Portrait@2x~ipad.png" width="1536" />
-        <splash height="768" src="res/ios/Default-Landscape~ipad.png" width="1024" />
-        <splash height="1536" src="res/ios/Default-Landscape@2x~ipad.png" width="2048" />
-        <splash height="1136" src="res/ios/Default-568h@2x~iphone.png" width="640" />
-        <splash height="1334" src="res/ios/Default-667h.png" width="750" />
-        <splash height="2208" src="res/ios/Default-736h.png" width="1242" />
-        <splash height="1242" src="res/ios/Default-Landscape-736h.png" width="2208" />
-        <preference name="DisallowOverscroll" value="true" />
-        <preference name="KeyboardShrinksView" value="true" />
-        <preference name="StatusBarOverlaysWebView" value="false" />
-        <preference name="StatusBarStyle" value="blackopaque" />
-        <preference name="ShowSplashScreen" value="true" />
+        <icon height="180" src="res/ios/icon-60@3x.png" width="180"/>
+        <icon height="60" src="res/ios/icon-60.png" width="60"/>
+        <icon height="120" src="res/ios/icon-60@2x.png" width="120"/>
+        <icon height="76" src="res/ios/icon-76.png" width="76"/>
+        <icon height="152" src="res/ios/icon-76@2x.png" width="152"/>
+        <icon height="40" src="res/ios/icon-40.png" width="40"/>
+        <icon height="80" src="res/ios/icon-40@2x.png" width="80"/>
+        <icon height="57" src="res/ios/icon.png" width="57"/>
+        <icon height="114" src="res/ios/icon@2x.png" width="114"/>
+        <icon height="72" src="res/ios/icon-72.png" width="72"/>
+        <icon height="144" src="res/ios/icon-72@2x.png" width="144"/>
+        <icon height="29" src="res/ios/icon-small.png" width="29"/>
+        <icon height="58" src="res/ios/icon-small@2x.png" width="58"/>
+        <icon height="50" src="res/ios/icon-50.png" width="50"/>
+        <icon height="100" src="res/ios/icon-50@2x.png" width="100"/>
+        <icon height="167" src="res/ios/icon-83.5@2x.png" width="167"/>
+        <splash height="480" src="res/ios/Default~iphone.png" width="320"/>
+        <splash height="960" src="res/ios/Default@2x~iphone.png" width="640"/>
+        <splash height="1024" src="res/ios/Default-Portrait~ipad.png" width="768"/>
+        <splash height="2048" src="res/ios/Default-Portrait@2x~ipad.png" width="1536"/>
+        <splash height="768" src="res/ios/Default-Landscape~ipad.png" width="1024"/>
+        <splash height="1536" src="res/ios/Default-Landscape@2x~ipad.png" width="2048"/>
+        <splash height="1136" src="res/ios/Default-568h@2x~iphone.png" width="640"/>
+        <splash height="1334" src="res/ios/Default-667h.png" width="750"/>
+        <splash height="2208" src="res/ios/Default-736h.png" width="1242"/>
+        <splash height="1242" src="res/ios/Default-Landscape-736h.png" width="2208"/>
+        <preference name="DisallowOverscroll" value="true"/>
+        <preference name="KeyboardShrinksView" value="true"/>
+        <preference name="StatusBarOverlaysWebView" value="false"/>
+        <preference name="StatusBarStyle" value="blackopaque"/>
+        <preference name="ShowSplashScreen" value="true"/>
     </platform>
     <platform name="browser">
-        <preference name="ShowSplashScreen" value="false" />
+        <preference name="ShowSplashScreen" value="false"/>
     </platform>
-    <content src="index.html" />
-    <access origin="*" />
-    <allow-navigation href="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
+    <content src="index.html"/>
+    <access origin="*"/>
+    <allow-navigation href="*"/>
+    <allow-intent href="http://*/*"/>
+    <allow-intent href="https://*/*"/>
+    <allow-intent href="tel:*"/>
+    <allow-intent href="sms:*"/>
+    <allow-intent href="mailto:*"/>
+    <allow-intent href="geo:*"/>
     <platform name="android">
-        <allow-intent href="market:*" />
+        <allow-intent href="market:*"/>
     </platform>
     <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
+        <allow-intent href="itms:*"/>
+        <allow-intent href="itms-apps:*"/>
     </platform>
-    <plugin name="cordova-plugin-dialogs" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git" />
-    <plugin name="cordova-plugin-whitelist" spec="https://github.com/apache/cordova-plugin-whitelist.git" />
-    <plugin name="cordova-plugin-console" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-console.git" />
-    <plugin name="cordova-plugin-device" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-device.git" />
-    <plugin name="cordova-plugin-camera" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-camera.git" />
-    <plugin name="cordova-plugin-splashscreen" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-splashscreen.git" />
-    <plugin name="cordova-plugin-network-information" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-network-information.git" />
-    <plugin name="cordova-plugin-media" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-media.git" />
-    <plugin name="cordova-plugin-media-capture" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-media-capture.git" />
-    <plugin name="cordova-plugin-geolocation" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-geolocation.git" />
-    <plugin name="com.phonegap.plugins.barcodescanner" spec="https://github.com/Telerik-Verified-Plugins/BarcodeScanner" />
-    <plugin name="cordova-plugin-inapppurchase" spec="~1.0.0" />
-    <plugin name="cordova_app_version_plugin" spec="~0.2.6" />
-    <plugin name="cordova-plugin-ios-longpress-fix" spec="~1.1.0" />
-    <plugin name="cordova-plugin-keyboard" spec="~1.1.4" />
-    <engine name="browser" spec="latest" />
-    <engine name="android" spec="latest" />
-    <engine name="ios" spec="latest" />
-    <plugin name="cordova-plugin-statusbar" spec="~2.2.0" />
+    <plugin name="cordova-plugin-dialogs" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git"/>
+    <plugin name="cordova-plugin-whitelist" spec="https://github.com/apache/cordova-plugin-whitelist.git"/>
+    <plugin name="cordova-plugin-console" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-console.git"/>
+    <plugin name="cordova-plugin-device" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-device.git"/>
+    <plugin name="cordova-plugin-camera" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-camera.git"/>
+    <plugin name="cordova-plugin-splashscreen" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-splashscreen.git"/>
+    <plugin name="cordova-plugin-network-information" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-network-information.git"/>
+    <plugin name="cordova-plugin-media" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-media.git"/>
+    <plugin name="cordova-plugin-media-capture" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-media-capture.git"/>
+    <plugin name="cordova-plugin-geolocation" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-geolocation.git"/>
+    <plugin name="com.phonegap.plugins.barcodescanner" spec="https://github.com/Telerik-Verified-Plugins/BarcodeScanner"/>
+    <plugin name="cordova-plugin-inapppurchase" spec="~1.0.0"/>
+    <plugin name="cordova_app_version_plugin" spec="~0.2.6"/>
+    <plugin name="cordova-plugin-ios-longpress-fix" spec="~1.1.0"/>
+    <plugin name="cordova-plugin-keyboard" spec="~1.1.4"/>
+    <engine name="browser" spec="latest"/>
+    <engine name="android" spec="latest"/>
+    <engine name="ios" spec="latest"/>
+    <plugin name="cordova-plugin-statusbar" spec="~2.2.0"/>
+    <plugin name="cordova-plugin-globalization" spec="~1.0.4"/>
 </widget>
