@@ -25,7 +25,8 @@ function buycoins(productId) {
                         os: 'android',
                         data: data.receipt,
                         signature: data.signature,
-                        id: productId
+                        id: productId,
+                        lang: USER_LANGUAGE
                     }, function (result) {
                         if (result.status == 'OK') {
                             return inAppPurchase.consume(data.type, data.receipt, data.signature);
@@ -53,7 +54,8 @@ function buycoins(productId) {
                         os: 'ios',
                         data: data.receipt,
                         signature: data.signature,
-                        id: productId
+                        id: productId,
+                        lang: USER_LANGUAGE
                     }, function (result) {
                         if (result.status == 'OK') {
                             return inAppPurchase.consume(data.type, data.receipt, data.signature);
@@ -81,7 +83,8 @@ function buyitem(id, cost) {
     $('#shopitem-' + id).prop('onclick', null).off('click');
     $.getJSON(mkApiUrl('buyitem', 'gs'), {
         merchid: id,
-        cost: cost
+        cost: cost,
+        lang: USER_LANGUAGE
     }, function (data) {
         if (data.status == 'OK') {
             showSuccessMessage(data.message);
@@ -142,7 +145,7 @@ function setcoinhtmlfromiap(coinsjson) {
 }
 
 function loadstorefront() {
-    $.getJSON(mkApiUrl('shopitems'), function (data) {
+    $.getJSON(mkApiUrl('shopitems') + "?lang=" + USER_LANGUAGE, function (data) {
         var content = "";
         if (data.status == 'OK') {
             var items = data.items;
@@ -163,7 +166,7 @@ function loadstorefront() {
 }
 
 function refreshcoins() {
-    $.getJSON(mkApiUrl('shopitems'), function (data) {
+    $.getJSON(mkApiUrl('shopitems') + "?lang=" + USER_LANGUAGE, function (data) {
         if (data.status == 'OK') {
             $('#coinbalance').text(data.balance);
         }

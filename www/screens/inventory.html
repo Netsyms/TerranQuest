@@ -46,7 +46,8 @@
         // Load the list of nearby players
         $.getJSON(mkApiUrl('nearby'), {
             lat: latitude,
-            long: longitude
+            long: longitude,
+            lang: USER_LANGUAGE
         }, function (data) {
             var content = "";
             if (data.status === 'OK') {
@@ -75,7 +76,8 @@
         }
         $.getJSON(mkApiUrl('giveitem', 'gs'), {
             giveto: playername,
-            itemuuid: uuid
+            itemuuid: uuid,
+            lang: USER_LANGUAGE
         }, function (data) {
             if (data.status === 'OK') {
                 loadinventory();
@@ -92,7 +94,8 @@
     function useitem(uuid) {
         $('#invitem-' + uuid).prop('onclick', null).off('click');
         $.getJSON(mkApiUrl('useitem', 'gs'), {
-            itemuuid: uuid
+            itemuuid: uuid,
+            lang: USER_LANGUAGE
         }, function (data) {
             if (data.status === 'OK') {
                 loadinventory();
@@ -132,7 +135,8 @@
 
     function loadinventory() {
         $.getJSON(mkApiUrl('inventory'), {
-            user: username
+            user: username,
+            lang: USER_LANGUAGE
         }, function (data) {
             var content = "";
             if (data.status == 'OK') {

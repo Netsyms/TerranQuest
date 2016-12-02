@@ -169,7 +169,8 @@
                             os: 'android',
                             data: prod.receipt,
                             signature: prod.signature,
-                            id: prod.productId
+                            id: prod.productId,
+                            lang: USER_LANGUAGE
                         }, function (result) {
                             if (result.status == 'OK') {
                                 inAppPurchase.consume(prod.type, prod.receipt, prod.signature);

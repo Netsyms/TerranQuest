@@ -87,7 +87,8 @@
     function resync(firstload) {
         $('#place-refresh').addClass('fa-spin');
         $.getJSON(mkApiUrl('getstats', 'gs'), {
-            user: username
+            user: username,
+            lang: USER_LANGUAGE
         }, function (data) {
             if (data.status === 'OK') {
                 maxenergy = data.stats.maxenergy;
@@ -99,7 +100,8 @@
             }
         });
         $.getJSON(mkApiUrl('placestats', 'gs'), {
-            locationid: thisplace.properties.gameinfo.locationid
+            locationid: thisplace.properties.gameinfo.locationid,
+            lang: USER_LANGUAGE
         }, function (data) {
             if (data.status === 'OK') {
                 placeteam = data.stats.teamid;
@@ -167,7 +169,8 @@
         $.getJSON(mkApiUrl('attackplace', 'gs'), {
             locationid: thisplace.properties.gameinfo.locationid,
             lat: latitude,
-            long: longitude
+            long: longitude,
+            lang: USER_LANGUAGE
         }, function (data) {
             if (data.status === 'OK') {
                 $('#capturebtn').text(data.message);
@@ -205,7 +208,8 @@
         $.getJSON(mkApiUrl('refillplace', 'gs'), {
             locationid: thisplace.properties.gameinfo.locationid,
             lat: latitude,
-            long: longitude
+            long: longitude,
+            lang: USER_LANGUAGE
         }, function (data) {
             if (data.status === 'OK') {
                 $('#refillbtn').text(data.message);
@@ -241,7 +245,8 @@
         $.getJSON(mkApiUrl('claimplace', 'gs'), {
             locationid: thisplace.properties.gameinfo.locationid,
             lat: latitude,
-            long: longitude
+            long: longitude,
+            lang: USER_LANGUAGE
         }, function (data) {
             if (data.status === 'OK') {
                 $('#capturebtn').text(data.message);

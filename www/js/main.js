@@ -27,6 +27,8 @@ MUNZEE_CLIENT_ID = '616cecc70e17f4a3cb64146dce2d33f5';
 MUNZEE_REDIRECT = 'http://gs.terranquest.net/munzee.php';
 CODE_SCAN_COOLDOWN_SECONDS = 15; // Also change in CSS (.cooldown-fade-anim)
 
+USER_LANGUAGE = "en-US";
+
 currentscreen = "";
 /*
  * Runs when the app opens
@@ -54,6 +56,16 @@ function onDeviceReady() {
             }
         }
     });
+    setLocale();
+}
+
+function setLocale() {
+    navigator.globalization.getPreferredLanguage(
+            function (language) {
+                USER_LANGUAGE = language.value;
+            },
+            function () {}
+    );
 }
 
 // Depending on the device, a few examples are:

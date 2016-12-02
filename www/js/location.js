@@ -139,7 +139,7 @@ function loadPlaces(lat, long) {
     if (!lockGot) {
         return;
     }
-    var url = mkApiUrl('places', 'gs') + "?lat=" + lat + "&long=" + long + "&radius=.5&names=1";
+    var url = mkApiUrl('places', 'gs') + "?lat=" + lat + "&long=" + long + "&radius=.5&names=1&lang=" + USER_LANGUAGE;
     try {
         $.getJSON(
                 url,
@@ -196,7 +196,7 @@ var updatePosition = function (position) {
 
 function pingServer() {
     if (lockGot && gpsaccuracy < requiredaccuracy) {
-        $.getJSON(mkApiUrl('ping') + "?user=" + username + "&lat=" + latitude + "&long=" + longitude, function (data) {
+        $.getJSON(mkApiUrl('ping') + "?user=" + username + "&lat=" + latitude + "&long=" + longitude  + "&lang=" + USER_LANGUAGE, function (data) {
             if (data.status == "ERROR" && logoutInProgress != true) {
                 localStorage.setItem("no_autologin", "true");
                 username = null;

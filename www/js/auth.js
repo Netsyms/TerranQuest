@@ -36,7 +36,7 @@ function askLogout() {
 }
 
 function logout() {
-    $.getJSON(mkApiUrl('deletesession'), {}, function (data) {
+    $.getJSON(mkApiUrl('deletesession') + "?lang=" + USER_LANGUAGE, {}, function (data) {
         if (data.status === 'OK') {
             localStorage.setItem("username", '');
             localStorage.setItem("password", '');
@@ -54,7 +54,8 @@ function logout() {
 var teamchoosercheckretried = false;
 function checkUserHasTeamOpenChooserIfNot(username) {
     $.getJSON(mkApiUrl('getstats'), {
-        user: username
+        user: username,
+        lang: USER_LANGUAGE
     }, function (data) {
         if (data.status === 'OK') {
             if (data.stats.teamid && data.stats.teamid > 0) {
@@ -118,7 +119,8 @@ function dosignup() {
                 user: $('#usernameBox').val(),
                 pass: $('#passwordBox').val(),
                 name: $('#nameBox').val(),
-                email: $('#emailBox').val()
+                email: $('#emailBox').val(),
+                lang: USER_LANGUAGE
             },
             function (data) {
                 if (data === 'OK') {
@@ -126,6 +128,7 @@ function dosignup() {
                     $.post(mkApiUrl('login'), {
                         user: $('#usernameBox').val(),
                         pass: $('#passwordBox').val(),
+                        lang: USER_LANGUAGE
                     }, function (out) {
                         if (out.status === 'OK') {
                             loginOK();
@@ -175,7 +178,8 @@ function dologin() {
     $.post(mkApiUrl("login"),
             {
                 user: $('#usernameBox').val(),
-                pass: $('#passwordBox').val()
+                pass: $('#passwordBox').val(),
+                lang: USER_LANGUAGE
             },
             function (data) {
                 if (data.status === 'OK') {

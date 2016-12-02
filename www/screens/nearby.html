@@ -36,7 +36,8 @@
     function loadnearby() {
         $.getJSON(mkApiUrl('nearby'), {
             lat: latitude,
-            long: longitude
+            long: longitude,
+            lang: USER_LANGUAGE
         }, function (data) {
             var content = "";
             if (data.status === 'OK') {

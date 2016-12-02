@@ -33,7 +33,8 @@ var terrainName = "Other";
  */
 function syncStats() {
     $.getJSON(mkApiUrl('getstats'), {
-        user: username
+        user: username,
+        lang: USER_LANGUAGE
     }, function (data) {
         if (data.status === 'OK') {
             maxenergy = data.stats.maxenergy;
@@ -57,7 +58,8 @@ function getChat() {
         $.getJSON(mkApiUrl('chat', 'cs'), {
             lat: latitude,
             long: longitude,
-            name: username
+            name: username,
+            lang: USER_LANGUAGE
         }, function (data) {
             data = sortResults(data, 'time', true);
             var content = "";
@@ -79,7 +81,7 @@ function getChat() {
 
 function privMsgSync() {
     $.getJSON(
-            mkApiUrl('privmsgs') + "?filter=unread",
+            mkApiUrl('privmsgs') + "?filter=unread&lang=" + USER_LANGUAGE,
             function (data) {
                 if (data.status === 'OK') {
                     if (data.msgs.length > 0) {
@@ -98,7 +100,8 @@ skycons.add("weathericon", "clear-day");
 function getWeather() {
     $.getJSON(mkApiUrl('getweather'), {
         lat: latitude,
-        long: longitude
+        long: longitude,
+        lang: USER_LANGUAGE
     }, function (data) {
         var currently = data.currently;
         rawWeatherData = currently;
@@ -110,7 +113,8 @@ function getWeather() {
 function getTerrain() {
     $.getJSON(mkApiUrl('getterrain'), {
         lat: latitude,
-        long: longitude
+        long: longitude,
+        lang: USER_LANGUAGE
     }, function (data) {
         var terrainid = -1;
         var terrainstr = "Other";
@@ -159,7 +163,8 @@ $("#chatsendform").submit(function (event) {
             lat: latitude,
             long: longitude,
             msg: message,
-            name: username
+            name: username,
+            lang: USER_LANGUAGE
         }, function (data) {
             if (data.status === 'OK') {
                 $('#chatbox-input').val("");

@@ -50,7 +50,8 @@
         //alert($('input[name=teamChooser]:checked').val());
         var team = $('input[name=teamChooser]:checked').val();
         $.getJSON(mkApiUrl('setteam', 'gs'), {
-            teamid: team
+            teamid: team,
+            lang: USER_LANGUAGE
         }, function (data) {
             if (data.status === 'OK') {
                 // We're all good.

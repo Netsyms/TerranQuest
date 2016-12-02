@@ -72,7 +72,8 @@
         if (message !== '') {
             $.post(mkApiUrl('privmsgs'), {
                 msg: message,
-                to: toplayer
+                to: toplayer,
+                lang: USER_LANGUAGE
             }, function (data) {
                 if (data.status === 'OK') {
                     $('#privmsgbox').val("");
@@ -89,7 +90,8 @@
 
     function loadPlayerStats(user) {
         $.getJSON(mkApiUrl('getstats'), {
-            user: user
+            user: user,
+            lang: USER_LANGUAGE
         }, function (data) {
             if (data.status === 'OK' && data.stats != null) {
                 if (data.stats.level != null) {
@@ -121,7 +123,7 @@
         $('#loading-badges').html('<i class="fa fa-spinner fa-pulse"></i> Loading...');
         $('#loading-badges').css('display', 'block');
         $.getJSON(
-                mkApiUrl('getbadges') + '?user=' + user,
+                mkApiUrl('getbadges') + '?user=' + user + "&lang=" + USER_LANGUAGE,
                 function (data) {
                     if (data.status === 'OK') {
                         data.badges.forEach(function (item) {
@@ -149,7 +151,7 @@
         $('#privmsg-box').css('display', 'block');
         $('#privmsgs').css('display', 'block');
         $.getJSON(
-                mkApiUrl('privmsgs'),
+                mkApiUrl('privmsgs') + "?lang=" + USER_LANGUAGE,
                 function (data) {
                     if (data.status === 'OK') {
                         $('#privmsgs').html("");
