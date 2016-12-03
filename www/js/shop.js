@@ -38,10 +38,12 @@ function buycoins(productId) {
                     });
                 })
                 .then(function () {
+                    playSound("coin");
                     showSuccessMessage("Thanks for your purchase!");
                     refreshcoins();
                 })
                 .catch(function (err) {
+                    playSound("error");
                     console.log("Error: " + err.message);
                     showErrorMessage("Error: " + err.message);
                 });
@@ -67,10 +69,12 @@ function buycoins(productId) {
                     });
                 })
                 .then(function () {
+                    playSound("coin");
                     showSuccessMessage("Thanks for your purchase!");
                     refreshcoins();
                 })
                 .catch(function (err) {
+                    playSound("error");
                     console.log("Error: " + err.message);
                     showErrorMessage("Error: " + err.message);
                 });
@@ -87,8 +91,10 @@ function buyitem(id, cost) {
         lang: USER_LANGUAGE
     }, function (data) {
         if (data.status == 'OK') {
+            playSound("coin");
             showSuccessMessage(data.message);
         } else {
+            playSound("error");
             showErrorMessage(data.message);
         }
         loadstorefront();

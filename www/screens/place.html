@@ -184,16 +184,22 @@
                     case 3:
                         $('#place-log').prepend("Attacking....<br />");
                 }
+                if (data.levelup === true) {
+                    playSound("levelup");
+                } else {
+                    playSound("woosh");
+                }
                 resync();
             } else {
+                playSound("error");
                 $('#capturebtn').text(data.message);
                 $('#capturebtn').removeClass('btn-primary');
                 $('#capturebtn').addClass('btn-warning');
                 $('#place-log').prepend(data.message + "<br />");
                 resync();
             }
-            //alert(data.message);
         }).fail(function () {
+            playSound("error");
             $('#capturebtn').text("Try that again.");
             $('#capturebtn').removeClass('btn-primary');
             $('#capturebtn').addClass('btn-warning');
@@ -223,7 +229,13 @@
                     case 3:
                         $('#place-log').prepend("Recharging....<br />");
                 }
+                if (data.levelup === true) {
+                    playSound("levelup");
+                } else {
+                    playSound("refill");
+                }
             } else {
+                playSound("error");
                 $('#refillbtn').text(data.message);
                 $('#refillbtn').removeClass('btn-primary');
                 $('#refillbtn').addClass('btn-warning');
@@ -231,6 +243,7 @@
             }
             resync();
         }).fail(function () {
+            playSound("error");
             $('#refillbtn').text("Try that again.");
             $('#refillbtn').removeClass('btn-primary');
             $('#refillbtn').addClass('btn-warning');
@@ -251,16 +264,22 @@
             if (data.status === 'OK') {
                 $('#capturebtn').text(data.message);
                 $('#place-log').prepend("Claimed!<br />");
+                if (data.levelup === true) {
+                    playSound("levelup");
+                } else {
+                    playSound("claim");
+                }
                 resync();
             } else {
+                playSound("error");
                 $('#capturebtn').text(data.message);
                 $('#capturebtn').removeClass('btn-primary');
                 $('#capturebtn').addClass('btn-warning');
                 $('#place-log').prepend(data.message + "<br />");
                 resync();
             }
-            //alert(data.message);
         }).fail(function () {
+            playSound("error");
             $('#capturebtn').text("Try that again.");
             $('#capturebtn').removeClass('btn-primary');
             $('#capturebtn').addClass('btn-warning');

@@ -20,8 +20,10 @@ var audio_stay_stopped = false;
 var audio_doneplaying = true;
 var audio_isplaying = false;
 var audio;
+var sound;
 
 var MUSIC_DIR = getWwwFolderPath() + "assets/audio/";
+var SOUND_DIR = getWwwFolderPath() + "assets/sound/";
 
 function queuesong(song) {
     if (audio_isplaying) {
@@ -59,6 +61,14 @@ function playAudio() {
         }
     }
     audio.play({playAudioWhenScreenIsLocked: false});
+}
+
+function playSound(soundname) {
+    if (localStorage.getItem("sounds") === "mute") {
+        return;
+    }
+    sound = new Media(SOUND_DIR + soundname + ".mp3", null, null, null);
+    sound.play({playAudioWhenScreenIsLocked: false});
 }
 
 document.addEventListener("pause", function () {

@@ -61,6 +61,7 @@
                 content = "";
             }
             if (content == '') {
+                playSound("error");
                 showErrorMessage("There is nobody nearby to give an item to.");
             } else {
                 $('#nearby-players-dropdown').html(content);
@@ -84,6 +85,7 @@
                 syncStats();
                 showSuccessMessage("Transferred!");
             } else {
+                playSound("error");
                 showErrorMessage(data.message);
             }
         }).fail(function () {
@@ -101,6 +103,7 @@
                 loadinventory();
                 syncStats();
             } else {
+                playSound("error");
                 showErrorMessage(data.message);
             }
         }).fail(function () {
