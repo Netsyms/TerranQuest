@@ -126,6 +126,7 @@
                 mkApiUrl('getbadges') + '?user=' + user + "&lang=" + USER_LANGUAGE,
                 function (data) {
                     if (data.status === 'OK') {
+                        $('#badges').html("");
                         data.badges.forEach(function (item) {
                             var badgehtml = '<div class="col col-xs-3 col-md-2 col-lg-1" '
                                     + 'onclick="popBadge(\'' + item.badgename + '\', \'' + item.badgedesc + '\')">'
