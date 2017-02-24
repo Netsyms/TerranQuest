@@ -66,6 +66,12 @@ function checkUserHasTeamOpenChooserIfNot(username) {
                 // Open the team intro thingy
                 openscreen('chooseteam');
             }
+        } else if (data.status == "ERROR" && data.kick == 1) {
+            localStorage.setItem("no_autologin", "true");
+            username = null;
+            password = null;
+            document.location.href = "index.html";
+            navigator.notification.alert("Your session status has changed, and you have been logged out.  \n\nReason: " + data.message, null, "Sign-in Status Changed", "OK");
         } else {
             // Might fix a strange bug that might not exist.
             if (!teamchoosercheckretried) {

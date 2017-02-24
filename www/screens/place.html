@@ -22,13 +22,20 @@
         Type: <span id="team-label"></span><br />
         Owner: <span id="owner-label"></span><br />
         <!-- Life: <span id="life-label"></span><br /> -->
-        Place life: <div class="progress" id="place-health-place"><div id="place-health-place-bar" class="progress-bar" role="progressbar" ></div></div>
+        Place life: <span id="artifact-icon"></span>
+        <div class="progress" id="place-health-place"><div id="place-health-place-bar" class="progress-bar" role="progressbar" ></div></div>
         <div class="row">
             <div class="col-xs-6">
                 <div class="btn btn-success btn-wide" id="capturebtn" onclick="attempttake()"></div>
             </div>
             <div class="col-xs-6">
                 <div class="btn btn-success btn-wide" id="refillbtn" onclick="attemptrefill()"></div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="btn btn-success btn-wide" id="artifactbtn" onclick="openartifactselect()"></div>
             </div>
         </div>
         <br />
@@ -39,11 +46,26 @@
     </div>
 </div>
 
+<div class="menumessage" id="artifactmessage">
+    <div class="menumessagecontent" id="artifactmessagecontent">
+        Select an artifact: <br />
+        <select class="form-control" id="artifact-dropdown"></select>
+    </div>
+    <div style="margin-bottom: 5px;" class="btn btn-wide btn-success" onclick="attemptartifact();">
+        Use
+    </div>
+    <div class="btn btn-wide btn-danger" onclick="$('#artifactmessage').css('display', 'none')">
+        Cancel
+    </div>
+    <span style="display: none;" id="giveitem-uuid"></span>
+</div>
+
 <script>
     var thisplace = null;
     var placeteam = 0;
     var capturebtndisabled = false;
     var refillbtndisabled = false;
+    var artifactbtndisabled = false;
 
     // Enforced time between actions, in ms
     var actioninterval = 1000;
@@ -84,6 +106,53 @@
         }
     }
 
+    function resetartifactbtn() {
+        artifactbtndisabled = false;
+        $('#artifactbtn').removeClass('btn-warning');
+        $('#artifactbtn').addClass('btn-primary');
+        $('#artifactbtn').removeClass('disabled');
+        $('#artifactbtn').prop('disabled', false);
+        if (placeteam == 0) {
+            $('#artifactbtn').addClass('disabled');
+            $('#artifactbtn').text("Add Artifact");
+            $('#artifactbtn').prop('disabled', true);
+        } else if (placeteam == userteamid) {
+            $('#artifactbtn').text("Add Artifact");
+        } else {
+            $('#artifactbtn').addClass('disabled');
+            $('#artifactbtn').text("Add Artifact");
+            $('#artifactbtn').prop('disabled', true);
+        }
+    }
+
+    function openartifactselect() {
+        $.getJSON(mkApiUrl('inventory', 'gs'), {
+            classname: 'artifact',
+            lang: USER_LANGUAGE
+        }, function (data) {
+            var content = "";
+            if (data.status === 'OK') {
+                var items = data.items;
+                items.forEach(function (item) {
+                    content += "<option value='" + item.itemuuid + "'>" + item.itemname + "</option>\n";
+                });
+            } else {
+                content = "";
+            }
+            if (content == '') {
+                playSound("error");
+                showErrorMessage("You don't have any artifacts.");
+            } else {
+                $('#artifact-dropdown').html(content);
+                $('#artifactmessage').css('display', 'block');
+            }
+        });
+    }
+
+    function closeartifactselect() {
+        $('#artifactmessage').css('display', 'none');
+    }
+
     function resync(firstload) {
         $('#place-refresh').addClass('fa-spin');
         $.getJSON(mkApiUrl('getstats', 'gs'), {
@@ -120,13 +189,19 @@
                     $('#owner-label').text(data.stats.nickname);
                 }
                 $('#place-health-place-bar').css('width', String(placepercent) + '%');
+                $('#artifact-icon').html("");
+                for (var i = 0; i < data.stats.artifact; i++) {
+                    $('#artifact-icon').append('<i class="fa fa-bolt" aria-hidden="true"></i> ');
+                }
                 loadTeamSwag();
                 if (firstload === true) {
                     resetcapturebtn();
                     resetrefillbtn();
+                    resetartifactbtn();
                 } else {
                     setTimeout(resetcapturebtn, actioninterval);
                     setTimeout(resetrefillbtn, actioninterval);
+                    setTimeout(resetartifactbtn, actioninterval);
                 }
             } else {
                 $('#place-log').prepend("An error occurred.<br />");
@@ -145,9 +220,11 @@
         if (placeteam == 0) {
             $("#capturebtn").css("background-color", "#" + getTeamColorFromId(userteamid));
             $("#refillbtn").css("background-color", "#" + getTeamColorFromId(userteamid));
+            $("#artifactbtn").css("background-color", "#" + getTeamColorFromId(userteamid));
         } else {
             $("#capturebtn").css("background-color", "#" + getTeamColorFromId(placeteam));
             $("#refillbtn").css("background-color", "#" + getTeamColorFromId(placeteam));
+            $("#artifactbtn").css("background-color", "#" + getTeamColorFromId(placeteam));
         }
         $("#place-health-place-bar").css("background-color", "#" + getTeamColorFromId(placeteam));
         $("#team-label").css("color", "#" + getTeamColorFromId(placeteam));
@@ -284,6 +361,46 @@
             $('#capturebtn').removeClass('btn-primary');
             $('#capturebtn').addClass('btn-warning');
             resync();
+        });
+    }
+
+    function attemptartifact() {
+        capturebtndisabled = true;
+        $('#artifactbtn').prop('disabled', true);
+        $('#artifactbtn').addClass('disabled');
+
+        $.getJSON(mkApiUrl('artifactplace', 'gs'), {
+            locationid: thisplace.properties.gameinfo.locationid,
+            lat: latitude,
+            long: longitude,
+            itemid: $('#artifact-dropdown').val(),
+            lang: USER_LANGUAGE
+        }, function (data) {
+            if (data.status === 'OK') {
+                $('#artifactbtn').text(data.message);
+                $('#place-log').prepend("Added Artifact<br />");
+                if (data.levelup === true) {
+                    playSound("levelup");
+                } else {
+                    playSound("claim");
+                }
+                resync();
+            } else {
+                playSound("error");
+                $('#artifactbtn').text(data.message);
+                $('#artifactbtn').removeClass('btn-primary');
+                $('#artifactbtn').addClass('btn-warning');
+                $('#place-log').prepend(data.message + "<br />");
+                resync();
+            }
+            closeartifactselect();
+        }).fail(function () {
+            playSound("error");
+            $('#artifactbtn').text("Try that again.");
+            $('#artifactbtn').removeClass('btn-primary');
+            $('#artifactbtn').addClass('btn-warning');
+            resync();
+            closeartifactselect();
         });
     }
 

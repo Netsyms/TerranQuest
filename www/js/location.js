@@ -197,7 +197,7 @@ var updatePosition = function (position) {
 function pingServer() {
     if (lockGot && gpsaccuracy < requiredaccuracy) {
         $.getJSON(mkApiUrl('ping') + "?user=" + username + "&lat=" + latitude + "&long=" + longitude  + "&lang=" + USER_LANGUAGE, function (data) {
-            if (data.status == "ERROR" && logoutInProgress != true) {
+            if (data.status == "ERROR") {
                 localStorage.setItem("no_autologin", "true");
                 username = null;
                 password = null;

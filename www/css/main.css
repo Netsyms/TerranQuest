@@ -405,6 +405,14 @@ body {
     color: black;
 }
 
+#artifactbtn {
+    color: black;
+}
+
+#artifact-icon {
+    float: right;
+}
+
 .found-box {
     position: absolute;
     z-index: 9001;

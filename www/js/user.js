@@ -41,6 +41,12 @@ function syncStats() {
             energy = data.stats.energy;
             level = data.stats.level;
             refreshStats();
+        } else if (data.status === "ERROR" && data.kick == 1) {
+            localStorage.setItem("no_autologin", "true");
+            username = null;
+            password = null;
+            document.location.href = "index.html";
+            navigator.notification.alert("Your session status has changed, and you have been logged out.  \n\nReason: " + data.message, null, "Sign-in Status Changed", "OK");
         }
     });
 }
